@@ -248,22 +248,11 @@ button:focus-visible {
 #mainNav {
   background-color: #18A558;
   color: #fff;
-  font-size: 1.02rem;
   padding-bottom: 10px;
 }
 
-#linkNavBarLogin {
-  font-size: 0.95rem;
-}
-
-#linkNavBarDownload {
-  font-size: 1rem;
-}
-
 .navbar-brand {
-  text-transform: lowercase;
   font-weight: bold;
-  font-size: 1.45rem !important;
   font-family: 'Karla', 'Lato',
     'Helvetica Neue',
     sans-serif,

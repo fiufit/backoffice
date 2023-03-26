@@ -1,5 +1,5 @@
-import Header from "../html/Header";
-import Footer from "../html/Footer";
+import Header from "@components/Header";
+import Footer from "@components/Footer";
 
 export default function Error404() {
 
