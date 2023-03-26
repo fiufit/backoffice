@@ -7,6 +7,7 @@ import Main from '@layouts/Main';
 import Home from '@pages/Home';
 import Login from '@pages/Login';
 import Error404 from '@components/errors/Error404';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css'
 

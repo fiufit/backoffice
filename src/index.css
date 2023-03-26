@@ -30,10 +30,9 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  background-color: #f6f6f6;
   font-family: 'Lato', 'Helvetica Neue', sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans';
   -webkit-font-smoothing: antialiased;
@@ -41,10 +40,6 @@ body {
 
 #root {
   width: 100%;
-}
-
-.App {
-  text-align: center;
 }
 
 .vertical-center {

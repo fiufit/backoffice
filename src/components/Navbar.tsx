@@ -3,7 +3,7 @@ import NavbarBootstrap from 'react-bootstrap/Navbar'
 
 export default function Navbar() {
     return (
-        <NavbarBootstrap className="navbar text-uppercase fixed-top" id="mainNav">
+        <NavbarBootstrap className="text-uppercase" id="mainNav">
             <Container>
                 <NavbarBootstrap.Brand className="navbar-brand navbar-brand-light" href="/">FIUFIT</NavbarBootstrap.Brand>
                 <Nav className="justify-content-end">
