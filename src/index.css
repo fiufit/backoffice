@@ -243,7 +243,7 @@ button:focus-visible {
 #mainNav {
   background-color: #18A558;
   color: #fff;
-  padding-bottom: 10px;
+  padding-bottom: 12px;
 }
 
 .navbar-brand {
@@ -342,7 +342,7 @@ footer {
 }
 
 .footer-brand {
-  text-transform: lowercase;
+  text-transform: uppercase;
   font-weight: bold;
   font-size: 1.15rem;
 }
@@ -555,10 +555,16 @@ hr {
 
 #btn-form-login {
   margin: 0 auto;
-  margin-top: 40px;
+  margin-top: 30px;
   max-width: 265px;
 }
 
 .login-checkbox-rememberme {
   margin-top: 22px;
+}
+
+.form-input-login {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 1.1rem;
 }
