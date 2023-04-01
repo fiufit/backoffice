@@ -9,9 +9,14 @@ import Login from '@pages/Login';
 import Error404 from '@components/errors/Error404';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './index.css'
+import './index.css';
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+const root = document.getElementById('root');
+const rootClasses = root?.classList;
+rootClasses?.add('d-flex');
+rootClasses?.add('flex-column');
+
+ReactDOM.createRoot(root as HTMLElement).render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
@@ -24,4 +29,4 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       </BrowserRouter>
     </Provider>
   </React.StrictMode>,
-)
+);
