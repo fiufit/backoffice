@@ -201,17 +201,18 @@ button:focus-visible {
 }
 
 .fiufit-button-green {
-  color: #fff !important;
-  background-color: #18A558 !important;
+  font-size: 1.05rem;
+  color: #626262 !important;
+  background-color: #BBF246 !important;
   display: block;
   height: 100%;
   width: 100%;
   padding: 0.5rem 1rem !important;
   border: none !important;
   border-radius: 25px;
-  -webkit-box-shadow: 0px 5px #10733d;
-  -moz-box-shadow: 0px 5px #10733d;
-  box-shadow: 0px 5px #10733d;
+  -webkit-box-shadow: 0px 5px #82a931;
+  -moz-box-shadow: 0px 5px #82a931;
+  box-shadow: 0px 5px #82a931;
   font-family: 'Karla', 'Lato', 'Helvetica Neue', sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans';
   font-weight: bold;
@@ -219,13 +220,13 @@ button:focus-visible {
 }
 
 .fiufit-button-green:hover {
-  color: #fff !important;
+  color: #626262 !important;
   opacity: 0.97;
   text-decoration: none;
 }
 
 .fiufit-button-green:active {
-  color: #fff;
+  color: #626262;
   -moz-box-shadow: none;
   -goog-ms-box-shadow: none;
   -webkit-box-shadow: none;
@@ -237,7 +238,7 @@ button:focus-visible {
 .fiufit-button-green:focus,
 .fiufit-button-green:focus-within,
 .fiufit-button-green:focus-visible {
-  color: #fff !important;
+  color: #626262 !important;
 }
 
 .fiufit-button-white {
@@ -570,9 +571,9 @@ hr {
 /* SECTIONS */
 
 .fiufit-section {
-  padding-top: 80px;
-  min-height: calc(100% - 80px);
-  min-height: calc(100vh - 80px);
+  padding-top: 50px;
+  min-height: calc(100% - 58px);
+  min-height: calc(100vh - 58px);
 }
 
 /* HOME */
@@ -658,6 +659,219 @@ hr {
 
 .login-checkbox-rememberme {
   margin-top: 22px;
+}
+
+/* MANAGEMENT */
+
+/* NAVBAR */
+
+.management-section .management-section-title {
+  text-align: left;
+  font-size: 3rem;
+}
+
+#management-main-navbar {
+  margin-bottom: 30px;
+}
+
+#management-main-navbar .nav {
+  font-size: 1.15rem;
+  background-color: #ffffff;
+  border-radius: 8px;
+  -webkit-box-shadow: 9px 10px 12px -12px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 9px 10px 12px -12px rgba(0, 0, 0, 0.4);
+  box-shadow: 9px 10px 12px -12px rgba(0, 0, 0, 0.4);
+}
+
+#management-main-navbar .nav #management-navbar-first-link {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+#management-main-navbar .nav #management-navbar-last-link {
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+#management-main-navbar .nav .active {
+  font-weight: bold;
+  background-color: #D8FF85;
+}
+
+#management-main-navbar .nav a {
+  color: #626262 !important;
+}
+
+#management-main-navbar .management-navbar-icon {
+  font-size: 1.4rem;
+  margin-right: 8px;
+}
+
+/* SECTION */
+
+/* ADMIN CREATION */
+
+.management-section {
+  margin-left: 25px;
+}
+
+@media (max-width: 991.98px) {
+  .management-section {
+    margin-left: 15px;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .management-section {
+    margin-left: 0px;
+  }
+}
+
+.management-section hr {
+  width: 80%;
+  margin: 20px 0px 20px 0px;
+  max-width: none;
+}
+
+.management-section #btn-form-creation {
+  margin: 25px auto;
+  margin-bottom: 35px;
+  max-width: 150px;
+}
+
+.management-section h2 {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.management-section .input-group {
+  max-width: 600px;
+  margin-top: 15px;
+}
+
+.management-section .input-group #admin-password-eye:hover {
+  cursor: pointer;
+}
+
+.management-section .input-group #admin-search-bar-icon:hover {
+  cursor: pointer;
+}
+
+.management-section .admin-form-input {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 1.07rem;
+}
+
+.management-section #create-admin-form {
+  max-width: 600px;
+}
+
+/* ADMIN EDITION */
+
+.management-section #management-section-admin-creation {
+  max-width: 600px;
+}
+
+.management-section #management-section-admin-edition {
+  max-width: 600px;
+}
+
+.management-section #edit-admin-form-search {
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.management-section #admin-edition-pagination {
+  margin-bottom: 50px;
+  margin-top: 30px;
+}
+
+.management-section #admin-edition-pagination .pagination {
+  display: "flex";
+  justify-content: center;
+  color: #626262;
+}
+
+.management-section #admin-edition-pagination .pagination .page-link {
+  color: #626262;
+}
+
+.management-section #admin-edition-pagination .active>.page-link,
+.page-link.active {
+  background-color: #D8FF85;
+  border-color: #D8FF85;
+  color: #626262;
+}
+
+.management-section .admins-table-body-list-delete {
+  text-align: right;
+  margin-left: 30px;
+}
+
+.management-section .admins-table-link-delete {
+  color: #626262;
+}
+
+.management-section .admins-table-link-delete:hover {
+  color: #626262;
+  opacity: 0.9;
+}
+
+.management-section .admins-table {
+  background-color: #ffffff;
+  border-radius: 4px;
+  margin-top: 35px;
+  -webkit-box-shadow: 9px 10px 12px -12px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 9px 10px 12px -12px rgba(0, 0, 0, 0.4);
+  box-shadow: 9px 10px 12px -12px rgba(0, 0, 0, 0.4);
+}
+
+/* METRICS */
+
+.management-section #management-section-metrics {
+  max-width: 600px;
+}
+
+/* USERS PANEL */
+
+.management-section #edit-users-form-search {
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.management-section #edit-users-form-search:hover {
+  cursor: pointer;
+}
+
+.management-section .accordion .accordion-button {
+  font-size: 1.05rem;
+}
+
+.management-section .accordion .accordion-button:not(.collapsed) {
+  background-color: #D8FF85;
+  color: #626262;
+}
+
+.management-section .accordion .accordion-button:focus {
+  border-color: transparent;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+}
+
+.management-section .accordion .accordion-header {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.management-section .accordion .accordion-body {
+  font-style: italic;
+  font-size: 1.1rem;
+}
+
+.management-section .accordion .accordion-header button {
+  font-weight: bold;
 }
 
 .form-input-login {
