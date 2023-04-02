@@ -1,21 +1,26 @@
-import LoginForm from '@components/LoginForm';
-import { Form, Button, InputGroup } from 'react-bootstrap';
+import Header from '@features/Header';
+import Footer from '@features/Footer';
+import LoginForm from '@features/LoginForm';
+import { Row, Container, Col } from 'react-bootstrap';
 
 export default function Login() {
 
     return (
-        <div id="section-login" className="jumbotron fiufit-section">
-            <div className="container">
-                <div className="row justify-content-center">
-                    <div className="col-12">
-                        <h1 className="login-title">Para continuar, inicia sesión en Fiufit</h1>
-                        <div id="login-form">
+        <>
+            <Header />
+            <Container className='d-flex flex-column justify-content-center flex-grow-1 py-5' fluid>
+                <Row>
+                    <Col className='d-flex justify-content-center align-items-center'>
+                        <img src="/public/login_desktop.png" alt="" />
+                    </Col>
+                    <Col className='d-flex justify-content-center align-items-center'>
+                        <div className='pe-5 w-75'>
                             <LoginForm />
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div> 
+                    </Col>
+                </Row>
+            </Container>
+            <Footer />
+        </>
     )
-    
-}
+};
