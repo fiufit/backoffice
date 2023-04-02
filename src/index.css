@@ -3,10 +3,6 @@
       'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans';
   line-height: 1.5;
   font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #DDDDDD;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -16,7 +12,131 @@
   /* Colors */
   --green-lead: #18a558;
   --blue-lead: #007ec6;
+  --dark-blue--primary: rgb(25, 33, 38);
+  --dark-blue--secondary: rgb(25, 33, 38, 0.97);
+  --white--primary: #ffffff;
+  --light-green--primary: #bbf246;
+  --light-green--secondary: #b1e442;
+  --dark-grey--primary: #626262;
+  --grey--primary: #dddddd;
+}
 
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: var(--grey--primary);
+  font-family: 'Lato', 'Helvetica Neue', sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans';
+  -webkit-font-smoothing: antialiased;
+}
+
+.root-layout {
+  display: flex;
+  flex-direction: column;
+}
+
+.root-layout__item {
+  flex-grow: 1;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
+
+.bg-dark_blue--primary {
+  background-color: var(--dark-blue--primary);
+}
+
+.bg-dark_blue--secondary {
+  background-color: var(--dark-blue--secondary);
+}
+
+.bg-light_green--primary {
+  background-color: var(--light-green--primary);
+}
+
+.text-white--primary {
+  color: var(--white--primary);
+}
+
+.text-dark_blue--primary {
+  color: var(--dark-blue--primary);
+}
+
+.text-dark_grey--primary {
+  color: var(--dark-grey--primary);
+}
+
+.text-grey--primary {
+  color: var(--grey--primary);
+}
+
+.button--primary {
+  border-color: var(--light-green--primary);
+  background-color: var(--light-green--primary);
+  color: var(--dark-blue--primary);
+  box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.button--primary:hover {
+  border-color: var(--light-green--secondary);
+  background-color: var(--light-green--secondary);
+  color: inherit;
+}
+
+.button--primary:active {
+  border-color: var(--light-green--secondary) !important;
+  background-color: var(--light-green--secondary) !important;
+  color: inherit !important;
+  filter: brightness(95%);
+}
+
+.button--rounded {
+  border-radius: 24px;
+}
+
+input[type='checkbox'] {
+  border-color: rgb(206, 212, 218);
+  width: 18px;
+  height: 18px;
+}
+
+input[type='checkbox']:hover {
+  border-color: rgb(206, 212, 218);
+}
+
+input[type='checkbox']:focus {
+  border-color: rgb(206, 212, 218);
+}
+
+input[type='checkbox']:checked {
+  border-color: var(--light-green--primary);
+  background-color: var(--light-green--primary);
+  background-image: url(/public/black_tick.png) !important;
+}
+
+input[type='checkbox']:checked:hover {
+  background-color: var(--light-green--secondary);
+}
+
+input[type='checkbox']:checked:focus {
+  border-color: rgb(206, 212, 218);
 }
 
 a {
@@ -26,16 +146,6 @@ a {
 }
 a:hover {
   color: #535bf2;
-}
-
-body {
-  margin: 0;
-  min-width: 320px;
-  min-height: 100vh;
-  background-color: #DDDDDD;
-  font-family: 'Lato', 'Helvetica Neue', sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans';
-  -webkit-font-smoothing: antialiased;
 }
 
 #root {
@@ -88,19 +198,6 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #DDDDDD;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
 }
 
 .fiufit-button-green {
@@ -244,7 +341,7 @@ button:focus-visible {
 #mainNav {
   background-color: #18A558;
   color: #fff;
-  padding-bottom: 10px;
+  padding-bottom: 12px;
 }
 
 .navbar-brand {
@@ -335,15 +432,15 @@ button:focus-visible {
 
 /* FOOTER */
 
-footer {
+/*footer {
   padding-top: 25px;
   padding-bottom: 10px;
   background-color: #000000;
   color: #fff !important;
-}
+}*/
 
 .footer-brand {
-  text-transform: lowercase;
+  text-transform: uppercase;
   font-weight: bold;
   font-size: 1.15rem;
 }
@@ -556,7 +653,7 @@ hr {
 
 #btn-form-login {
   margin: 0 auto;
-  margin-top: 40px;
+  margin-top: 30px;
   max-width: 265px;
 }
 
@@ -775,4 +872,10 @@ hr {
 
 .management-section .accordion .accordion-header button {
   font-weight: bold;
+}
+
+.form-input-login {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 1.1rem;
 }

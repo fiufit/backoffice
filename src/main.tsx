@@ -17,7 +17,12 @@ import Trainings from '@pages/Trainings';
 import Services from '@pages/Services';
 import Metrics from '@pages/Metrics';
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+const root = document.getElementById('root');
+const rootClasses = root?.classList;
+rootClasses?.add('d-flex');
+rootClasses?.add('flex-column');
+
+ReactDOM.createRoot(root as HTMLElement).render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
@@ -37,4 +42,4 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       </BrowserRouter>
     </Provider>
   </React.StrictMode>,
-)
+);
