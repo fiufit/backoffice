@@ -10,14 +10,14 @@ export default function Users() {
     return (
         <>
             <Header />
-            <Container className='d-flex flex-column flex-grow-1 py-5' fluid>
-                <Row>
-                    <Col xs='auto' className='layout-navbar'>
-                        <div className='layout-navbar'>
+            <Container className='d-flex flex-column flex-grow-1 py-4' fluid>
+                <Row className="section-home">
+                    <Col md='auto' className="mx-auto">
+                        <div className='layout-navbar-lateral'>
                             <Navbar />
                         </div>
                     </Col>
-                    <Col>
+                    <Col md='auto' className="mx-auto">
                         <div className='management-section'>
                             <h1 className='management-section-title'>Panel de usuarios</h1>
                             <hr />

@@ -5,7 +5,7 @@ export default function Navbar() {
     return (
         <>
             <Nav activeKey={location.pathname} className="d-flex flex-column">
-                <Nav.Link href="/home" id='management-navbar-first-link'>
+                <Nav.Link href="/admins" id='management-navbar-first-link'>
                     <FaEye className='management-navbar-icon' /> 
                     <span>Administradores</span>
                 </Nav.Link>

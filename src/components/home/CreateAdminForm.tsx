@@ -10,12 +10,12 @@ export default function CreateAdminForm() {
         <Form id='create-admin-form'>
             <InputGroup className="mb-3" hasValidation>
                 <InputGroup.Text id="admin-email"><FaEnvelope /></InputGroup.Text>
-                <Form.Control type="email" placeholder="Correo electronico" className="admin-form-input" required />
+                <Form.Control type="email" placeholder="Correo electronico" className="fiufit-form-input" required />
                 <Form.Control.Feedback type="invalid" className='form-input-invalid' >Por favor ingrese un correo electrónico válido.</Form.Control.Feedback>
             </InputGroup>
             <InputGroup className="mb-3">
                 <InputGroup.Text id="admin-password"><FaLock /></InputGroup.Text>
-                <Form.Control type={showPassword ? "text" : "password"} placeholder="Contraseña" id="admin-password" aria-label="admin-password" aria-describedby="basic-addon5" className="admin-form-input" required />
+                <Form.Control type={showPassword ? "text" : "password"} placeholder="Contraseña" id="admin-password" aria-label="admin-password" aria-describedby="basic-addon5" className="fiufit-form-input" required />
                 <InputGroup.Text id="admin-password-eye" title={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'} onClick={() => setShowPassword(!showPassword)}>{showPassword ? <FaEyeSlash /> : <FaEye />}</InputGroup.Text>
             </InputGroup>
             <div className='d-flex justify-content-center'>

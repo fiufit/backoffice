@@ -3,7 +3,7 @@ import { Provider } from 'react-redux'
 
 import { store } from '@app/store'
 import Login from '@pages/Login';
-import Home from '@pages/Home';
+import Admins from '@pages/Admins';
 import Users from '@pages/Users';
 import Trainings from '@pages/Trainings';
 import Services from '@pages/Services';
@@ -15,9 +15,8 @@ export default function App() {
             <Routes>
                 {/* PUBLICAS */}
                 <Route index element={<Login/>} />
-                <Route path='/login' element={<Login />} />
                 {/* PRIVADAS */}
-                <Route path='/home' element={<Home />} />
+                <Route path='/admins' element={<Admins />} />
                 <Route path='/users' element={<Users />} />
                 <Route path='/trainings' element={<Trainings />} />
                 <Route path='/services' element={<Services />} />

@@ -15,7 +15,7 @@ export default function UserEditionCards() {
 
     return (
         <div>
-            <Accordion defaultActiveKey="1">
+            <Accordion defaultActiveKey="1" className='py-3'>
                 <Accordion.Item eventKey="1">
                     <Accordion.Header>Juan Perez #1</Accordion.Header>
                     <Accordion.Body>

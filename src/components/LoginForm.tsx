@@ -13,7 +13,7 @@ export default function LoginForm() {
                 {/* EMAIL */}
                 <InputGroup className='input-group-lg mb-3' hasValidation>
                     <InputGroup.Text id="login-email"><FaEnvelope /></InputGroup.Text>
-                    <Form.Control type="email" placeholder="Correo electronico" className="login-form-input" required />
+                    <Form.Control type="email" placeholder="Correo electronico" className="fiufit-form-input" required />
                     <Form.Control.Feedback type='invalid' className='form-input-invalid'>
                         No existe ninguna cuenta asociada a ese nombre de usuario o correo electrónico.
                     </Form.Control.Feedback>
@@ -21,7 +21,7 @@ export default function LoginForm() {
                 {/* PASSWORD */}
                 <InputGroup className='input-group-lg mb-3' hasValidation>
                     <InputGroup.Text id="login-password"><FaLock /></InputGroup.Text>
-                    <Form.Control type={showPassword ? "text" : "password"} placeholder="Contraseña" id="admin-password" aria-label="login-password" aria-describedby="basic-addon5" className="login-form-input" required />
+                    <Form.Control type={showPassword ? "text" : "password"} placeholder="Contraseña" id="admin-password" aria-label="login-password" aria-describedby="basic-addon5" className="fiufit-form-input" required />
                     <InputGroup.Text id="show-password-eye" title={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'} onClick={() => setShowPassword(!showPassword)}>{showPassword ? <FaEyeSlash /> : <FaEye />}</InputGroup.Text>
                     <Form.Control.Feedback type='invalid' className='form-input-invalid'>
                         La contraseña ingresada no coincide con la cuenta asociada en cuestión.

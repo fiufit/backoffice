@@ -105,7 +105,7 @@ input[type='checkbox']:focus {
 input[type='checkbox']:checked {
   border-color: var(--light-green--primary);
   background-color: var(--light-green--primary);
-  background-image: url(/public/black_tick.png) !important;
+  background-image: url(/black_tick.png) !important;
 }
 
 input[type='checkbox']:checked:hover {
@@ -116,9 +116,26 @@ input[type='checkbox']:checked:focus {
   border-color: var(--dark-grey--secondary);
 }
 
+.navbar-fiufit {
+  max-width: 1333px;
+  margin: 0 auto;
+}
+
 .layout-navbar {
   position: sticky;
   top: 119px;
+}
+
+@media (max-width: 1199.98px) {
+  .layout-navbar {
+    margin: 0 auto;
+    margin-bottom: 30px;
+  }
+}
+
+.layout-navbar-lateral {
+  width: 250px;
+  margin: 20px auto;
 }
 
 .img-welcome {
@@ -177,12 +194,6 @@ input[type='checkbox']:checked:focus {
 
 /* LOGIN */
 
-.management-section .login-form-input {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  font-size: 1.07rem;
-}
-
 #show-password-eye:hover {
   cursor: pointer;
 }
@@ -213,27 +224,28 @@ input[type='checkbox']:checked:focus {
 
 /* SECTION */
 
+.section-home {
+  margin: 0 auto;
+}
+
 /* ADMIN CREATION */
 
 .management-section {
-  margin-left: 25px;
-}
-
-@media (max-width: 991.98px) {
-  .management-section {
-    margin-left: 15px;
-  }
+  margin-top: 10px;
+  margin-left: 15px;
+  width: 600px;
 }
 
 @media (max-width: 767.98px) {
   .management-section {
-    margin-left: 0px;
+    margin: 0px auto;
+    width: 450px;
   }
 }
 
 .management-section hr {
-  width: 80%;
-  margin: 20px 0px 20px 0px;
+  width: 70%;
+  margin: 30px 0px 30px 0px;
   max-width: none;
 }
 
@@ -261,7 +273,7 @@ input[type='checkbox']:checked:focus {
   cursor: pointer;
 }
 
-.management-section .admin-form-input {
+.management-section .fiufit-form-input {
   padding-top: 10px;
   padding-bottom: 10px;
   font-size: 1.07rem;
