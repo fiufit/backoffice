@@ -8,10 +8,12 @@ export default function Services() {
     return (
         <>
             <Header />
-            <Container className='d-flex flex-column justify-content-center flex-grow-1 py-5' fluid>
-                <Row className='h-100'>
+            <Container className='d-flex flex-column flex-grow-1 py-5' fluid>
+                <Row>
                     <Col xs='auto'>
-                        <Navbar />
+                        <div className='layout-navbar'>
+                            <Navbar />
+                        </div>
                     </Col>
                     <Col>
                         <div className="management-section">

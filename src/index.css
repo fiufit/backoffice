@@ -116,6 +116,11 @@ input[type='checkbox']:checked:focus {
   border-color: var(--dark-grey--secondary);
 }
 
+.layout-navbar {
+  position: sticky;
+  top: 119px;
+}
+
 .img-welcome {
   max-width: 260px;
   margin: 0 auto;
