@@ -1,10 +1,9 @@
-import Header from '@features/Header';
-import Footer from '@features/Footer';
-import LoginForm from '@features/LoginForm';
+import Header from '@components/Header';
+import Footer from '@components/Footer';
+import LoginForm from '@components/LoginForm';
 import { Row, Container, Col } from 'react-bootstrap';
 
 export default function Login() {
-
     return (
         <>
             <Header />

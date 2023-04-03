@@ -18,9 +18,11 @@ export default function CreateAdminForm() {
                 <Form.Control type={showPassword ? "text" : "password"} placeholder="Contraseña" id="admin-password" aria-label="admin-password" aria-describedby="basic-addon5" className="admin-form-input" required />
                 <InputGroup.Text id="admin-password-eye" title={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'} onClick={() => setShowPassword(!showPassword)}>{showPassword ? <FaEyeSlash /> : <FaEye />}</InputGroup.Text>
             </InputGroup>
-            <Button id="btn-form-creation" variant="primary" type="submit" className='fiufit-button-green'>
-                CREAR
-            </Button>
+            <div className='d-flex justify-content-center'>
+                <Button variant="primary" type="submit" className='button--primary'>
+                    Crear
+                </Button>
+            </div>
         </Form>
     );
 }

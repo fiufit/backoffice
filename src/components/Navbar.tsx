@@ -1,20 +1,31 @@
-import { Nav, Container } from 'react-bootstrap';
-import NavbarBootstrap from 'react-bootstrap/Navbar'
+import { Nav } from 'react-bootstrap';
+import { FaEye, FaUser, FaRegChartBar, FaServer, FaBolt } from "react-icons/fa";
 
 export default function Navbar() {
     return (
-        <NavbarBootstrap className="text-uppercase" id="mainNav">
-            <Container>
-                <NavbarBootstrap.Brand className="navbar-brand navbar-brand-light" href="/">FIUFIT</NavbarBootstrap.Brand>
-                <Nav className="justify-content-end">
-                    <Nav.Link className="nav-link nav-link-login" href="/login">
-                        Ingresar
-                    </Nav.Link>
-                    <Nav.Link className="nav-link nav-link-download" href="#">
-                        Descargar
-                    </Nav.Link>
-                </Nav>
-            </Container>
-        </NavbarBootstrap>
+        <>
+            <Nav activeKey={location.pathname} className="d-flex flex-column">
+                <Nav.Link href="/home" id='management-navbar-first-link'>
+                    <FaEye className='management-navbar-icon' /> 
+                    <span>Administradores</span>
+                </Nav.Link>
+                <Nav.Link href="/users">
+                    <FaUser className='management-navbar-icon' />
+                    <span>Usuarios</span>
+                </Nav.Link>
+                <Nav.Link href="/trainings">
+                    <FaBolt className='management-navbar-icon' />
+                    <span>Entrenamientos</span>
+                </Nav.Link>
+                <Nav.Link href="/services">
+                    <FaServer className='management-navbar-icon' />
+                    <span>Servicios</span>
+                </Nav.Link>
+                <Nav.Link href="/metrics" id='management-navbar-last-link'>
+                    <FaRegChartBar className='management-navbar-icon' />
+                    <span>Métricas</span>
+                </Nav.Link>
+            </Nav>
+        </>
     )
 }

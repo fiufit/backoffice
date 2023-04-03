@@ -1,26 +1,29 @@
+import { Container, Row } from "react-bootstrap";
+import Brand from "@components/Brand";
+
 export default function Footer() {
 
     return (
-
-      <footer className="text-lg-start">
-        <section>
-          <div className="container">
-
-            <div className="row">
-
-              <div className="col-md-6 col-lg-6 col-xl-6 mx-auto mb-6">
-                <h6 className="fw-bold mb-4 footer-brand"><span className='footer-brand-karla'>FIUFIT</span> <small>©<span className='footer-brand-date'> {new Date().getFullYear()}</span></small></h6>
-              </div>
-
-              <div className="col-md-6 col-lg-6 col-xl-6 mx-auto mb-6">
-                <h6 id="text-footer-derechos-reservados" className='footer-text'>Todos los derechos reservados.</h6>
-              </div>
-
-            </div>
-          </div>
-        </section>
-      </footer>
-
+        <footer className='shadow'>
+            <Container fluid>
+                <Row className="bg-dark_blue--secondary px-5 py-1">
+                    <Brand />
+                </Row>
+                <Row className="bg-dark_blue--primary px-5 pt-1">
+                    <div className="d-flex d-flex d-flex justify-content-around d-flex align-items-center">
+                        <h6 className="text-white--primary my-1 fw-bold">
+                            Copyright ©{new Date().getFullYear()} | Todos los derechos reservados.
+                        </h6>
+                    </div>  
+                </Row>
+                <Row className="bg-dark_blue--primary px-5 pb-1">
+                    <div className="d-flex justify-content-center">
+                        <h6 className='text-white--primary my-1'>
+                            Disenado por estudiantes de la Facultad de Ingenieria de la UBA
+                        </h6>
+                    </div>
+                </Row>
+            </Container>
+        </footer>
     )
-    
 }

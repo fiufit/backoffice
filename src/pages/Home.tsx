@@ -1,20 +1,25 @@
-export default function Home() {
+import Footer from "@components/Footer";
+import Header from "@components/Header";
+import Navbar from "@components/Navbar";
+import { Col, Container, Row } from "react-bootstrap";
+import Admins from "./Admins";
 
+export default function Home() {
     return (
-        <section id="home" className='home-section text-center jumbotron vertical-center'>
-            <div className="container">
-                <div className="row justify-content-center align-items-center">
-                    <div className="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-                        <img src="img/home-phone.png" id="img-welcome" className="d-md-none d-sm-none d-none d-none d-lg-block" alt="" />
-                    </div>
-                    <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">                    
-                        <p className="msg-welcome">¡No esperes más!</p>
-                        <p className="msg-sub-welcome">Comienza tu entrenamiento ahora <span className="msg-sub-welcome-free">gratis.</span></p>
-                        <a id="linkWelcomeDownload" className="nav-link" href="#">Descargar</a>
-                    </div>
-                </div>
-            </div>
-        </section>
+        <>
+            <Header />
+            <Container className='d-flex flex-column justify-content-center flex-grow-1 py-5' fluid>
+                <Row className='h-100'>
+                    <Col xs='auto'>
+                        <Navbar />
+                    </Col>
+
+                    <Col>
+                        <Admins />
+                    </Col>
+                </Row>
+            </Container>
+            <Footer />
+        </>
     )
-    
 }
