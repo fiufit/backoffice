@@ -1,5 +1,5 @@
-import SearchBarUsers from '@components/management/SearchBarUsers';
-import UserEditionCards from '@components/management/UserEditionCards';
+import SearchBarUsers from '@components/home/SearchBarUsers';
+import UserEditionCards from '@components/home/UserEditionCards';
 import Footer from '@components/Footer';
 import Header from '@components/Header';
 import Navbar from '@components/Navbar';

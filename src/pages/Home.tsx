@@ -1,8 +1,8 @@
 import Footer from "@components/Footer";
 import Header from "@components/Header";
-import CreateAdminForm from "@components/management/CreateAdminForm";
-import EditAdminForm from "@components/management/EditAdminForm";
-import SearchBarAdmins from "@components/management/SearchBarAdmins";
+import CreateAdminForm from "@components/home/CreateAdminForm";
+import EditAdminForm from "@components/home/EditAdminForm";
+import SearchBarAdmins from "@components/home/SearchBarAdmins";
 import Navbar from "@components/Navbar";
 import { Col, Container, Row } from "react-bootstrap";
 

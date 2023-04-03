@@ -9,10 +9,10 @@ export default function Login() {
             <Header />
             <Container className='d-flex flex-column justify-content-center flex-grow-1 py-5' fluid>
                 <Row>
-                    <Col className='d-flex justify-content-center align-items-center'>
-                        <img src="/public/login_desktop.png" alt="" />
+                    <Col className='d-flex justify-content-center align-items-center' xs={12} sm={12} md={12} lg={6} >
+                        <img src="/login_desktop.png" alt="" id='login-img-welcome' />
                     </Col>
-                    <Col className='d-flex justify-content-center align-items-center'>
+                    <Col className='d-flex justify-content-center align-items-center' xs={12} sm={12} md={12} lg={6} >
                         <div className='pe-5 w-75'>
                             <LoginForm />
                         </div>

@@ -1,11 +1,10 @@
 export default function Brand() {
     return (
-        <div className='text-white--primary d-flex align-items-center'>
+        <div className='text-white--primary'>
             <img
                 alt=''
-                src='/public/logo.jpg'
-                width='45'
-                height='45'
+                src='/logo192.png'
+                className="fiufit-brand"
             />
             <span className='text-white--primary ps-2 fs-4'>FIUFIT</span>
         </div>

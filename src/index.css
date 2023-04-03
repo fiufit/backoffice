@@ -127,7 +127,7 @@ input[type='checkbox']:checked:focus {
   margin-bottom: 30px;
 }
 
-/* MANAGEMENT */
+/* HOME */
 
 /* NAVBAR */
 
@@ -167,6 +167,48 @@ input[type='checkbox']:checked:focus {
 .management-navbar-icon {
   font-size: 1.4rem;
   margin-right: 8px;
+}
+
+.fiufit-brand {
+  width: 45px;
+  height: 45px;
+  border-radius: 45px;
+}
+
+/* LOGIN */
+
+.management-section .login-form-input {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 1.07rem;
+}
+
+#show-password-eye:hover {
+  cursor: pointer;
+}
+
+#login-title {
+  margin-bottom: 25px;
+  font-size: 2.6rem !important;
+}
+
+#login-img-welcome {
+  max-width: 100%;
+  min-width: 200px;
+  max-width: 450px;
+  margin: 25px;
+}
+
+#footer-brand {
+  margin: 0 auto;
+  display: table;
+  margin-top: 12px;
+  margin-bottom: 5px;
+}
+
+.footer-align-center {
+  margin: 0 auto;
+  display: table;
 }
 
 /* SECTION */
