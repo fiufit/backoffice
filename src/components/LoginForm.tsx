@@ -29,7 +29,7 @@ export default function LoginForm() {
                 </InputGroup>
                 {/* REMEMBER ME */}
                 <Form.Group className='mb-3'>
-                    <Form.Check id='rememberme' type='checkbox' label='Recuerdame' checked />
+                    <Form.Check id='rememberme' type='checkbox' label='Recuerdame' defaultChecked />
                 </Form.Group>
                 {/* SUBMIT BUTTON*/}
                 <div className='d-flex justify-content-center'>
