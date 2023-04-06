@@ -22,6 +22,7 @@ export default function Users() {
                             <h1 className='management-section-title'>Panel de usuarios</h1>
                             <hr />
                             <div className='management-section-content'>
+                                <h2>Edición</h2>
                                 <SearchBarUsers />
                                 <UserEditionCards />
                             </div>
