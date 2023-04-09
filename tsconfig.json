@@ -18,11 +18,11 @@
     "baseUrl": "src",
     "paths": {
       "@app/*": ["app/*"],
-      "@slices/*": ["slices/*"],
+      "@state/*": ["state/*"],
       "@components/*": ["components/*"],
       "@layouts/*": ["layouts/*"],
       "@pages/*": ["pages/*"],
-      "@features/*": ["features/*"],
+      "@services/*": ["services/*"],
     }
   },
   "include": ["src", "vite.config.ts"],

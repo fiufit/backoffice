@@ -1,19 +1,38 @@
-import { useState } from 'react';
+import { useAppDispatch, useAppSelector } from '@app/hooks';
+import { useSigninMutation } from '@services/authentication';
+import { selectCredential } from '@state/credential';
+import { useRef, useState } from 'react';
 import { Form, Button, InputGroup } from 'react-bootstrap';
 import { FaLock, FaEnvelope, FaEyeSlash, FaEye } from "react-icons/fa"
 
 export default function LoginForm() {
+    const [ showPassword, setShowPassword ] = useState(false);
+    const [ signin, { isLoading } ] = useSigninMutation();
+    const emailField = useRef<HTMLInputElement>(null);
+    const passwordField = useRef<HTMLInputElement>(null);
+    const _credential = useAppSelector(selectCredential);
+    const _dispatch = useAppDispatch();
 
-    const [showPassword, setShowPassword] = useState(false);
+    const handleSigninSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        try {
+            const email = emailField.current?.value;
+            const password = passwordField.current?.value;
+            const request = { body: { email, password } };
+            const _response = await signin(request).unwrap();
+        } catch (err) {
+            console.log(err);
+        }
+    }
 
     return (
         <>
             <h1 id="login-title" className='text-dark_blue--primary fs-1 text-center'>Inicia sesión para continuar</h1>
-            <Form>
+            <Form onSubmit={handleSigninSubmit}>
                 {/* EMAIL */}
                 <InputGroup className='input-group-lg mb-3' hasValidation>
                     <InputGroup.Text id="login-email"><FaEnvelope /></InputGroup.Text>
-                    <Form.Control type="email" placeholder="Correo electronico" className="fiufit-form-input" required />
+                    <Form.Control ref={emailField} type="email" placeholder="Correo electronico" className="fiufit-form-input" required />
                     <Form.Control.Feedback type='invalid' className='form-input-invalid'>
                         No existe ninguna cuenta asociada a ese nombre de usuario o correo electrónico.
                     </Form.Control.Feedback>
@@ -21,7 +40,7 @@ export default function LoginForm() {
                 {/* PASSWORD */}
                 <InputGroup className='input-group-lg mb-3' hasValidation>
                     <InputGroup.Text id="login-password"><FaLock /></InputGroup.Text>
-                    <Form.Control type={showPassword ? "text" : "password"} placeholder="Contraseña" id="admin-password" aria-label="login-password" aria-describedby="basic-addon5" className="fiufit-form-input" required />
+                    <Form.Control ref={passwordField} type={showPassword ? "text" : "password"} placeholder="Contraseña" id="admin-password" aria-label="login-password" aria-describedby="basic-addon5" className="fiufit-form-input" required />
                     <InputGroup.Text id="show-password-eye" title={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'} onClick={() => setShowPassword(!showPassword)}>{showPassword ? <FaEyeSlash /> : <FaEye />}</InputGroup.Text>
                     <Form.Control.Feedback type='invalid' className='form-input-invalid'>
                         La contraseña ingresada no coincide con la cuenta asociada en cuestión.

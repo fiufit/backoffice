@@ -1,10 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { counterSlice } from "@slices/counterSlice";
+import { fiufit } from "@services/fiufit";
+import { credential } from "@state/credential";
 
 export const store = configureStore({
     reducer: {
-        counter: counterSlice.reducer,
+        credential: credential.reducer,
+        [fiufit.reducerPath]: fiufit.reducer,
     },
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(fiufit.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
