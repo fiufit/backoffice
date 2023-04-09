@@ -58,7 +58,6 @@ export default function LoginForm() {
         const isValid = [checkEmailField(emailField), checkPasswordField(passwordField)].reduce((state, current) => {
             return state && current;
         }, true);
-        console.log(isValid);
         return isValid;
     }
 
@@ -84,6 +83,7 @@ export default function LoginForm() {
             navigate(HOME_PAGE);
         } catch (err) {
             // TODO: check exactly when signin rejects the promise or not to handle the errors
+            // !200 ? o 300s? o 400s? o 500s?
             checkServerSideForm();
         }
     }
@@ -93,7 +93,7 @@ export default function LoginForm() {
             <h1 id="login-title" className='text-dark_blue--primary fs-1 text-center'>Inicia sesión para continuar</h1>
             <Form noValidate onSubmit={handleSigninSubmit}>
                 {/* EMAIL */}
-                <InputGroup className="input-group-lg mb-3">
+                <InputGroup className="input-group-lg mb-3" hasValidation>
                     <InputGroup.Text id="login-email"><FaEnvelope /></InputGroup.Text>
                     <Form.Control 
                         ref={emailRef} 
@@ -108,7 +108,7 @@ export default function LoginForm() {
                 </InputGroup>
 
                 {/* PASSWORD */}
-                <InputGroup className="input-group-lg mb-3">
+                <InputGroup className="input-group-lg mb-3" hasValidation>
                     <InputGroup.Text id="login-password"><FaLock /></InputGroup.Text>
                     <Form.Control 
                         ref={passwordRef} 
