@@ -8,6 +8,7 @@ import Users from '@pages/Users';
 import Trainings from '@pages/Trainings';
 import Services from '@pages/Services';
 import Metrics from '@pages/Metrics';
+import PrivateRoutes from '@components/PrivateRoutes';
 
 export default function App() {
     return (
@@ -16,11 +17,13 @@ export default function App() {
                 {/* PUBLICAS */}
                 <Route index element={<Login/>} />
                 {/* PRIVADAS */}
-                <Route path='/admins' element={<Admins />} />
-                <Route path='/users' element={<Users />} />
-                <Route path='/trainings' element={<Trainings />} />
-                <Route path='/services' element={<Services />} />
-                <Route path='/metrics' element={<Metrics />} />
+                <Route element={<PrivateRoutes />}>
+                    <Route path='/admins' element={<Admins />} />
+                    <Route path='/users' element={<Users />} />
+                    <Route path='/trainings' element={<Trainings />} />
+                    <Route path='/services' element={<Services />} />
+                    <Route path='/metrics' element={<Metrics />} />
+                </Route>
             </Routes>
         </Provider>
     )

@@ -19,7 +19,7 @@ export default function LoginForm() {
     const passwordRef = useRef<HTMLInputElement>(null);
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
-    const [ signin, signinStatus ] = useSigninMutation();
+    const [ signin, signinResult ] = useSigninMutation();
     const [ emailFeedback, setEmailFeedback ] = useState("");
     const [ passwordFeedback, setPasswordFeedback ] = useState("");
     const [ formFeedback, setFormFeedback ] = useState("");
@@ -97,7 +97,7 @@ export default function LoginForm() {
             }
         } catch (err) {
             // TODO: check exactly when signin rejects the promise or not to handle the errors
-            // !200 ? o 300s? o 400s? o 500s? and how can i get it from the response?
+            // !200 ? o 300s? o 400s? o 500s? and how can i get it from the response? err.originalStatus
             console.log(err);
         }
     }
@@ -158,14 +158,15 @@ export default function LoginForm() {
                 <div className='d-flex justify-content-center'>
                     <Button className='button--primary button--rounded w-50 d-flex align-items-center justify-content-center' type='submit'>
                         {
-                            signinStatus.isLoading ? <Spinner
-                                className="me-2"
-                                as="span"
-                                animation="border"
-                                size="sm"
-                                role="status"
-                                aria-hidden="true"
-                            /> : <></>
+                            signinResult.isLoading ? 
+                                <Spinner
+                                    className="me-2"
+                                    as="span"
+                                    animation="border"
+                                    size="sm"
+                                    role="status"
+                                    aria-hidden="true"
+                                /> : <></>
                         }
                         Iniciar
                     </Button>
