@@ -6,8 +6,8 @@ import { RootState } from "@app/store";
 import { StatusCodes } from "http-status-codes";
 import { CredentialState, removeCredential, setCredential } from "@state/credential";
 
-const FIUFIT_BASE_URL = "http://localhost:3000";
-const REFRESH_ENDPOINT = "/session/refresh";
+const FIUFIT_BASE_URL = "https://fiufit-gateway.fly.dev/v1";
+const REFRESH_ENDPOINT = "/session/refresh"; // TODO: fix path
 
 const baseQuery = fetchBaseQuery({
     baseUrl: FIUFIT_BASE_URL,

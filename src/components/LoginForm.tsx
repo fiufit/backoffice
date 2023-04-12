@@ -1,27 +1,29 @@
-import { useAppDispatch, useAppSelector } from '@app/hooks';
-import { useSigninMutation } from '@services/authentication';
-import { selectCredential } from '@state/credential';
+import { useAppDispatch } from '@app/hooks';
 import { useRef, useState } from 'react';
-import { Form, Button, InputGroup } from 'react-bootstrap';
-import { FaLock, FaEnvelope, FaEyeSlash, FaEye } from "react-icons/fa"
 import { useNavigate } from 'react-router-dom';
+import { useSigninMutation } from '@services/authentication';
+import { setCredential } from '@state/credential';
+import { Form, Button, InputGroup, Spinner, Alert } from 'react-bootstrap';
+import { FaLock, FaEnvelope, FaEyeSlash, FaEye } from "react-icons/fa"
 
 const HOME_PAGE = "/admins";
-const EMPTY_FIELD_MESSAGE = "Por favor complete este campo.";
-const INVALID_EMAIL_FIELD_MESSAGE = "Correo invalido.";
+const EMPTY_FIELD_MESSAGE = "Campo requerido.";
+const INVALID_EMAIL_FIELD_MESSAGE = "Formato de correo invalido.";
+const INVALID_USER_MESSAGE = "Lo sentimos, el usuario no se encuentra registrado.";
+const INVALID_PASSWORD_MESSAGE = "Contrasenia invalida, intentelo nuevamente";
+const INVALID_USER_CODE = "U2";
+const INVALID_PASSWORD_CODE = "U4";
 
 export default function LoginForm() {
-    const [ showPassword, setShowPassword ] = useState(false);
-    const [ emailFeedback, setEmailFeedback ] = useState("");
-    const [ passwordFeedback, setPasswordFeedback ] = useState("");
-    const [ formFeedback, setFormFeedback ] = useState("");
-    const [ signin, { isLoading } ] = useSigninMutation();
-
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
     const navigate = useNavigate();
-    const _credential = useAppSelector(selectCredential);
-    const _dispatch = useAppDispatch();
+    const dispatch = useAppDispatch();
+    const [ signin, signinStatus ] = useSigninMutation();
+    const [ emailFeedback, setEmailFeedback ] = useState("");
+    const [ passwordFeedback, setPasswordFeedback ] = useState("");
+    const [ formFeedback, setFormFeedback ] = useState("");
+    const [ showPassword, setShowPassword ] = useState(false);
 
     const checkEmailField = (field: HTMLInputElement | null) => {
         const isValid = field?.checkValidity();
@@ -53,7 +55,7 @@ export default function LoginForm() {
         return isValid;
     }
 
-    const checkClientSideForm = (form: { emailField: HTMLInputElement | null; passwordField: HTMLInputElement | null; }) => {
+    const checkForm = (form: { emailField: HTMLInputElement | null; passwordField: HTMLInputElement | null; }) => {
         const { emailField, passwordField } = form;
         const isValid = [checkEmailField(emailField), checkPasswordField(passwordField)].reduce((state, current) => {
             return state && current;
@@ -61,8 +63,16 @@ export default function LoginForm() {
         return isValid;
     }
 
-    const checkServerSideForm = () => {
-        setFormFeedback("Correo o contrasenia invalida, por favor intentelo de nuevo");
+    const checkSigninResponse = (response: any) => {
+        const { data, error } = response;
+        if (data) return true;
+
+        if (error.code === INVALID_USER_CODE) {
+            setFormFeedback(INVALID_USER_MESSAGE);
+        } else if (error.code === INVALID_PASSWORD_CODE) {
+            setFormFeedback(INVALID_PASSWORD_MESSAGE);
+        }
+        return false;
     }
 
     const handleSigninSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -70,27 +80,37 @@ export default function LoginForm() {
         const emailField = emailRef.current;
         const passwordField = passwordRef.current;
         const form = { emailField, passwordField };
-        if (!checkClientSideForm(form)) return;
+        if (!checkForm(form)) return;
 
         const email = emailRef.current?.value;
         const password = passwordRef.current?.value;
         const request = { body: { email, password } };
         try {
-            const _response = await signin(request).unwrap();
-            /* 
-             * RESPONSE ROUTINE
-             */
-            navigate(HOME_PAGE);
+            const response = await signin(request).unwrap();
+            if (checkSigninResponse(response)) {
+                const credential = {
+                    user: email!,
+                    accessToken: response.data.jwt,
+                }
+                dispatch(setCredential(credential));
+                navigate(HOME_PAGE);
+            }
         } catch (err) {
             // TODO: check exactly when signin rejects the promise or not to handle the errors
-            // !200 ? o 300s? o 400s? o 500s?
-            checkServerSideForm();
+            // !200 ? o 300s? o 400s? o 500s? and how can i get it from the response?
+            console.log(err);
         }
     }
 
     return (
         <>
-            <h1 id="login-title" className='text-dark_blue--primary fs-1 text-center'>Inicia sesión para continuar</h1>
+            <h1 className='text-dark_blue--primary fs-1 text-center'>Inicio de Sesion</h1>
+            <h2 className='text-dark_grey--primary fs-5 pb-4 text-center'>Inicie sesion para continuar</h2>
+            <Alert show={formFeedback.length > 0} onClose={() => setFormFeedback("")} variant="danger" dismissible>
+                {/* ERROR MESSAGE */}
+                <p className='mb-0'>{formFeedback}</p>
+            </Alert>
+
             <Form noValidate onSubmit={handleSigninSubmit}>
                 {/* EMAIL */}
                 <InputGroup className="input-group-lg mb-3" hasValidation>
@@ -108,7 +128,7 @@ export default function LoginForm() {
                 </InputGroup>
 
                 {/* PASSWORD */}
-                <InputGroup className="input-group-lg mb-3" hasValidation>
+                <InputGroup className="input-group-lg mb-4" hasValidation>
                     <InputGroup.Text id="login-password"><FaLock /></InputGroup.Text>
                     <Form.Control 
                         ref={passwordRef} 
@@ -118,9 +138,10 @@ export default function LoginForm() {
                         className="fiufit-form-input"
                         isInvalid={passwordFeedback ? true : false}
                         required />
-                    <InputGroup.Text 
-                        id="show-password-eye" 
-                        title={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'} 
+                    <InputGroup.Text
+                        id="show-password-eye"
+                        className="bg-white--primary border-start-0"
+                        title={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
                         onClick={() => setShowPassword(!showPassword)}>{showPassword ? <FaEyeSlash /> : <FaEye />}
                     </InputGroup.Text>
                     <Form.Control.Feedback type='invalid' className='form-input-invalid'>
@@ -128,17 +149,24 @@ export default function LoginForm() {
                     </Form.Control.Feedback>
                 </InputGroup>
 
-                {/* ERROR MESSAGE */}
-                { formFeedback ? <p className='form-input-invalid'>{formFeedback}</p> : <></> }
-
                 {/* REMEMBER ME */}
                 <Form.Group className='mb-3'>
-                    <Form.Check id='rememberme' type='checkbox' label='Recuerdame' defaultChecked />
+                    <Form.Check id='rememberme' type='checkbox' label='Recuerdame' defaultChecked={false} />
                 </Form.Group>
                 
                 {/* SUBMIT FORM*/}
                 <div className='d-flex justify-content-center'>
-                    <Button className='button--primary button--rounded w-50 d-flex justify-content-center' type='submit'>
+                    <Button className='button--primary button--rounded w-50 d-flex align-items-center justify-content-center' type='submit'>
+                        {
+                            signinStatus.isLoading ? <Spinner
+                                className="me-2"
+                                as="span"
+                                animation="border"
+                                size="sm"
+                                role="status"
+                                aria-hidden="true"
+                            /> : <></>
+                        }
                         Iniciar
                     </Button>
                 </div>

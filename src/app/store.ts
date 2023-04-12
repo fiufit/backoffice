@@ -7,7 +7,9 @@ export const store = configureStore({
         credential: credential.reducer,
         [fiufit.reducerPath]: fiufit.reducer,
     },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(fiufit.middleware),
+    middleware: (getDefaultMiddleware) => {
+        return getDefaultMiddleware().concat(fiufit.middleware)
+    },
 });
 
 export type RootState = ReturnType<typeof store.getState>;

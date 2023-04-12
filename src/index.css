@@ -48,6 +48,10 @@ body {
   background-color: var(--light-green--primary);
 }
 
+.bg-white--primary {
+  background-color: var(--white--primary);
+}
+
 .text-white--primary {
   color: var(--white--primary);
 }

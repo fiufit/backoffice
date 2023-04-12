@@ -1,6 +1,6 @@
 import { fiufit } from "@services/fiufit";
 
-const SIGNIN_ENDPOINT = "/session";
+const SIGNIN_ENDPOINT = "/admin/login";
 
 export const authentication = fiufit.injectEndpoints({
     endpoints: (builder) => ({
