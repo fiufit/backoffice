@@ -1,0 +1,46 @@
+name: Okteto deploy
+
+on:
+  push: 
+    branches: [main]
+  #pull_request:
+  #  branches: [main]
+    
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Login to Okteto Cloud
+        uses: okteto/login@2.12.0
+        with:
+          token: ${{ secrets.OKTETO_TOKEN }}
+      - name: "Activate Namespace"
+        uses: okteto/namespace@latest
+        with:
+          name: danielovera
+      - name: "Deploy application"
+        uses: okteto/apply@latest
+        with:
+          namespace: danielovera
+          manifest: k8s.yaml
+      - name: "Push changes"
+        uses: okteto/push@latest
+        with:
+          namespace: danielovera
+          
+      #- name: Deploy a preview environment
+      #  uses: okteto/deploy-preview@latest
+      #  env:
+      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #  with:
+      #    name: staging-${{ github.event.number }}-danielovera
+      #    scope: personal
+      #    timeout: 15m
+          
+      #- uses: nev7n/wait_for_response@v1
+      #  with:
+      #    url: https://api-staging-${{ github.event.number }}-danielovera.cloud.okteto.net
+      #    responseCode: 200
+      #    timeout: 4000
+  
