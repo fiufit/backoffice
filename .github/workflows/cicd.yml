@@ -15,15 +15,6 @@ jobs:
         uses: okteto/login@2.12.0
         with:
           token: ${{ secrets.OKTETO_TOKEN }}
-      - name: "Activate Namespace"
-        uses: okteto/namespace@latest
-        with:
-          namespace: danielovera
-      - name: "Deploy application"
-        uses: okteto/apply@latest
-        with:
-          namespace: danielovera
-          manifest: k8s.yaml
       - name: "Push changes"
         uses: okteto/push@latest
         with:
