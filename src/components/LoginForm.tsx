@@ -5,14 +5,11 @@ import { useSigninMutation } from '@services/authentication';
 import { setCredential } from '@state/credential';
 import { Form, Button, InputGroup, Spinner, Alert } from 'react-bootstrap';
 import { FaLock, FaEnvelope, FaEyeSlash, FaEye } from "react-icons/fa"
+import { ErrorMessages } from 'utils/ErrorMessages';
+import { ErrorCodes } from 'utils/ErrorCodes';
+import { emailIsValid, passwordIsValid } from 'utils/validation';
 
 const HOME_PAGE = "/admins";
-const EMPTY_FIELD_MESSAGE = "Campo requerido.";
-const INVALID_EMAIL_FIELD_MESSAGE = "Formato de correo invalido.";
-const INVALID_USER_MESSAGE = "Lo sentimos, el usuario no se encuentra registrado.";
-const INVALID_PASSWORD_MESSAGE = "Contrasenia invalida, intentelo nuevamente";
-const INVALID_USER_CODE = "U2";
-const INVALID_PASSWORD_CODE = "U4";
 
 export default function LoginForm() {
     const emailRef = useRef<HTMLInputElement>(null);
@@ -25,92 +22,87 @@ export default function LoginForm() {
     const [ formFeedback, setFormFeedback ] = useState("");
     const [ showPassword, setShowPassword ] = useState(false);
 
-    const checkEmailField = (field: HTMLInputElement | null) => {
-        const isValid = field?.checkValidity();
-        if (isValid) {
+    const checkEmailField = (field: HTMLInputElement | null): boolean => {
+
+        if (emailIsValid(field?.value)) {
             setEmailFeedback("");
-            return isValid;
+            return true;
+        } else {
+            setEmailFeedback(ErrorMessages.INVALID_EMAIL);
+            return false
         }
 
-        const { valueMissing, typeMismatch } = field!.validity;
-        if (valueMissing) {
-            setEmailFeedback(EMPTY_FIELD_MESSAGE);
-        } else if (typeMismatch) {
-            setEmailFeedback(INVALID_EMAIL_FIELD_MESSAGE);
-        }
-        return isValid;
     }
 
     const checkPasswordField = (field: HTMLInputElement | null) => {
-        const isValid = field?.checkValidity();
-        if (isValid) {
-            setPasswordFeedback("");
-            return isValid;
-        }
 
-        const { valueMissing } = field!.validity;
-        if (valueMissing) {
-            setPasswordFeedback(EMPTY_FIELD_MESSAGE);
+        if (passwordIsValid(field?.value)) {
+            setPasswordFeedback("");
+            return true;
+
+        } else {
+            setPasswordFeedback(ErrorMessages.INVALID_PASS);
+            return false
         }
-        return isValid;
     }
 
     const checkForm = (form: { emailField: HTMLInputElement | null; passwordField: HTMLInputElement | null; }) => {
+
         const { emailField, passwordField } = form;
+
         const isValid = [checkEmailField(emailField), checkPasswordField(passwordField)].reduce((state, current) => {
             return state && current;
         }, true);
+
         return isValid;
-    }
-
-    const checkSigninResponse = (response: any) => {
-        const { data, error } = response;
-        if (data) return true;
-
-        if (error.code === INVALID_USER_CODE) {
-            setFormFeedback(INVALID_USER_MESSAGE);
-        } else if (error.code === INVALID_PASSWORD_CODE) {
-            setFormFeedback(INVALID_PASSWORD_MESSAGE);
-        }
-        return false;
+        
     }
 
     const handleSigninSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        
         event.preventDefault();
         const emailField = emailRef.current;
         const passwordField = passwordRef.current;
         const form = { emailField, passwordField };
+
         if (!checkForm(form)) return;
 
         const email = emailRef.current?.value;
         const password = passwordRef.current?.value;
         const request = { body: { email, password } };
+
         try {
+
             const response = await signin(request).unwrap();
-            if (checkSigninResponse(response)) {
-                const credential = {
-                    user: email!,
-                    accessToken: response.data.jwt,
-                }
-                dispatch(setCredential(credential));
-                navigate(HOME_PAGE);
+
+            const credential = {
+                user: email!,
+                accessToken: response.data.jwt,
             }
-        } catch (err) {
-            // TODO: check exactly when signin rejects the promise or not to handle the errors
-            // !200 ? o 300s? o 400s? o 500s? and how can i get it from the response? err.originalStatus
-            console.log(err);
+            dispatch(setCredential(credential));
+            navigate(HOME_PAGE);
+
+        } catch (err: any) {
+
+            if (err.data.error) {
+
+                switch (err.data.error.code) {
+
+                    case ErrorCodes.INVALID_USER: setFormFeedback(ErrorMessages.USER_DOES_NOT_EXIST); break;
+                    case ErrorCodes.INVALID_PASS: setFormFeedback(ErrorMessages.WRONG_PASS); break;
+                    
+                    default:
+                        setFormFeedback(ErrorMessages.UNEXPECTED_ERROR);
+
+                }
+            }
+
         }
     }
 
     return (
         <>
-            <h1 className='text-dark_blue--primary fs-1 text-center'>Inicio de Sesion</h1>
-            <h2 className='text-dark_grey--primary fs-5 pb-4 text-center'>Inicie sesion para continuar</h2>
-            <Alert show={formFeedback.length > 0} onClose={() => setFormFeedback("")} variant="danger" dismissible>
-                {/* ERROR MESSAGE */}
-                <p className='mb-0'>{formFeedback}</p>
-            </Alert>
-
+            <h1 className='text-dark_blue--primary fs-1 text-center pb-4'>Iniciar Sesión</h1>
             <Form noValidate onSubmit={handleSigninSubmit}>
                 {/* EMAIL */}
                 <InputGroup className="input-group-lg mb-3" hasValidation>
@@ -172,6 +164,10 @@ export default function LoginForm() {
                     </Button>
                 </div>
             </Form>
+            <Alert show={formFeedback.length > 0} onClose={() => setFormFeedback("")} variant="danger" dismissible className='mt-4'>
+                {/* ERROR MESSAGE */}
+                <p className='mb-0'>{formFeedback}</p>
+            </Alert>
         </>
     );
 };
