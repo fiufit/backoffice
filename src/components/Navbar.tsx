@@ -3,6 +3,7 @@ import { FaEye, FaUser, FaRegChartBar, FaServer, FaBolt } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 
 export default function Navbar() {
+
     return (
         <>
             <Nav activeKey={location.pathname} className="d-flex flex-column">
