@@ -18,7 +18,7 @@ jobs:
       - name: "Activate Namespace"
         uses: okteto/namespace@latest
         with:
-          name: danielovera
+          namespace: danielovera
       - name: "Deploy application"
         uses: okteto/apply@latest
         with:
