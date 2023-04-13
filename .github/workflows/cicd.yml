@@ -18,6 +18,7 @@ jobs:
           token: ${{ secrets.OKTETO_TOKEN }}
           
       - name: Deploy a preview environment
+        if: ${{ github.event_name == 'pull_request' }}
         uses: okteto/deploy-preview@2.12.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -27,6 +28,7 @@ jobs:
           timeout: 15m
           
       - uses: nev7n/wait_for_response@v1
+        if: ${{ github.event_name == 'pull_request' }}
         with:
           url: https://api-staging-${{ github.event.number }}-danielovera.cloud.okteto.net
           responseCode: 200
