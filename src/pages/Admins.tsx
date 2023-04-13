@@ -7,6 +7,7 @@ import Navbar from "@components/Navbar";
 import { Col, Container, Row } from "react-bootstrap";
 
 export default function Admins() {
+
     return (
         <>
             <Header />
