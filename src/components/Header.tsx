@@ -25,7 +25,7 @@ export default function Header() {
 
     const signinNavbar = () => {
         return (
-            <Button onClick={handleLogoutClick}>Desconectarse</Button>
+            <Button onClick={handleLogoutClick} className="button--primary btn btn-primary">Desconectarse</Button>
         );
     }
 

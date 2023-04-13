@@ -121,7 +121,7 @@ export default function LoginForm() {
                         required />
                     <InputGroup.Text
                         id="show-password-eye"
-                        className="bg-white--primary border-start-0"
+                        className="bg-gray--primary border-start-0"
                         title={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
                         onClick={() => setShowPassword(!showPassword)}>{showPassword ? <FaEyeSlash /> : <FaEye />}
                     </InputGroup.Text>
@@ -132,7 +132,7 @@ export default function LoginForm() {
 
                 {/* REMEMBER ME */}
                 <Form.Group className='mb-3'>
-                    <Form.Check id='rememberme' type='checkbox' label='Recuerdame' defaultChecked={false} />
+                    <Form.Check id='rememberme' type='checkbox' label='Recuerdame' defaultChecked />
                 </Form.Group>
                 
                 {/* SUBMIT FORM*/}

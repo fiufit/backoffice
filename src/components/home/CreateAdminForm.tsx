@@ -139,7 +139,7 @@ export default function CreateAdminForm() {
                         required />
                     <InputGroup.Text
                         id="show-password-eye"
-                        className="bg-white--primary border-start-0"
+                        className="bg-gray--primary border-start-0"
                         title={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
                         onClick={() => setShowPassword(!showPassword)}>{showPassword ? <FaEyeSlash /> : <FaEye />}
                     </InputGroup.Text>

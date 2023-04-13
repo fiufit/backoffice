@@ -15,6 +15,7 @@
   --white--primary: #ffffff;
   --light-green--primary: #bbf246;
   --light-green--secondary: #b1e442;
+  --lighter-green-primary: #ddf8a2;
   --dark-grey--primary: #626262;
   --dark-grey--secondary: #ced4da;
   --grey--primary: #dddddd;
@@ -398,4 +399,12 @@ input[type='checkbox']:checked:focus {
   padding-top: 10px;
   padding-bottom: 10px;
   font-size: 1.1rem;
+}
+
+/* ALERTS */
+
+.alert-success {
+  background-color: var(--lighter-green-primary);
+  border-color: var(--light-green--primary); 
+  color: var(--dark-grey--primary);
 }
