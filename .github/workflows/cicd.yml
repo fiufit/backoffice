@@ -15,10 +15,11 @@ jobs:
         uses: okteto/login@2.12.0
         with:
           token: ${{ secrets.OKTETO_TOKEN }}
-      - name: "Push changes"
-        uses: okteto/push@latest
+          
+      - name: Build and deploy application container
+        uses: okteto/deploy-stack@master
         with:
-          namespace: danielovera
+          build: true
           
       #- name: Deploy a preview environment
       #  uses: okteto/deploy-preview@latest
