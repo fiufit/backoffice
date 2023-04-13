@@ -7,14 +7,9 @@ export default function Footer() {
         <footer className='shadow'>
             <Container fluid>
                 <Row className="bg-dark_blue--secondary px-5 py-1">
-                    <div id="footer-brand">
+                    <div>
                         <div className='text-white--primary footer-align-center'>
-                            <img
-                                alt=''
-                                src='/logo192.png'
-                                className="fiufit-brand"
-                            />
-                            <span className='text-white--primary ps-2 fs-4'>FIUFIT</span>
+                            <Brand />
                         </div>
                     </div>
                 </Row>
@@ -25,7 +20,7 @@ export default function Footer() {
                         </h6>
                     </div>  
                 </Row>
-                <Row className="bg-dark_blue--primary px-5 pb-3">
+                <Row className="bg-dark_blue--primary px-5 pb-1">
                     <div className="d-flex justify-content-center">
                         <h6 className='text-white--primary my-1'>
                             Diseñado por estudiantes de la Facultad de Ingenieria de la UBA.

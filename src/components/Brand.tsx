@@ -1,6 +1,6 @@
 export default function Brand() {
     return (
-        <div className='text-white--primary'>
+        <div className='text-white--primary d-flex align-items-center'>
             <img
                 alt=''
                 src='/logo192.png'
