@@ -23,7 +23,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           name: staging-${{ github.event.number }}-danielovera
-          scope: global
+          scope: personal
           timeout: 15m
           
       - uses: nev7n/wait_for_response@v1
