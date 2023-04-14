@@ -88,14 +88,11 @@ export default function CreateAdminForm() {
 
         } catch (err: any) {
 
-            console.log(err);
-
             if (err.data.error) {
 
                 switch(err.data.error.code) {
 
-                    // en realidad deberia tirar EMAIL_ALREADY_EXIST para otro Code, pero esta mal. No deja crear admin duplicados eso si
-                    case ErrorCodes.SOMETHING_WRONG: setFormFeedback(ErrorMessages.EMAIL_ALREADY_EXISTS); break;
+                    case ErrorCodes.USER_ALREADY_EXIST: setFormFeedback(ErrorMessages.EMAIL_ALREADY_EXISTS); break;
                     
                     default: setFormFeedback(ErrorMessages.UNEXPECTED_ERROR); break;
 
