@@ -4,7 +4,7 @@ import { BaseQueryApi,
          fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "@app/store";
 import { StatusCodes } from "http-status-codes";
-import { CredentialState, removeCredential, setCredential } from "@state/credential";
+import { Credential, removeCredential, setCredential } from "@state/credential";
 
 const FIUFIT_BASE_URL = "https://fiufit-gateway.fly.dev/v1";
 const REFRESH_ENDPOINT = "/session/refresh"; // TODO: fix path
@@ -36,7 +36,7 @@ const baseRequestWrapper = async (args: string | FetchArgs, api: BaseQueryApi, e
         } 
 
         const sessionResponse = await baseQuery(sessionQuery, api, extraOptions);
-        const data = sessionResponse.data as CredentialState;
+        const data = sessionResponse.data as Credential;
         if (data) {
             const state = api.getState() as RootState;
             const { user } = state.credential;
