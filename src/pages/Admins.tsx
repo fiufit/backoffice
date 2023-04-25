@@ -1,36 +1,40 @@
 import Footer from "@components/Footer";
 import Header from "@components/Header";
-import CreateAdminForm from "@components/home/CreateAdminForm";
+import CreateAdminModal from "@components/CreateAdminModal";
 import EditAdminForm from "@components/home/EditAdminForm";
 import SearchBarAdmins from "@components/home/SearchBarAdmins";
 import Navbar from "@components/Navbar";
-import { Col, Container, Row } from "react-bootstrap";
+import { Button, Col, Container, Row } from "react-bootstrap";
+import { useAppDispatch } from "@app/hooks";
+import { open } from '@state/createAdminModal';
 
 export default function Admins() {
+    const dispatch = useAppDispatch();
+    const handleShow = () => dispatch(open());
 
     return (
         <>
             <Header />
             <Container className='d-flex flex-column flex-grow-1 py-4' fluid>
-                <Row className="section-home">
-                    <Col md='auto' className="mx-auto">
+                <Row>
+                    <Col lg={3}>
                         <div className="layout-navbar-lateral">
                             <Navbar />  
                         </div>
                     </Col>
 
-                    <Col md='auto' className="mx-auto">
+                    <Col lg={9}>
                         <div className="management-section">
-                            <h1 className="management-section-title">Panel de administradores</h1>
+                            <div className="d-flex">
+                                <h1 className="management-section-title me-auto">Administradores</h1>
+                                <Button className="button--primary btn btn-primary align-self-center" style={{'width': "10%"}} onClick={handleShow}>Crear</Button>
+                            </div>
                             <hr />
                             <div className="management-section-content">
                                 <div id="management-section-admin-creation">
-                                    <h2>Creación</h2>
-                                    <CreateAdminForm />
+                                    <CreateAdminModal />
                                 </div>
-                                <hr />
                                 <div id="management-section-admin-edition">
-                                    <h2>Edición</h2>
                                     <SearchBarAdmins />
                                     <EditAdminForm />
                                 </div>
