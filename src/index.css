@@ -16,13 +16,18 @@
   --light-green--primary: #bbf246;
   --light-green--secondary: #b1e442;
   --lighter-green-primary: #ddf8a2;
-  --dark-grey--primary: #626262;
-  --dark-grey--secondary: #ced4da;
+  --dark-grey--primary: rgb(98, 98, 98);
+  --dark-grey--secondary: rgb(206, 212, 218);
+  --light-grey--secondary: rgb(206, 212, 218, 0.97);
   --grey--primary: #dddddd;
 }
 
 * {
   box-sizing: border-box;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0px;
 }
 
 body {
@@ -89,9 +94,30 @@ body {
   filter: brightness(95%);
 }
 
+.button--secondary {
+  border-color: var(--dark-grey--secondary);
+  background-color: var(--dark-grey--secondary);
+  color: var(--dark-blue--secondary);
+  box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.button--secondary:hover {
+  border-color: var(--light-grey--secondary);
+  background-color: var(--light-grey--secondary);
+  color: inherit;
+}
+
+.button--secondary:active {
+  border-color: var(--light-grey--secondary) !important;
+  background-color: var(--light-grey--secondary) !important;
+  color: inherit !important;
+  filter: brightness(95%);
+}
+
 .button--rounded {
   border-radius: 24px;
 }
+
 
 input[type='checkbox'] {
   border-color: var(--dark-grey--secondary);
@@ -139,8 +165,7 @@ input[type='checkbox']:checked:focus {
 }
 
 .layout-navbar-lateral {
-  width: 250px;
-  margin: 20px auto;
+  margin: 20px 32px;
 }
 
 .img-welcome {
@@ -237,8 +262,8 @@ input[type='checkbox']:checked:focus {
 
 .management-section {
   margin-top: 10px;
-  margin-left: 15px;
-  width: 600px;
+  margin-right: 32px;
+
 }
 
 @media (max-width: 767.98px) {
@@ -248,9 +273,14 @@ input[type='checkbox']:checked:focus {
   }
 }
 
+hr {
+  border-color: var(--dark-blue--primary);
+  border-top: 2px solid;
+  margin-top: 2px;
+}
+
 .management-section hr {
-  width: 70%;
-  margin: 30px 0px 30px 0px;
+  width: 100%;
   max-width: none;
 }
 
@@ -291,11 +321,11 @@ input[type='checkbox']:checked:focus {
 /* ADMIN EDITION */
 
 .management-section #management-section-admin-creation {
-  max-width: 600px;
+  max-width: 100%;
 }
 
 .management-section #management-section-admin-edition {
-  max-width: 600px;
+  max-width: 100%;
 }
 
 .management-section #edit-admin-form-search {
@@ -342,7 +372,6 @@ input[type='checkbox']:checked:focus {
 .management-section .admins-table {
   background-color: #ffffff;
   border-radius: 4px;
-  margin-top: 35px;
   -webkit-box-shadow: 9px 10px 12px -12px rgba(0, 0, 0, 0.4);
   -moz-box-shadow: 9px 10px 12px -12px rgba(0, 0, 0, 0.4);
   box-shadow: 9px 10px 12px -12px rgba(0, 0, 0, 0.4);

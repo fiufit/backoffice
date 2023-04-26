@@ -1,3 +1,4 @@
+import { useAppDispatch } from '@app/hooks';
 import { useRegistrationMutation } from '@services/registration';
 import { useRef, useState } from 'react';
 import { Form, Button, InputGroup, Alert } from 'react-bootstrap';
@@ -5,10 +6,12 @@ import { FaLock, FaEnvelope, FaEyeSlash, FaEye } from "react-icons/fa"
 import { ErrorCodes } from 'utils/ErrorCodes';
 import { ErrorMessages } from 'utils/ErrorMessages';
 import { SuccessMessages } from 'utils/SuccessMessages';
+import { close } from '@state/createAdminModal';
 import { emailIsValid, passwordIsValid } from 'utils/validation';
 
 export default function CreateAdminForm() {
-
+    const dispatch = useAppDispatch();
+    const handleClose = () => dispatch(close());
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
     const [showPassword, setShowPassword] = useState(false);
@@ -107,8 +110,12 @@ export default function CreateAdminForm() {
 
     return (
         <>
+            <Alert show={formFeedback.length > 0} onClose={() => setFormFeedback("")} variant={formFeedbackStyle} dismissible className='mt-3'>
+                <p className='mb-0'>{formFeedback}</p>
+            </Alert>
+
             <Form id='create-admin-form' noValidate onSubmit={handleRegistrationSubmit}>
-            {/* EMAIL */}
+                {/* EMAIL */}
                 <InputGroup className="input-group-lg mb-3" hasValidation>
                     <InputGroup.Text id="register-email"><FaEnvelope /></InputGroup.Text>
                     <Form.Control 
@@ -145,15 +152,15 @@ export default function CreateAdminForm() {
                     </Form.Control.Feedback>
                 </InputGroup>
 
-                <div className='d-flex justify-content-center'>
+                <div className='d-flex justify-content-end'>
+                    <Button variant="secondary" className='button--secondary me-4' onClick={handleClose}>
+                        Close
+                    </Button>
                     <Button variant="primary" type="submit" className='button--primary'>
-                        Crear
+                        Confirmar
                     </Button>
                 </div>
             </Form>
-            <Alert show={formFeedback.length > 0} onClose={() => setFormFeedback("")} variant={formFeedbackStyle} dismissible className='mt-3'>
-                <p className='mb-0'>{formFeedback}</p>
-            </Alert>
         </>
     );
 }
