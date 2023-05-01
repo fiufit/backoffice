@@ -42,13 +42,14 @@ const BASE_URL = "users";
 export const users = fiufit.injectEndpoints({
     endpoints: builder => ({
         getUsers: builder.query<GetUsersResponse, GetUserRequest>({
-            query: (params) => {
+            query: (request) => {
+                let url = BASE_URL;
                 let queryParamList = [];
-                for (const param in params) {
-                    queryParamList.push(`${param}=${params[param as keyof GetUserRequest]}`);
+                for (const queryParam in request) {
+                    queryParamList.push(`${queryParam}=${request[queryParam as keyof GetUserRequest]}`);
                 }
-                const e = queryParamList.join('&');
-                return `${BASE_URL}?${e}`;
+                if (queryParamList.length > 0) url += `?${queryParamList.join('&')}`;                
+                return url;
             }
         })
       })

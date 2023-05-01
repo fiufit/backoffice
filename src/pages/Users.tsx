@@ -9,17 +9,19 @@ export default function Users() {
         <>
             <Header />
             <Container className='d-flex flex-column flex-grow-1 py-4' fluid>
-                <Row>
+                <Row className='flex-grow-1'>
                     <Col lg={3}>
                         <div className='layout-navbar-lateral'>
                             <Navbar />
                         </div>
                     </Col>
                     <Col lg={9}>
-                        <div className='management-section'>
-                            <h1 className='management-section-title'>Usuarios</h1>
-                            <hr />
-                            <div className='management-section-content'>
+                        <div className='h-100 d-flex flex-column management-section'>
+                            <div>
+                                <h1 className='management-section-title'>Usuarios</h1>
+                                <hr />
+                            </div>
+                            <div className='management-section-content flex-grow-1'>
                                 <UserList />
                             </div>
                         </div>
