@@ -1,32 +1,22 @@
-import SearchBarUsers from '@components/home/SearchBarUsers';
-import UserEditionCards from '@components/home/UserEditionCards';
-import Footer from '@components/Footer';
+import { Col, Container, Pagination, Row } from 'react-bootstrap';
 import Header from '@components/Header';
 import Navbar from '@components/Navbar';
-import { Col, Container, Row } from 'react-bootstrap';
+import Footer from '@components/Footer';
+import UsersContent from '@components/users/UsersContent';
 
 export default function Users() {
-
     return (
         <>
             <Header />
             <Container className='d-flex flex-column flex-grow-1 py-4' fluid>
-                <Row>
+                <Row className='flex-grow-1'>
                     <Col lg={3}>
                         <div className='layout-navbar-lateral'>
                             <Navbar />
                         </div>
                     </Col>
                     <Col lg={9}>
-                        <div className='management-section'>
-                            <h1 className='management-section-title'>Panel de usuarios</h1>
-                            <hr />
-                            <div className='management-section-content'>
-                                <h2>Edición</h2>
-                                <SearchBarUsers />
-                                <UserEditionCards />
-                            </div>
-                        </div>
+                        <UsersContent />
                     </Col>
                 </Row>
             </Container>
