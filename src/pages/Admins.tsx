@@ -9,7 +9,8 @@ import { useAppDispatch } from "@app/hooks";
 import { open } from '@state/createAdminModal';
 
 export default function Admins() {
-    const dispatch = useAppDispatch();
+    
+    const dispatch: any = useAppDispatch();
     const handleShow = () => dispatch(open());
 
     return (

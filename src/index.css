@@ -437,3 +437,11 @@ hr {
   border-color: var(--light-green--primary); 
   color: var(--dark-grey--primary);
 }
+
+/* Trainigns */
+
+.trainings-results-per-page {
+  width: 70px;
+  margin-left: 7px;
+  margin-right: 7px;
+}
