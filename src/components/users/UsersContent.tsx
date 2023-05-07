@@ -2,7 +2,6 @@ import { useState } from 'react';
 import SearchBar from '@components/common/SearchBar';
 import UsersList from '@components/users/UsersList';
 import { useGetUsersQuery } from '@services/users';
-import ServiceResponseInfoMsg from '@components/common/ServiceResponseInfoMsg';
 import Pagination from '@components/common/Pagination';
 
 export default function UsersContent() {
@@ -10,9 +9,14 @@ export default function UsersContent() {
     const pageOffset = 8;
     const [ searchText, setSearchBar ] = useState('');
     const [ page, setPage ] = useState(initialPage);
-    const { data, isFetching } = useGetUsersQuery({ name: searchText, page: page + 1, page_size: pageOffset });
+    const { data, isSuccess, isFetching } = useGetUsersQuery({ name: searchText, page: page + 1, page_size: pageOffset });
     // En caso de querer controlar errores que vengan del servicio o excepciones
     // https://redux-toolkit.js.org/rtk-query/usage-with-typescript#error-result-example
+
+    const setSearchBarWrapper = (searchText: React.SetStateAction<string>) => {
+        setPage(initialPage);
+        setSearchBar(searchText);
+    }
 
     return (
         <div className='management-section h-100 d-flex flex-column'>
@@ -24,7 +28,7 @@ export default function UsersContent() {
             {/* CONTENT */}
             <div className='management-section-content flex-grow-1 d-flex flex-column'>
                 {/* SEARCH BAR */}
-                <SearchBar spinner={isFetching} setSearchBar={setSearchBar}/>
+                <SearchBar spinner={isFetching} setSearchBar={setSearchBarWrapper}/>
                 {/* USERS LIST */}
                 <div className='flex-grow-1'>
                     { data ? <UsersList users={data.data!.users} /> : <></> }

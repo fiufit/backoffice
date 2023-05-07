@@ -14,35 +14,39 @@ export default function Pagination(props: PaginationProps) {
     const [ currentPage, setCurrentPage ] = useState(props.page);
 
     const handlePageClick = (selectedPage: number) => {
-        props.setPage(selectedPage);
         setCurrentPage(selectedPage);
+        props.setPage(selectedPage);
     }
 
     const handlePreviousPageClick = () => {
         const previousPage = currentPage - 1;
         if (previousPage >= 0) {
-            props.setPage(previousPage);
             setCurrentPage(previousPage);
+            props.setPage(previousPage);
         }
     }
 
     const handleNextPageClick = () => {
         const nextPage = currentPage + 1;
         if (nextPage <= lastPage) {
-            props.setPage(nextPage);
             setCurrentPage(nextPage);
+            props.setPage(nextPage);
         }
     }
 
     const handleFirstPageClick = () => {
-        props.setPage(firstpage);
         setCurrentPage(firstpage);
+        props.setPage(firstpage);
     }
 
     const handleLastPageClick = () => {
-        props.setPage(lastPage);
         setCurrentPage(lastPage);
+        props.setPage(lastPage);
     }
+
+    useEffect(() => {
+        setCurrentPage(props.page);
+    }, [props.page])
 
     return (
         <>
@@ -56,7 +60,6 @@ export default function Pagination(props: PaginationProps) {
                             <ReactPagination.Prev onClick={handlePreviousPageClick}/>
                             {
                                 Array(lastPage + 1).fill(<></>).map((_, pageNumber) => {
-
                                     return (
                                         <ReactPagination.Item 
                                             key={pageNumber} 
