@@ -5,7 +5,7 @@ interface Props {
     message: string,
 }
 
-export default function ErrorCard(props: Props) {
+export default function ServiceResponseErrorMsg(props: Props) {
     const { message } = props;
     return (
         <Card className="h-100 text-center">

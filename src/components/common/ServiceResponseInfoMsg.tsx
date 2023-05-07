@@ -5,7 +5,7 @@ interface Props {
     message: string,
 }
 
-export default function InfoCard(props: Props) {
+export default function ServiceResponseInfoMsg(props: Props) {
     const { message } = props;
     return (
         <Card className="h-100 text-center">

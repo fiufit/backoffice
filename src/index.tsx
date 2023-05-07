@@ -13,9 +13,7 @@ rootClasses?.add('flex-column');
 rootClasses?.add('w-100');
 
 ReactDOM.createRoot(root as HTMLElement).render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </React.StrictMode>,
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>
 );

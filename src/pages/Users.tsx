@@ -1,8 +1,8 @@
-import { Col, Container, Row } from 'react-bootstrap';
-import Footer from '@components/Footer';
+import { Col, Container, Pagination, Row } from 'react-bootstrap';
 import Header from '@components/Header';
 import Navbar from '@components/Navbar';
-import UserList from '@components/users/UserList';
+import Footer from '@components/Footer';
+import UsersContent from '@components/users/UsersContent';
 
 export default function Users() {
     return (
@@ -16,15 +16,7 @@ export default function Users() {
                         </div>
                     </Col>
                     <Col lg={9}>
-                        <div className='h-100 d-flex flex-column management-section'>
-                            <div>
-                                <h1 className='management-section-title'>Usuarios</h1>
-                                <hr />
-                            </div>
-                            <div className='management-section-content flex-grow-1'>
-                                <UserList />
-                            </div>
-                        </div>
+                        <UsersContent />
                     </Col>
                 </Row>
             </Container>
