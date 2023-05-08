@@ -5,6 +5,11 @@ interface UserProfileProps {
     user: User
 }
 
+enum Gender {
+    Male = 'Masculino',
+    Female = 'Femenino',
+}
+
 export default function UserProfile(props: UserProfileProps) {
     const { user } = props;
 
@@ -14,6 +19,10 @@ export default function UserProfile(props: UserProfileProps) {
 
     const toLocalTimeString = (date: string, locales: Intl.LocalesArgument, options: Intl.DateTimeFormatOptions) => {
         return new Date(date).toLocaleTimeString(locales, options);
+    }
+
+    const getGender = (isMale: boolean) => {
+        return isMale ? Gender.Male : Gender.Female;
     }
 
     return (
@@ -59,7 +68,7 @@ export default function UserProfile(props: UserProfileProps) {
                             <Col>
                                 <Form.Group className="d-flex flex-column mb-2" controlId="formBasicEmail">
                                     <Form.Label className="mb-0">Sexo</Form.Label>
-                                    <Form.Control type="Text" value={user.IsMale ? 'Masculino' : 'Femenino'} readOnly/>
+                                    <Form.Control type="Text" value={getGender(user.IsMale)} readOnly/>
                                 </Form.Group>
                             </Col>
                         </Row>
