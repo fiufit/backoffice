@@ -8,7 +8,7 @@ export interface Pagination {
 
 export interface User {
     ID: string,
-    DisplayName: String,
+    DisplayName: string,
     Nickname: string,
     Height: number,
     Weight: number,
@@ -17,8 +17,9 @@ export interface User {
     IsMale: boolean,
     IsVerifiedTrainer: boolean,
     BornAt: string,
-    CreatedAt: String,
-    DeleteAt: String,
+    CreatedAt: string,
+    DeleteAt: string,
+    PictureUrl: string,
 }
 
 interface GetUsersResponse {

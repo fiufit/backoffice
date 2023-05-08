@@ -1,12 +1,10 @@
 import { Accordion } from "react-bootstrap";
-import SyncLoader from "react-spinners/SyncLoader";
-import ServiceResponseErrorMsg from "@components/common/ServiceResponseErrorMsg";
 import UserProfile from "./UserProfile";
 import ServiceResponseInfoMsg from "@components/common/ServiceResponseInfoMsg";
-import { useEffect } from "react";
+import { User } from "@services/users";
 
 interface UserListProps {
-    users: any[],
+    users: User[],
 }
 
 export default function UsersList(props: UserListProps) {
@@ -22,7 +20,7 @@ export default function UsersList(props: UserListProps) {
                             <Accordion.Item key={user.ID} eventKey={user.ID}>
                                 <Accordion.Header>{`${user.Nickname}`}</Accordion.Header>
                                 <Accordion.Body>
-                                    <UserProfile />
+                                    <UserProfile user={user}/>
                                 </Accordion.Body>
                             </Accordion.Item>
                         );
