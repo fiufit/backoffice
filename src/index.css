@@ -423,10 +423,10 @@ hr {
   margin-bottom: 0px;
 }
 
-.management-section .accordion .accordion-body {
+/* .management-section .accordion .accordion-body {
   font-style: italic;
   font-size: 1.1rem;
-}
+} */
 
 .management-section .accordion .accordion-header button {
   font-weight: bold;
