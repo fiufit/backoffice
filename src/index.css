@@ -453,3 +453,31 @@ hr {
   margin-left: 7px;
   margin-right: 7px;
 }
+
+.training-accordion-item {
+  border: none;
+  border-bottom: var(--bs-accordion-border-width) solid var(--bs-accordion-border-color);
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+}
+
+.exercise-accordion-item {
+  border: var(--bs-accordion-border-width) solid var(--bs-accordion-border-color);
+  border-bottom-right-radius: var(--bs-accordion-inner-border-radius);
+  border-bottom-left-radius: var(--bs-accordion-inner-border-radius);
+  border-top-left-radius: var(--bs-accordion-inner-border-radius);
+  border-top-right-radius: var(--bs-accordion-inner-border-radius);
+  border-radius: 5px;
+}
+
+.results-not-found {
+  background-color: var(--white--primary);
+  padding: 10px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  font-size: 1.2rem;
+  border-radius: 5px;
+  max-width: 600px;
+}
