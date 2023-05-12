@@ -22,8 +22,8 @@
 
 ### Usuarios
 
-- [ ] Listar usuarios del sistema
-- [ ] Visualizar perfil del usuario
+- [x] Listar usuarios del sistema
+- [x] Visualizar perfil del usuario
 - [ ] Bloquear usuario
 - [ ] Listar transacciones
 - [ ] Cargar Saldo
