@@ -5,9 +5,7 @@ import { Accordion, Form, InputGroup } from "react-bootstrap";
 import Navbar from "@components/Navbar";
 import { Col, Container, Row } from "react-bootstrap";
 import { useGetTrainingsQuery } from '@services/trainings';
-import { FaSearch } from "react-icons/fa";
-import { MouseEventHandler, useEffect, useState } from "react";
-import { Params, useParams } from "react-router-dom";
+import { useState } from "react";
 
 type TrainingType = {
   ID: number;
@@ -40,13 +38,33 @@ type TrainingsResponseType = {
 
 type TrainingsRequestParamsType = Record<string, Record<string, string | number>>;
 
+const toLocalTimeString = (date: string, locales: Intl.LocalesArgument, options: Intl.DateTimeFormatOptions) => {
+    return new Date(date).toLocaleTimeString(locales, options);
+}
+
 const renderExercise = (exercise: ExerciseType) => {
     return (
-        <Accordion.Item eventKey={exercise.ID.toString()}>
+        <Accordion.Item eventKey={exercise.ID.toString()} className="exercise-accordion-item">
             <Accordion.Header>{exercise.Title}</Accordion.Header>
             <Accordion.Body>
-                {exercise.Description}
-                <div>Plan de entrenamiento [ID]: {exercise.TrainingPlanID}</div>
+                    <Form>
+                        <Row>
+                            <Col>
+                                <Form.Group className="mb-2 me-4" controlId="formDescription">
+                                    <Form.Label className="mb-0">Descripción</Form.Label>
+                                    <Form.Control type="Text" value={exercise.Description} readOnly/>
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <Form.Group className="mb-2 me-4" controlId="formTrainingPlanID">
+                                    <Form.Label className="mb-0">Plan de entrenamiento [ID]</Form.Label>
+                                    <Form.Control type="Text" value={exercise.TrainingPlanID} readOnly/>
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                    </Form>
             </Accordion.Body>
         </Accordion.Item>
     );
@@ -54,20 +72,52 @@ const renderExercise = (exercise: ExerciseType) => {
 
 const renderTraining = (training: TrainingType) => {
     return (
-        <Accordion className='py-1'>
-            <Accordion.Item eventKey={training.ID.toString()}>
+        <Accordion className=''>
+            <Accordion.Item eventKey={training.ID.toString()} className="training-accordion-item">
                 <Accordion.Header>{training.Name}</Accordion.Header>
                 <Accordion.Body>
-                        {training.Description}
-                        <hr/>
-                        <div>Dificultad: {training.Difficulty}</div>
-                        <div>Duración: {training.Duration}</div>
-                        <div>Entrenador [ID]: {training.TrainerID}</div>
-                        <div>Fecha de creación: {training.CreatedAt}</div>
-                        <div>Ejercicios: </div>
-                        <Accordion className='py-1'>
-                            {training.Exercises.map((exercise: ExerciseType, i) => renderExercise(exercise) )}
-                        </Accordion>
+                    <Form>
+                        <Row>
+                            <Col>
+                                <Form.Group className="mb-2 me-4" controlId="formDescription">
+                                    <Form.Label className="mb-0">Descripción</Form.Label>
+                                    <Form.Control type="Text" value={training.Description} readOnly/>
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <Form.Group className="mb-2" controlId="formDifficulty">
+                                    <Form.Label className="mb-0">Dificultad</Form.Label>
+                                    <Form.Control type="Text" value={training.Difficulty} readOnly/>
+                                </Form.Group>
+                            </Col>
+                            <Col>
+                                <Form.Group className="mb-2" controlId="formDuration">
+                                    <Form.Label className="mb-0">Duración</Form.Label>
+                                    <Form.Control type="Text" value={training.Duration} readOnly/>
+                                </Form.Group>
+                            </Col>
+                            <Col>
+                                <Form.Group className="d-flex flex-column mb-2" controlId="formTrainerID">
+                                    <Form.Label className="mb-0">Entrenador [ID]</Form.Label>
+                                    <Form.Control type="Text" value={training.TrainerID} readOnly/>
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <Form.Group className="mb-2 me-4" controlId="formCreatedAt">
+                                    <Form.Label className="mb-0">Fecha de creación</Form.Label>
+                                    <Form.Control type="Text" value={toLocalTimeString(training.CreatedAt, 'es-AR', { day: '2-digit', month: '2-digit', year: 'numeric' })} readOnly/>
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                    </Form>
+                    <div>Ejercicios </div>
+                    <Accordion className='py-1'>
+                        {training.Exercises.map((exercise: ExerciseType, i) => renderExercise(exercise) )}
+                    </Accordion>
                 </Accordion.Body>
             </Accordion.Item>
         </Accordion>
@@ -82,6 +132,7 @@ export default function Trainings() {
     var totalRowsDB = 0;
     var totalPages = 1;
     var trainings: TrainingType[] = [];
+    var trainingsFound = false;
 
     // Filter
     const [searchTrainingName, setSearchTrainingName] = useState("");
@@ -114,19 +165,35 @@ export default function Trainings() {
         totalPages = Math.ceil(totalRowsDB / pageSize);
         trainings = responseData.trainings;
 
+        if (trainings.length > 0) { trainingsFound = true} 
+        else { trainingsFound = false; }
+
     } else {
         // deberian tratarse de otra manera, con captura de errores, tal vez mostrando un mensaje en resultados.
+        totalPages = 1;
+        totalRowsDB = 0;
+        trainings = [];
+        trainingsFound = false;
         console.log("error response data unknown from fetch");
     }
 
-    let items = [];
+    let items = [
+        <Pagination.Item onClick={() => setPageActive(1)}> {"«"} </Pagination.Item>,
+        <Pagination.Item onClick={() => setPageActive((pageActive > 1) ? (pageActive - 1) : 1)}> {"‹"} </Pagination.Item>
+    ];
+    
     for (let number = 1; number <= totalPages; number++) {
         items.push(
-            <Pagination.Item key={number} active={number === pageActive} onClick={() => setPageActive(number)}>
-            {number}
-            </Pagination.Item>,
+            <Pagination.Item key={number} active={number === pageActive} onClick={() => setPageActive(number)}> {number} </Pagination.Item>,
         );
     }
+
+    items.push(
+        <Pagination.Item onClick={() => setPageActive((pageActive < totalPages) ? (pageActive + 1) : totalPages)}> {"›"} </Pagination.Item>        
+    );
+    items.push(
+        <Pagination.Item onClick={() => setPageActive(totalPages)}> {"»"} </Pagination.Item>
+    );
     
     return (
         <>
@@ -157,13 +224,16 @@ export default function Trainings() {
                                         <Form.Control type="text" placeholder="ID del entrenador" id="trainer_id-input" aria-label="trainer_id-input" className="fiufit-form-input" onKeyUp={(event) => {setPageActive(1); setSearchTrainerID(event.currentTarget.value)}} />
                                     </InputGroup>
 
-                                    <InputGroup className="mb-2">
-                                        <Form.Control type="text" placeholder="Dificultad" id="difficulty-input" aria-label="difficulty-input" className="fiufit-form-input" onKeyUp={(event) => {setPageActive(1); setSearchTrainingDifficulty(event.currentTarget.value)}} />
-                                    </InputGroup>
+                                    <Form.Control as="select" aria-label="trainings-options" className="form-select form-select-training-difficulty d-inline-block" onChange={(event) => {setPageActive(1); setSearchTrainingDifficulty(event.currentTarget.value)}}>
+                                        <option value=""></option>
+                                        <option value="Beginner">Principiante</option>
+                                        <option value="Intermediate">Intermedio</option>
+                                        <option value="Expert">Experto</option>
+                                    </Form.Control>
 
                                     <InputGroup className="mb-2">
-                                        <Form.Control type="number" placeholder="Duración mínima" id="min_duration-input" aria-label="min_duration-input" className="fiufit-form-input" onKeyUp={(event) => {setPageActive(1); setSearchTrainingMinDuration(Number(event.currentTarget.value))}} />
-                                        <Form.Control type="number" placeholder="Duración máxima" id="max_duration-input" aria-label="max_duration-input" className="fiufit-form-input" onKeyUp={(event) => {setPageActive(1); setSearchTrainingMaxDuration(Number(event.currentTarget.value))}} />
+                                        <Form.Control type="number" min="0" placeholder="Duración mínima" id="min_duration-input" aria-label="min_duration-input" className="fiufit-form-input" onChange={(event) => {setPageActive(1); setSearchTrainingMinDuration(Number(event.currentTarget.value))}} />
+                                        <Form.Control type="number" min="0" placeholder="Duración máxima" id="max_duration-input" aria-label="max_duration-input" className="fiufit-form-input" onChange={(event) => {setPageActive(1); setSearchTrainingMaxDuration(Number(event.currentTarget.value))}} />
                                     </InputGroup>
                                 </Form>
 
@@ -182,11 +252,14 @@ export default function Trainings() {
                                 </div>
 
 
-                                {trainings.map((data: TrainingType, i: number) => (                   
+                                {(trainingsFound) ? 
+                                trainings.map((data: TrainingType, i: number) => (             
                                     <div key={i}>
                                         {renderTraining(data)}
                                     </div> 
-                                ))}
+                                )) : 
+                                <div className="results-not-found">No se han encontrado resultados.</div>
+                            }
 
                                 <div id="admin-edition-pagination">
                                     <Pagination>{items}</Pagination>
