@@ -266,7 +266,3 @@ export default function Trainings() {
         </>
     );
 };
-function moment(date: string) {
-    throw new Error("Function not implemented.");
-}
-
