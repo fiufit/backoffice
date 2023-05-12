@@ -488,3 +488,7 @@ hr {
   margin-top: 10px;
   margin-bottom: 5px;
 }
+
+.form-select-training-difficulty:invalid, .form-select-training-difficulty option[value=""] {
+  color: #999999;
+}

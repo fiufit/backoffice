@@ -225,7 +225,7 @@ export default function Trainings() {
                                     </InputGroup>
 
                                     <Form.Control as="select" aria-label="trainings-options" className="form-select form-select-training-difficulty d-inline-block" onChange={(event) => {setPageActive(1); setSearchTrainingDifficulty(event.currentTarget.value)}}>
-                                        <option value=""></option>
+                                        <option value="">Dificultad</option>
                                         <option value="Beginner">Principiante</option>
                                         <option value="Intermediate">Intermedio</option>
                                         <option value="Expert">Experto</option>
