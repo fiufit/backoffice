@@ -170,6 +170,10 @@ export default function Trainings() {
 
     } else {
         // deberian tratarse de otra manera, con captura de errores, tal vez mostrando un mensaje en resultados.
+        totalPages = 1;
+        totalRowsDB = 0;
+        trainings = [];
+        trainingsFound = false;
         console.log("error response data unknown from fetch");
     }
 
@@ -220,13 +224,16 @@ export default function Trainings() {
                                         <Form.Control type="text" placeholder="ID del entrenador" id="trainer_id-input" aria-label="trainer_id-input" className="fiufit-form-input" onKeyUp={(event) => {setPageActive(1); setSearchTrainerID(event.currentTarget.value)}} />
                                     </InputGroup>
 
-                                    <InputGroup className="mb-2">
-                                        <Form.Control type="text" placeholder="Dificultad" id="difficulty-input" aria-label="difficulty-input" className="fiufit-form-input" onKeyUp={(event) => {setPageActive(1); setSearchTrainingDifficulty(event.currentTarget.value)}} />
-                                    </InputGroup>
+                                    <Form.Control as="select" aria-label="trainings-options" className="form-select form-select-training-difficulty d-inline-block" onChange={(event) => {setPageActive(1); setSearchTrainingDifficulty(event.currentTarget.value)}}>
+                                        <option value=""></option>
+                                        <option value="Beginner">Principiante</option>
+                                        <option value="Intermediate">Intermedio</option>
+                                        <option value="Expert">Experto</option>
+                                    </Form.Control>
 
                                     <InputGroup className="mb-2">
-                                        <Form.Control type="text" placeholder="Duración mínima" id="min_duration-input" aria-label="min_duration-input" className="fiufit-form-input" onKeyUp={(event) => {setPageActive(1); setSearchTrainingMinDuration(Number(event.currentTarget.value))}} />
-                                        <Form.Control type="text" placeholder="Duración máxima" id="max_duration-input" aria-label="max_duration-input" className="fiufit-form-input" onKeyUp={(event) => {setPageActive(1); setSearchTrainingMaxDuration(Number(event.currentTarget.value))}} />
+                                        <Form.Control type="number" min="0" placeholder="Duración mínima" id="min_duration-input" aria-label="min_duration-input" className="fiufit-form-input" onChange={(event) => {setPageActive(1); setSearchTrainingMinDuration(Number(event.currentTarget.value))}} />
+                                        <Form.Control type="number" min="0" placeholder="Duración máxima" id="max_duration-input" aria-label="max_duration-input" className="fiufit-form-input" onChange={(event) => {setPageActive(1); setSearchTrainingMaxDuration(Number(event.currentTarget.value))}} />
                                     </InputGroup>
                                 </Form>
 
