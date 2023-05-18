@@ -5,7 +5,9 @@ import { Accordion, Form, InputGroup } from "react-bootstrap";
 import Navbar from "@components/Navbar";
 import { Col, Container, Row } from "react-bootstrap";
 import { useGetTrainingsQuery } from '@services/trainings';
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { delay, toLocalTimeString } from '@utils/utils';
+import { start } from "@popperjs/core";
 
 type TrainingType = {
   ID: number;
@@ -37,10 +39,6 @@ type TrainingsResponseType = {
 };
 
 type TrainingsRequestParamsType = Record<string, Record<string, string | number>>;
-
-const toLocalTimeString = (date: string, locales: Intl.LocalesArgument, options: Intl.DateTimeFormatOptions) => {
-    return new Date(date).toLocaleTimeString(locales, options);
-}
 
 const renderExercise = (exercise: ExerciseType) => {
     return (
@@ -124,6 +122,47 @@ const renderTraining = (training: TrainingType) => {
     );
 }
 
+const getPaginationLimits = (pageActive: number, maxPages: number): [number, number] => {
+
+    if (pageActive < 1) return [1, 1];
+
+    const cantBeforPages = 5;
+    const cantAfterPages = 4;
+
+    let startNumber = pageActive - cantBeforPages;
+    let endNumber = pageActive + cantAfterPages;
+    let startNumberValid = true;
+    let endNumberValid = true;
+
+    do {
+
+        if (startNumber < 1) {
+
+            startNumberValid = false;
+            startNumber++;
+            endNumber++;
+
+        } else {
+            startNumberValid = true;
+        }
+
+    } while (!startNumberValid);
+    
+    do {
+
+        if (endNumber > maxPages) {
+            endNumberValid = false;
+            endNumber--;
+            if ((startNumber - 1) >= 1) { startNumber--; }
+        } else {
+            endNumberValid = true;
+        }
+
+    } while (!endNumberValid)
+
+    return [startNumber, endNumber];
+}
+
 export default function Trainings() {
 
     // Default
@@ -141,7 +180,64 @@ export default function Trainings() {
     const [searchTrainerID, setSearchTrainerID] = useState("");
     const [searchTrainingMinDuration, setSearchTrainingMinDuration] = useState(0);
     const [searchTrainingMaxDuration, setSearchTrainingMaxDuration] = useState(0);
-    
+    const filterName = useRef<HTMLInputElement>(null);
+    const filterDescription = useRef<HTMLTextAreaElement>(null);
+    const filterTrainerID = useRef<HTMLInputElement>(null);
+    const filterMinDuration = useRef<HTMLInputElement>(null);
+    const filterMaxDuration = useRef<HTMLInputElement>(null);
+
+
+    const handleFilter = async (event: any) => {
+
+        const actualValue = event.currentTarget.value;
+        const id = event.currentTarget.id;
+        const wait_until_stop_typing = 1000;
+       
+        await delay(wait_until_stop_typing);
+
+        switch (id) {
+
+            case "name-filter": 
+                if (filterName.current?.value == actualValue) { 
+                    setPageActive(1); 
+                    setSearchTrainingName(actualValue); 
+                }
+                break;
+
+            case "description-filter": 
+                if (filterDescription.current?.value == actualValue) { 
+                    setPageActive(1); 
+                    setSearchTrainingDescription(actualValue); 
+                }
+                break;
+
+            case "trainer_id-filter": 
+                if (filterTrainerID.current?.value == actualValue) { 
+                    setPageActive(1); 
+                    setSearchTrainerID(actualValue); 
+                }
+                break;
+
+            case "min_duration-filter": 
+                if (filterMinDuration.current?.value == actualValue) { 
+                    setPageActive(1); 
+                    setSearchTrainingMinDuration(Number(actualValue)); 
+                }
+                break;
+
+            case "max_duration-filter": 
+                if (filterMaxDuration.current?.value == actualValue) { 
+                    setPageActive(1); 
+                    setSearchTrainingMaxDuration(Number(actualValue)); 
+                }
+                break;
+
+            default: break;
+        }
+
+    }
+
+    // Request
     var request: TrainingsRequestParamsType = { params: { 
 
         page: pageActive, 
@@ -177,12 +273,15 @@ export default function Trainings() {
         console.log("error response data unknown from fetch");
     }
 
+    const [paginationStart, paginationEnd] = getPaginationLimits(pageActive, totalPages);
+    
     let items = [
         <Pagination.Item onClick={() => setPageActive(1)}> {"«"} </Pagination.Item>,
         <Pagination.Item onClick={() => setPageActive((pageActive > 1) ? (pageActive - 1) : 1)}> {"‹"} </Pagination.Item>
     ];
-    
-    for (let number = 1; number <= totalPages; number++) {
+
+    for (let number = paginationStart; number <= paginationEnd; number++) {
+
         items.push(
             <Pagination.Item key={number} active={number === pageActive} onClick={() => setPageActive(number)}> {number} </Pagination.Item>,
         );
@@ -213,15 +312,15 @@ export default function Trainings() {
                                 <h2>Filtrar búsqueda</h2>
                                 <Form id='trainings-form-search' className="mx-auto">
                                     <InputGroup className="mb-2">
-                                        <Form.Control type="text" placeholder="Nombre" id="name-input" aria-label="name-input" className="fiufit-form-input" onKeyUp={(event) => {setPageActive(1); setSearchTrainingName(event.currentTarget.value)}} />
+                                        <Form.Control type="text" placeholder="Nombre" id="name-filter" aria-label="name-filter" className="fiufit-form-input" ref={filterName} onKeyUp={(event) => handleFilter(event)} />
                                     </InputGroup>
                                     
                                     <InputGroup className="mb-2">
-                                        <Form.Control as="textarea" placeholder="Descripción" id="description-input" aria-label="description-input" className="fiufit-form-input" onKeyUp={(event) => {setPageActive(1); setSearchTrainingDescription(event.currentTarget.value)}} />
+                                        <Form.Control as="textarea" placeholder="Descripción" id="description-filter" aria-label="description-filter" className="fiufit-form-input" ref={filterDescription} onKeyUp={(event) => handleFilter(event)} />
                                     </InputGroup>
 
                                     <InputGroup className="mb-2">
-                                        <Form.Control type="text" placeholder="ID del entrenador" id="trainer_id-input" aria-label="trainer_id-input" className="fiufit-form-input" onKeyUp={(event) => {setPageActive(1); setSearchTrainerID(event.currentTarget.value)}} />
+                                        <Form.Control type="text" placeholder="ID del entrenador" id="trainer_id-filter" aria-label="trainer_id-filter" className="fiufit-form-input" ref={filterTrainerID} onKeyUp={(event) => handleFilter(event)} />
                                     </InputGroup>
 
                                     <Form.Control as="select" aria-label="trainings-options" className="form-select form-select-training-difficulty d-inline-block" onChange={(event) => {setPageActive(1); setSearchTrainingDifficulty(event.currentTarget.value)}}>
@@ -232,8 +331,8 @@ export default function Trainings() {
                                     </Form.Control>
 
                                     <InputGroup className="mb-2">
-                                        <Form.Control type="number" min="0" placeholder="Duración mínima" id="min_duration-input" aria-label="min_duration-input" className="fiufit-form-input" onChange={(event) => {setPageActive(1); setSearchTrainingMinDuration(Number(event.currentTarget.value))}} />
-                                        <Form.Control type="number" min="0" placeholder="Duración máxima" id="max_duration-input" aria-label="max_duration-input" className="fiufit-form-input" onChange={(event) => {setPageActive(1); setSearchTrainingMaxDuration(Number(event.currentTarget.value))}} />
+                                        <Form.Control type="number" min="0" placeholder="Duración mínima" id="min_duration-filter" aria-label="min_duration-filter" className="fiufit-form-input" ref={filterMinDuration} onChange={(event) => handleFilter(event)} />
+                                        <Form.Control type="number" min="0" placeholder="Duración máxima" id="max_duration-filter" aria-label="max_duration-filter" className="fiufit-form-input" ref={filterMaxDuration} onChange={(event) => handleFilter(event)} />
                                     </InputGroup>
                                 </Form>
 
