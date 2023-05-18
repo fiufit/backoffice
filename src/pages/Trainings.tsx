@@ -323,7 +323,7 @@ export default function Trainings() {
                                         <Form.Control type="text" placeholder="ID del entrenador" id="trainer_id-filter" aria-label="trainer_id-filter" className="fiufit-form-input" ref={filterTrainerID} onKeyUp={(event) => handleFilter(event)} />
                                     </InputGroup>
 
-                                    <Form.Control as="select" aria-label="trainings-options" className="form-select form-select-training-difficulty d-inline-block" onChange={(event) => {setPageActive(1); setSearchTrainingDifficulty(event.currentTarget.value)}}>
+                                    <Form.Control as="select" aria-label="trainings-options" className={"form-select form-select-training-difficulty d-inline-block "+((searchTrainingDifficulty == "") ? "trainings-filter-difficulty-not-selected" : "")} onChange={(event) => {setPageActive(1); setSearchTrainingDifficulty(event.currentTarget.value)}}>
                                         <option value="">Dificultad</option>
                                         <option value="Beginner">Principiante</option>
                                         <option value="Intermediate">Intermedio</option>
