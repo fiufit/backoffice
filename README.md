@@ -45,6 +45,23 @@
 
 ### Metricas
 
-- [ ] Metricas de usuarios
-- [ ] Metricas de contenido
-- [ ] Metricas de transacciones
+- [ ] Métricas de usuarios
+
+1. Métricas de nuevos usuarios utilizando mail y contraseña
+2. Métricas de nuevos usuarios utilizando identidad federada
+3. Métricas de login de usuarios utilizando mail y contraseña
+4. Métricas de login de usuarios utilizando identidad federada
+5. Métricas de usuarios bloqueados
+6. Métricas de recupero de contraseña
+7. Métricas de usuarios por zona geográfica
+
+- [ ] Métricas de contenido
+
+1. Métricas de nuevos entrenamientos
+2. Métricas de entrenamientos por tipo
+3. Métricas de usuarios
+4. Métricas de contenidos por usuario
+
+- [ ] Métricas de transacciones
+
+1. Métricas de aportes
