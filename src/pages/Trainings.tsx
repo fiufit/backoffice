@@ -5,9 +5,8 @@ import { Accordion, Form, InputGroup } from "react-bootstrap";
 import Navbar from "@components/Navbar";
 import { Col, Container, Row } from "react-bootstrap";
 import { useGetTrainingsQuery } from '@services/trainings';
-import { useRef, useState } from "react";
-import { delay, toLocalTimeString } from '@utils/utils';
-import { start } from "@popperjs/core";
+import { useState } from "react";
+import { debounce, toLocalTimeString } from '@utils/utils';
 
 type TrainingType = {
   ID: number;
@@ -180,62 +179,44 @@ export default function Trainings() {
     const [searchTrainerID, setSearchTrainerID] = useState("");
     const [searchTrainingMinDuration, setSearchTrainingMinDuration] = useState(0);
     const [searchTrainingMaxDuration, setSearchTrainingMaxDuration] = useState(0);
-    const filterName = useRef<HTMLInputElement>(null);
-    const filterDescription = useRef<HTMLTextAreaElement>(null);
-    const filterTrainerID = useRef<HTMLInputElement>(null);
-    const filterMinDuration = useRef<HTMLInputElement>(null);
-    const filterMaxDuration = useRef<HTMLInputElement>(null);
 
+    const timeBeforeRequest = 750;
+    const handleFilter = debounce((event: React.ChangeEvent<HTMLInputElement>) => {
 
-    const handleFilter = async (event: any) => {
-
-        const actualValue = event.currentTarget.value;
-        const id = event.currentTarget.id;
-        const wait_until_stop_typing = 1000;
-       
-        await delay(wait_until_stop_typing);
+        const newValue = event.target.value;
+        const id = event.target.id;
 
         switch (id) {
 
             case "name-filter": 
-                if (filterName.current?.value == actualValue) { 
-                    setPageActive(1); 
-                    setSearchTrainingName(actualValue); 
-                }
+                setPageActive(1); 
+                setSearchTrainingName(newValue); 
                 break;
 
             case "description-filter": 
-                if (filterDescription.current?.value == actualValue) { 
-                    setPageActive(1); 
-                    setSearchTrainingDescription(actualValue); 
-                }
+                setPageActive(1); 
+                setSearchTrainingDescription(newValue); 
                 break;
 
             case "trainer_id-filter": 
-                if (filterTrainerID.current?.value == actualValue) { 
-                    setPageActive(1); 
-                    setSearchTrainerID(actualValue); 
-                }
+                setPageActive(1); 
+                setSearchTrainerID(newValue); 
                 break;
 
             case "min_duration-filter": 
-                if (filterMinDuration.current?.value == actualValue) { 
-                    setPageActive(1); 
-                    setSearchTrainingMinDuration(Number(actualValue)); 
-                }
+                setPageActive(1); 
+                setSearchTrainingMinDuration(Number(newValue)); 
                 break;
 
             case "max_duration-filter": 
-                if (filterMaxDuration.current?.value == actualValue) { 
-                    setPageActive(1); 
-                    setSearchTrainingMaxDuration(Number(actualValue)); 
-                }
+                setPageActive(1); 
+                setSearchTrainingMaxDuration(Number(newValue)); 
                 break;
 
             default: break;
         }
 
-    }
+    }, timeBeforeRequest);
 
     // Request
     var request: TrainingsRequestParamsType = { params: { 
@@ -312,15 +293,15 @@ export default function Trainings() {
                                 <h2>Filtrar búsqueda</h2>
                                 <Form id='trainings-form-search' className="mx-auto">
                                     <InputGroup className="mb-2">
-                                        <Form.Control type="text" placeholder="Nombre" id="name-filter" aria-label="name-filter" className="fiufit-form-input" ref={filterName} onKeyUp={(event) => handleFilter(event)} />
+                                        <Form.Control type="text" placeholder="Nombre" id="name-filter" aria-label="name-filter" className="fiufit-form-input" onChange={handleFilter} />
                                     </InputGroup>
                                     
                                     <InputGroup className="mb-2">
-                                        <Form.Control as="textarea" placeholder="Descripción" id="description-filter" aria-label="description-filter" className="fiufit-form-input" ref={filterDescription} onKeyUp={(event) => handleFilter(event)} />
+                                        <Form.Control as="textarea" placeholder="Descripción" id="description-filter" aria-label="description-filter" className="fiufit-form-input" onChange={handleFilter} />
                                     </InputGroup>
 
                                     <InputGroup className="mb-2">
-                                        <Form.Control type="text" placeholder="ID del entrenador" id="trainer_id-filter" aria-label="trainer_id-filter" className="fiufit-form-input" ref={filterTrainerID} onKeyUp={(event) => handleFilter(event)} />
+                                        <Form.Control type="text" placeholder="ID del entrenador" id="trainer_id-filter" aria-label="trainer_id-filter" className="fiufit-form-input" onChange={handleFilter} />
                                     </InputGroup>
 
                                     <Form.Control as="select" aria-label="trainings-options" className={"form-select form-select-training-difficulty d-inline-block "+((searchTrainingDifficulty == "") ? "trainings-filter-difficulty-not-selected" : "")} onChange={(event) => {setPageActive(1); setSearchTrainingDifficulty(event.currentTarget.value)}}>
@@ -331,8 +312,8 @@ export default function Trainings() {
                                     </Form.Control>
 
                                     <InputGroup className="mb-2">
-                                        <Form.Control type="number" min="0" placeholder="Duración mínima" id="min_duration-filter" aria-label="min_duration-filter" className="fiufit-form-input" ref={filterMinDuration} onChange={(event) => handleFilter(event)} />
-                                        <Form.Control type="number" min="0" placeholder="Duración máxima" id="max_duration-filter" aria-label="max_duration-filter" className="fiufit-form-input" ref={filterMaxDuration} onChange={(event) => handleFilter(event)} />
+                                        <Form.Control type="number" min="0" placeholder="Duración mínima" id="min_duration-filter" aria-label="min_duration-filter" className="fiufit-form-input" onChange={handleFilter} />
+                                        <Form.Control type="number" min="0" placeholder="Duración máxima" id="max_duration-filter" aria-label="max_duration-filter" className="fiufit-form-input" onChange={handleFilter} />
                                     </InputGroup>
                                 </Form>
 
