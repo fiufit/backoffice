@@ -1,5 +1,8 @@
 import Footer from '@components/Footer';
 import Header from '@components/Header';
+import MetricsTransactions from '@components/MetricsTransactions';
+import MetricsUsers from '@components/MetricsUsers';
+import MetricsTrainings from '@components/MetricsTrainings';
 import Navbar from '@components/Navbar';
 import { Col, Row } from 'react-bootstrap';
 import Container from 'react-bootstrap/esm/Container';
@@ -22,6 +25,9 @@ export default function Metrics() {
                             <hr />
                             <div className='management-section-content'>
                                 <div id='management-section-metrics'>
+                                    <MetricsUsers />
+                                    <MetricsTrainings />
+                                    <MetricsTransactions />
                                 </div>
                             </div>
                         </div> 

@@ -9,32 +9,32 @@ import { useState } from "react";
 import { debounce, toLocalTimeString } from '@utils/utils';
 
 type TrainingType = {
-  ID: number;
-  Name: string;
-  Description: string;
-  Difficulty: string;
-  Duration: number;
-  TrainerID: string;
-  CreatedAt: string;
-  Exercises: ExerciseType[];
+    ID: number;
+    Name: string;
+    Description: string;
+    Difficulty: string;
+    Duration: number;
+    TrainerID: string;
+    CreatedAt: string;
+    Exercises: ExerciseType[];
 };
 
 type ExerciseType = {
-  ID: number;
-  TrainingPlanID: number;
-  Title: string;
-  Description: string;
+    ID: number;
+    TrainingPlanID: number;
+    Title: string;
+    Description: string;
 };
 
 type PaginationType = {
-  page: number;
-  page_size: number;
-  total_rows: number;
+    page: number;
+    page_size: number;
+    total_rows: number;
 };
 
 type TrainingsResponseType = {
-  pagination: PaginationType;
-  trainings: TrainingType[];
+    pagination: PaginationType;
+    trainings: TrainingType[];
 };
 
 type TrainingsRequestParamsType = Record<string, Record<string, string | number>>;
