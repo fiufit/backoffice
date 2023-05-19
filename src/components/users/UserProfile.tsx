@@ -1,5 +1,6 @@
 import { User } from "@services/users";
 import { Col, Container, Form, Row } from "react-bootstrap";
+import { toLocalTimeString, toLocalDateString } from "@utils/utils";
 
 interface UserProfileProps {
     user: User
@@ -12,14 +13,6 @@ enum Gender {
 
 export default function UserProfile(props: UserProfileProps) {
     const { user } = props;
-
-    const toLocalDateString = (date: string, locales: Intl.LocalesArgument, options: Intl.DateTimeFormatOptions) => {
-        return new Date(date).toLocaleDateString(locales, options);
-    }
-
-    const toLocalTimeString = (date: string, locales: Intl.LocalesArgument, options: Intl.DateTimeFormatOptions) => {
-        return new Date(date).toLocaleTimeString(locales, options);
-    }
 
     const getGender = (isMale: boolean) => {
         return isMale ? Gender.Male : Gender.Female;

@@ -1,5 +1,6 @@
 import { FaSearch } from 'react-icons/fa';
 import { Form, InputGroup, Spinner } from 'react-bootstrap';
+import { debounce } from '@utils/utils';
 
 interface SearchBarProps {
     spinner: boolean,
@@ -9,18 +10,10 @@ interface SearchBarProps {
 export default function SearchBar(props: SearchBarProps) {
     const debounceDelay = 750;
 
-    const debounce = (callback: (event: React.ChangeEvent<HTMLInputElement>) => void) => {
-        let timeout = 0;
-        return (event: React.ChangeEvent<HTMLInputElement>) => {
-            clearTimeout(timeout);
-            timeout = setTimeout(callback, debounceDelay, event);
-        }
-    }
-
     const handleChange = debounce((event: React.ChangeEvent<HTMLInputElement>) => {
         const element = event.target;
         props.setSearchBar(element.value);
-    });
+    }, debounceDelay);
 
     return (
         <Form id='edit-admin-form-search'>
