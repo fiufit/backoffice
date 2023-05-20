@@ -1,6 +1,32 @@
 import { PureComponent } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LabelList, Label, PieChart, Pie, Cell } from 'recharts';
-import { Col, Container, Row } from "react-bootstrap";
+import { Col, Container, Form, InputGroup, Row } from "react-bootstrap";
+
+function NewUsersTotalNumbers() {
+    return (
+        <div className='mt-3'>
+            <h3 className='mb-2'>Estadísticas</h3>
+            <Form className="mx-auto">
+                <Row>
+                    <Col>
+                        <Form.Group className="mb-2" controlId="formTotalUsersClassic">
+                            <Form.Label className="mb-0">Total de usuarios registrados con e-mail y contraseña</Form.Label>
+                            <Form.Control type="text" id="users-total-clasica" aria-label="users-total-clasica" disabled value="790" readOnly />
+                        </Form.Group>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <Form.Group className="mb-2">
+                            <Form.Label className="mb-0">Total de usuarios registrados de forma federada</Form.Label>
+                            <Form.Control type="text" id="users-total-federada" aria-label="users-total-federada" disabled value="340" readOnly />
+                        </Form.Group>
+                    </Col>
+                </Row>
+            </Form>
+        </div>
+    );
+}
 
 class NewUsersGraphic extends PureComponent {
 
@@ -81,7 +107,7 @@ interface CustomizedLabelProps {
   index: number;
 }
 
-class ComparissonPreviousMonth extends PureComponent {
+class ComparisonPreviousMonth extends PureComponent {
   
     render() {
 
@@ -138,7 +164,10 @@ export default function MetricsNewUsers() {
                     <NewUsersGraphic />
                 </Col>
                 <Col>
-                    <ComparissonPreviousMonth />
+                    <ComparisonPreviousMonth />
+                </Col>
+                <Col lg={12} xs={12}>
+                    <NewUsersTotalNumbers />
                 </Col>
             </Row>
         </Container>

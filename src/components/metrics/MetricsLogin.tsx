@@ -1,6 +1,25 @@
 import { PureComponent } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LabelList, Label } from 'recharts';
-import { Col, Container, Row } from "react-bootstrap";
+import { Col, Container, Form, Row } from "react-bootstrap";
+
+function HistoricRecordMonth() {
+    return (
+        <div className='mt-3'>
+            <h3 className='mb-2'>Estadísticas</h3>
+            <Form className="mx-auto">
+                <Row>
+                    <Col>
+                        <Form.Group className="mb-2" controlId="formHistoricRecordLogin">
+                            <Form.Label className="mb-0">Record histórico de usuarios logueados en 1 mes</Form.Label>
+                            <Form.Control type="text" id="users-total-record" aria-label="users-total-record" disabled value="320" readOnly />
+                        </Form.Group>
+                    </Col>
+                </Row>
+            </Form>
+        </div>
+    );
+}
+
 
 class LoginsGraphic extends PureComponent {
 
@@ -77,6 +96,9 @@ export default function MetricsLogin() {
             <Row>
                 <Col>
                     <LoginsGraphic />
+                </Col>
+                <Col lg={12} xs={12}>
+                    <HistoricRecordMonth />
                 </Col>
             </Row>
         </Container>
