@@ -10,7 +10,7 @@ function HistoricRecordMonth() {
                 <Row>
                     <Col>
                         <Form.Group className="mb-2" controlId="formHistoricRecordLogin">
-                            <Form.Label className="mb-0">Record histórico de usuarios logueados en 1 mes</Form.Label>
+                            <Form.Label className="mb-0">Record histórico de usuarios logueados en 1 mes (e-mail y contraseña + identidad federada)</Form.Label>
                             <Form.Control type="text" id="users-total-record" aria-label="users-total-record" disabled value="320" readOnly />
                         </Form.Group>
                     </Col>
