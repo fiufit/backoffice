@@ -493,6 +493,10 @@ hr {
 
 /* METRICS */
 
+.metrics-accordion .accordion .accordion-button {
+  font-size: 1.30rem;
+}
+
 .metrics-accordion .accordion .accordion-button:not(.collapsed) {
   background-color: var(--dark-blue--secondary);
   color: var(--white--primary);
