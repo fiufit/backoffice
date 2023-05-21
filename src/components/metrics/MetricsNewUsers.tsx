@@ -23,6 +23,14 @@ function NewUsersTotalNumbers() {
                         </Form.Group>
                     </Col>
                 </Row>
+                <Row>
+                    <Col>
+                        <Form.Group className="mb-2">
+                            <Form.Label className="mb-0">Total de usuarios registrados en FIUFIT</Form.Label>
+                            <Form.Control type="text" id="users-total-register" aria-label="users-total-register" disabled value="1130" readOnly />
+                        </Form.Group>
+                    </Col>
+                </Row>
             </Form>
         </div>
     );
