@@ -120,8 +120,8 @@ class ComparisonPreviousMonth extends PureComponent {
     render() {
 
         const data = [
-        { name: 'Mayo (452)', value: 452 }, /* sumar al name la cantidad en mayo entre parentesis */
-        { name: 'Junio (337)', value: 337 }, /* sumar al name la cantidad en junio entre parentesis */
+        { name: 'Mayo', value: 452 },
+        { name: 'Junio', value: 337 },
         ];
 
         const COLORS = ['#46bbf2', '#f246bb'];

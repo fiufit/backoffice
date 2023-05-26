@@ -1,5 +1,5 @@
 import { PureComponent } from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LabelList, Label } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LabelList, Label, PieChart, Cell, Pie } from 'recharts';
 import { Col, Container, Form, Row } from "react-bootstrap";
 
 function HistoricRecordMonth() {
@@ -11,13 +11,72 @@ function HistoricRecordMonth() {
                     <Col>
                         <Form.Group className="mb-2" controlId="formHistoricRecordLogin">
                             <Form.Label className="mb-0">Record histórico de usuarios logueados en 1 mes (e-mail y contraseña + identidad federada)</Form.Label>
-                            <Form.Control type="text" id="users-total-record" aria-label="users-total-record" disabled value="320" readOnly />
+                            <Form.Control type="text" id="users-total-record" aria-label="users-total-record" disabled value="4800" readOnly />
                         </Form.Group>
                     </Col>
                 </Row>
             </Form>
         </div>
     );
+}
+
+interface CustomizedLabelProps {
+  cx: number;
+  cy: number;
+  midAngle: number;
+  innerRadius: number;
+  outerRadius: number;
+  percent: number;
+  index: number;
+}
+
+class ComparisonPreviousMonth extends PureComponent {
+  
+    render() {
+
+        const data = [
+        { name: 'Mayo', value: 6690 },
+        { name: 'Junio', value: 6190 },
+        ];
+
+        const COLORS = ['#46bbf2', '#f246bb'];
+
+        const RADIAN = Math.PI / 180;
+        const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }: CustomizedLabelProps) => {
+        const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+        const x = cx + radius * Math.cos(-midAngle * RADIAN);
+        const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+        return (
+            <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
+            {`${(percent * 100).toFixed(0)}%`}
+            </text>
+        );
+        };
+
+        return (
+            <div>
+                <h4 className='mb-3 mt-0 text-center '>Comparación con el mes anterior.</h4>
+                <PieChart width={400} height={380}>
+                <Pie
+                    data={data}
+                    cx={240}
+                    cy={170}
+                    labelLine={false}
+                    label={renderCustomizedLabel}
+                    outerRadius={130}
+                    fill="#8884d8"
+                    dataKey="value"
+                >
+                    {data.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                </Pie>
+                <Legend />
+                </PieChart>
+            </div>
+        );
+    }
 }
 
 
@@ -96,6 +155,9 @@ export default function MetricsLogin() {
             <Row>
                 <Col>
                     <LoginsGraphic />
+                </Col>
+                <Col>
+                    <ComparisonPreviousMonth />
                 </Col>
                 <Col lg={12} xs={12}>
                     <HistoricRecordMonth />

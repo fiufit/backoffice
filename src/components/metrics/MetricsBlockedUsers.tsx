@@ -1,5 +1,5 @@
 import { PureComponent } from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { Col, Container, Form, Row } from "react-bootstrap";
 import { PieChart, Pie, Cell, Legend } from 'recharts';
 
 interface CustomizedLabelProps {
@@ -17,8 +17,8 @@ class BlockedUsersGraphic extends PureComponent {
     render() {
 
         const data = [
-        { name: 'Activos (537)', value: 537 }, /* sumar al name la cantidad de activos entre parentesis */
-        { name: 'Bloqueados (312)', value: 312 }, /* sumar al name la cantidad de bloqueados entre parentesis */
+        { name: 'Activos', value: 537 },
+        { name: 'Bloqueados', value: 312 },
         ];
 
         const COLORS = ['#46bbf2', '#f246bb'];
@@ -61,12 +61,33 @@ class BlockedUsersGraphic extends PureComponent {
     }
 }
 
+function HistoricRecordMonth() {
+    return (
+        <div className='mt-3'>
+            <h3 className='mb-2'>Estadísticas</h3>
+            <Form className="mx-auto">
+                <Row>
+                    <Col>
+                        <Form.Group className="mb-2" controlId="formTotalBlockedUsers">
+                            <Form.Label className="mb-0">Total de usuarios bloqueados</Form.Label>
+                            <Form.Control type="text" id="users-total-blocked" aria-label="users-total-blocked" disabled value="312" readOnly />
+                        </Form.Group>
+                    </Col>
+                </Row>
+            </Form>
+        </div>
+    );
+}
+
 export default function MetricsBlockedUsers() {
     return(
         <Container>
             <Row>
                 <Col>
                     <BlockedUsersGraphic />
+                </Col>
+                <Col lg={12} xs={12}>
+                    <HistoricRecordMonth />
                 </Col>
             </Row>
         </Container>
