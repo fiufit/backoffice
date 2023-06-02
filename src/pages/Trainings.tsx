@@ -287,7 +287,7 @@ export default function Trainings() {
                     </Col>
                     <Col lg={9}>
                         <div className="management-section">
-                            <h1 className="management-section-title">Panel de entrenamientos</h1>
+                            <h1 className="management-section-title">Entrenamientos</h1>
                             <hr />
                             <div className="management-section-content">
                                 <h2>Filtrar búsqueda</h2>

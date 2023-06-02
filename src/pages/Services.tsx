@@ -17,7 +17,7 @@ export default function Services() {
                     </Col>
                     <Col lg={9}>
                         <div className="management-section">
-                            <h1 className="management-section-title">Panel de servicios</h1>
+                            <h1 className="management-section-title">Servicios</h1>
                             <hr />
                             <div className="management-section-content">
 

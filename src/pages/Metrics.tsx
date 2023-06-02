@@ -21,7 +21,7 @@ export default function Metrics() {
                     </Col>
                     <Col lg={9}>
                         <div className='management-section'>
-                            <h1 className='management-section-title'>Panel de métricas</h1>
+                            <h1 className='management-section-title'>Métricas</h1>
                             <hr />
                             <div className='management-section-content'>
                                 <div id='management-section-metrics'>
