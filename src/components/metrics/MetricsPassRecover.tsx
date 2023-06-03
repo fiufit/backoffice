@@ -1,5 +1,5 @@
 import { PureComponent } from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { Col, Container, Form, Row } from "react-bootstrap";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Label, Legend } from 'recharts';
 
 const data = [
@@ -62,6 +62,24 @@ class PassRecoverGraphic extends PureComponent {
   }
 }
 
+function HistoricRecordMonth() {
+    return (
+        <div className='mt-3'>
+            <h3 className='mb-2'>Estadísticas</h3>
+            <Form className="mx-auto">
+                <Row>
+                    <Col>
+                        <Form.Group className="mb-2" controlId="formTotalRecoverUsers">
+                            <Form.Label className="mb-0">Total de usuarios que recuperaron su contraseña</Form.Label>
+                            <Form.Control type="text" id="users-total-recover" aria-label="users-total-recover" disabled value="291" readOnly />
+                        </Form.Group>
+                    </Col>
+                </Row>
+            </Form>
+        </div>
+    );
+}
+
 
 export default function MetricsPassRecover() {
     return (
@@ -69,6 +87,9 @@ export default function MetricsPassRecover() {
             <Row>
                 <Col>
                     <PassRecoverGraphic /> 
+                </Col>
+                <Col lg={12} xs={12}>
+                    <HistoricRecordMonth />
                 </Col>
             </Row>
         </Container>
