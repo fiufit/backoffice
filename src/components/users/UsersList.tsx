@@ -1,5 +1,6 @@
 import { Accordion } from "react-bootstrap";
 import UserProfile from "./UserProfile";
+import UserActions from "./UserActions";
 import ServiceResponseInfoMsg from "@components/common/ServiceResponseInfoMsg";
 import { User } from "@services/users";
 
@@ -21,6 +22,7 @@ export default function UsersList(props: UserListProps) {
                                 <Accordion.Header>{`${user.Nickname}`}</Accordion.Header>
                                 <Accordion.Body>
                                     <UserProfile user={user}/>
+                                    <UserActions user={user} />
                                 </Accordion.Body>
                             </Accordion.Item>
                         );

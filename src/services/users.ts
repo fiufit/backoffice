@@ -20,6 +20,7 @@ export interface User {
     CreatedAt: string,
     DeleteAt: string,
     PictureUrl: string,
+    Disabled: boolean
 }
 
 interface GetUsersResponse {
@@ -37,6 +38,7 @@ interface GetUserRequest {
     nickname?: string,
     location?: string,
     is_verified?: boolean,
+    disabled?: boolean,
 }
 
 const BASE_URL = "users";

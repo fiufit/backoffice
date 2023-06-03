@@ -1,6 +1,7 @@
 import { User } from "@services/users";
 import { Col, Container, Form, Row } from "react-bootstrap";
 import { toLocalTimeString, toLocalDateString } from "@utils/utils";
+import { BiUserCheck, BiUserX } from 'react-icons/bi';
 
 interface UserProfileProps {
     user: User
@@ -23,13 +24,16 @@ export default function UserProfile(props: UserProfileProps) {
             <Row>
                 <Col lg={3}>
                     <div className="mx-auto mb-2" style={{'height': '150px', 'width': '150px'}}>
-                        <img className='border rounded-circle w-100 h-100' src={user.PictureUrl}></img>
+                        <img className={'border rounded-circle w-100 h-100' + (user.Disabled ? ' img-to-grayscale' : '')} src={user.PictureUrl}></img>
                     </div>
                     <div className='text-center'>
                         ID (HDC)
                     </div>
                     <div className='text-center'>
                         Entrenador (HDC)
+                    </div>
+                    <div className="text-center">
+                        {'Estado: ' + (user.Disabled ? 'Bloqueado ' : 'Activo ')} {user.Disabled ? <BiUserX /> : <BiUserCheck />} 
                     </div>
                 </Col>
                 <Col>
