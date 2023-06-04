@@ -1,28 +1,61 @@
 import { User } from "@services/users";
-import { Col, Container, Form, Row } from "react-bootstrap";
+import { usePostEnableUserMutation, useDeleteDisableUserMutation } from '@services/users';
+import { delay } from "@utils/utils";
+import { Col, Container, Row } from "react-bootstrap";
 
-interface UserProfileProps {
-    user: User
+interface UserActionsProps {
+    user: User,
+    handleRefresh: Function
+
 }
 
-function renderBlockAction(user: User) {
+export default function UserActions(props: UserActionsProps) {
 
-    if (user.Disabled) {
-        return (<button type="button" className="btn button--secondary font-large"><b>Desbloquear</b></button>);
-    } else {
-        return (<button type="button" className="btn button--secondary font-large"><b>Bloquear</b></button>);
-    }
-}
+    const { user, handleRefresh } = props;
 
-export default function UserActions(props: UserProfileProps) {
+    const [enable, enableResult ] = usePostEnableUserMutation();
+    const [disable, disableResult ] = useDeleteDisableUserMutation();
 
-    const { user } = props;
+    const handleEnable = async () => {
+
+        try {
+            
+            await enable(user.ID).unwrap();
+            handleRefresh();
+
+        } catch (err: any) {
+
+            console.log(err);
+
+        }
+
+    };
+
+    const handleDisable = async () => {
+
+        try {
+            
+            await disable(user.ID).unwrap();
+            handleRefresh();
+
+        } catch (err: any) {
+            console.log(err);
+        }
+
+    };
+
 
     return (
         <Container>
             <Row>
                 <Col className="mx-auto text-center mt-3 mb-3">
-                    { renderBlockAction(user) }
+                    {  
+                        (user.Disabled) ? 
+
+                        <button type="button" className="btn button--secondary font-large" onClick={() => handleEnable()}><b>Desbloquear</b></button> :
+
+                        <button type="button" className="btn button--secondary font-large" onClick={() => handleDisable()}><b>Bloquear</b></button>
+                    }
                 </Col>
             </Row>
         </Container>

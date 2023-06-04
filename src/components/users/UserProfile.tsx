@@ -1,7 +1,9 @@
 import { User } from "@services/users";
-import { Col, Container, Form, Row } from "react-bootstrap";
+import { Col, Container, Form, Row, Spinner } from "react-bootstrap";
 import { toLocalTimeString, toLocalDateString } from "@utils/utils";
 import { BiUserCheck, BiUserX } from 'react-icons/bi';
+import { usePostEnableUserMutation, useDeleteDisableUserMutation } from '@services/users';
+import { useState } from "react";
 
 interface UserProfileProps {
     user: User
@@ -13,7 +15,50 @@ enum Gender {
 }
 
 export default function UserProfile(props: UserProfileProps) {
-    const { user } = props;
+
+    const [user, setUser] = useState<User>({ ...props.user });
+    const [isLoading, setIsLoading] = useState(false);
+    const [enable, enableResult ] = usePostEnableUserMutation();
+    const [disable, disableResult ] = useDeleteDisableUserMutation();
+
+    const handleEnable = async () => {
+
+        try {
+            
+            setIsLoading(true);
+            await enable(user.ID).unwrap();
+            var newUser: User = { ...user };
+            newUser.Disabled = false;
+            setUser(newUser);
+
+        } catch (err: any) {
+
+            console.log(err);
+
+        }
+
+        setIsLoading(false);
+
+    };
+
+    const handleDisable = async () => {
+
+        try {
+            
+            setIsLoading(true);
+            await disable(user.ID).unwrap();
+            var newUser: User = { ...user };
+            newUser.Disabled = true;
+            setUser(newUser);
+
+        } catch (err: any) {
+
+            console.log(err);
+        }
+
+        setIsLoading(false);
+
+    };
 
     const getGender = (isMale: boolean) => {
         return isMale ? Gender.Male : Gender.Female;
@@ -41,13 +86,13 @@ export default function UserProfile(props: UserProfileProps) {
                         <Row>
                             <Col>
                                 <Form.Group className="mb-2 me-4" controlId="formBasicEmail">
-                                    <Form.Label className="mb-0">Nombre Completo</Form.Label>
+                                    <Form.Label className="mb-0">Nombre completo</Form.Label>
                                     <Form.Control type="Text" value={user.DisplayName} readOnly/>
                                 </Form.Group>
                             </Col>
                             <Col>
                                 <Form.Group className="mb-2" controlId="formBasicEmail">
-                                    <Form.Label className="mb-0">Nombre de Usuario</Form.Label>
+                                    <Form.Label className="mb-0">Usuario</Form.Label>
                                     <Form.Control type="Text" value={user.Nickname} readOnly/>
                                 </Form.Group>
                             </Col>
@@ -55,7 +100,7 @@ export default function UserProfile(props: UserProfileProps) {
                         <Row>
                             <Col>
                                 <Form.Group className="mb-2 me-4" controlId="formBasicEmail">
-                                    <Form.Label className="mb-0">Fecha de Nacimiento</Form.Label>
+                                    <Form.Label className="mb-0">Fecha de nacimiento</Form.Label>
                                     <Form.Control 
                                         type="Text" 
                                         value={toLocalDateString(user.BornAt, 'es-AR', { day: '2-digit', month: '2-digit', year: 'numeric' })} 
@@ -86,7 +131,7 @@ export default function UserProfile(props: UserProfileProps) {
                         <Row>
                             <Col lg={{ span: 6, offset: 6 }}>
                                 <Form.Group className="mb-2" controlId="formBasicEmail">
-                                    <Form.Label className="mb-0">Fecha de creación</Form.Label>
+                                    <Form.Label className="mb-0">Fecha de registro</Form.Label>
                                     <Form.Control 
                                         type="Text" 
                                         value={toLocalTimeString(user.CreatedAt, 'es-AR', { day: '2-digit', month: '2-digit', year: 'numeric', weekday: 'long' })} 
@@ -95,6 +140,17 @@ export default function UserProfile(props: UserProfileProps) {
                             </Col>
                         </Row>
                     </Form>
+                </Col>
+            </Row>
+            <Row>
+                <Col className="mx-auto text-center mt-3 mb-3">
+                    {  
+                        (user.Disabled) ? 
+
+                        <button type="button" className="btn button--secondary font-large" onClick={() => handleEnable()}><b>Desbloquear </b>{ isLoading ? <Spinner animation='border' role='status' size='sm'></Spinner> : ""}</button> :
+
+                        <button type="button" className="btn button--secondary font-large" onClick={() => handleDisable()}><b>Bloquear </b>{ isLoading ? <Spinner animation='border' role='status' size='sm'></Spinner> : ""}</button>
+                    }
                 </Col>
             </Row>
         </Container>
