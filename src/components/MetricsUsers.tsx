@@ -1,9 +1,10 @@
-import { Accordion, Col, Container, Row } from "react-bootstrap";
+import { Accordion } from "react-bootstrap";
 import MetricsNewUsers from "@components/metrics/MetricsNewUsers";
 import MetricsLogin from "@components/metrics/MetricsLogin";
 import MetricsBlockedUsers from "@components/metrics/MetricsBlockedUsers";
 import MetricsPassRecover from "@components/metrics/MetricsPassRecover";
 import MetricsUsersLocation from "@components/metrics/MetricsUsersLocation";
+import MetricsByInterval from "@components/metrics/MetricsByInterval";
 
 export default function MetricsUsers() {
     return (
@@ -12,7 +13,11 @@ export default function MetricsUsers() {
                 <Accordion.Item eventKey="metrics-users">
                     <Accordion.Header className="metrics-item">Usuarios</Accordion.Header>
                     <Accordion.Body className="pb-4">
-                        <Accordion alwaysOpen>
+                        <Accordion alwaysOpen defaultActiveKey="metrics-by-interval">
+                            <Accordion.Item eventKey="metrics-by-interval">
+                                <Accordion.Header>Búsqueda por día/intervalo</Accordion.Header>
+                                <Accordion.Body><MetricsByInterval /></Accordion.Body>
+                            </Accordion.Item>
                             <Accordion.Item eventKey="metrics-new-users">
                                 <Accordion.Header>Nuevos usuarios</Accordion.Header>
                                 <Accordion.Body><MetricsNewUsers /></Accordion.Body>
