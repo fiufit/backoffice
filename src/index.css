@@ -82,6 +82,10 @@ body {
   color: var(--grey--primary);
 }
 
+.font-large {
+  font-size: large;
+}
+
 .button--primary {
   border-color: var(--light-green--primary);
   background-color: var(--light-green--primary);
@@ -180,6 +184,10 @@ input[type='checkbox']:checked:focus {
   max-width: 260px;
   margin: 0 auto;
   margin-bottom: 30px;
+}
+
+.img-to-grayscale {
+  filter: grayscale(100%);
 }
 
 /* HOME */

@@ -5,11 +5,13 @@ import { useGetUsersQuery } from '@services/users';
 import Pagination from '@components/common/Pagination';
 
 export default function UsersContent() {
+
     const initialPage = 0;
     const pageOffset = 8;
     const [ searchText, setSearchBar ] = useState('');
     const [ page, setPage ] = useState(initialPage);
     const { data, isSuccess, isFetching } = useGetUsersQuery({ name: searchText, page: page + 1, page_size: pageOffset });
+
     // En caso de querer controlar errores que vengan del servicio o excepciones
     // https://redux-toolkit.js.org/rtk-query/usage-with-typescript#error-result-example
 
