@@ -24,6 +24,7 @@
       "@pages/*": ["pages/*"],
       "@services/*": ["services/*"],
       "@utils/*": ["utils/*"],
+      "@metrics/*": ["components/metrics/*"],
     }
   },
   "include": ["src", "vite.config.ts"],
