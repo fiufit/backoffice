@@ -8,19 +8,23 @@ interface UserListProps {
 }
 
 export default function UsersList(props: UserListProps) {
+
+    const { users } = props;
+
     return (
         <>
             {
-                props.users.length > 0 ?
+                users.length > 0 ?
                 /* USERS LIST */
                 <Accordion>
                 {
-                    props.users.map((user) => {
+                    users.map((user: User) => {
+
                         return (
                             <Accordion.Item key={user.ID} eventKey={user.ID}>
                                 <Accordion.Header>{`${user.Nickname}`}</Accordion.Header>
                                 <Accordion.Body>
-                                    <UserProfile user={user}/>
+                                    <UserProfile user={user} />
                                 </Accordion.Body>
                             </Accordion.Item>
                         );

@@ -20,7 +20,7 @@ export default function SearchBar(props: SearchBarProps) {
             <InputGroup className='mb-3'>
                 <Form.Control 
                     type='text'
-                    placeholder='Buscar'
+                    placeholder='Nombre o Usuario'
                     aria-label='admin-edit-search'
                     className='fiufit-form-input'
                     onChange={handleChange}/>
