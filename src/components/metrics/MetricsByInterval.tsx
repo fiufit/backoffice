@@ -6,6 +6,7 @@ import 'dayjs/locale/es';
 import 'react-day-picker/dist/style.css';
 import { Col, Container, Form, Row } from "react-bootstrap";
 import { format } from "date-fns";
+import FormGroupMetrics from "@components/recharts/FormGroupMetrics";
 
 function metricsFor(days: Date[] | undefined) {
     
@@ -22,66 +23,42 @@ function metricsFor(days: Date[] | undefined) {
             <Form className="mx-auto">
                 <Row>
                     <Col>
-                        <Form.Group className="mb-2" controlId="formTotalUsersClassic">
-                            <Form.Label className="mb-0">Total de usuarios registrados con e-mail y contraseña</Form.Label>
-                            <Form.Control type="text" id="users-total-clasica" aria-label="users-total-clasica" disabled value="790" readOnly />
-                        </Form.Group>
+                        <FormGroupMetrics title="Total de usuarios registrados con e-mail y contraseña" value="790" />
                     </Col>
                 </Row>
                 <Row>
                     <Col>
-                        <Form.Group className="mb-2">
-                            <Form.Label className="mb-0">Total de usuarios registrados de forma federada</Form.Label>
-                            <Form.Control type="text" id="users-total-federada" aria-label="users-total-federada" disabled value="340" readOnly />
-                        </Form.Group>
+                        <FormGroupMetrics title="Total de usuarios registrados de forma federada" value="340" />
                     </Col>
                 </Row>
                 <Row>
                     <Col>
-                        <Form.Group className="mb-2">
-                            <Form.Label className="mb-0">Total de usuarios registrados en FIUFIT</Form.Label>
-                            <Form.Control type="text" id="users-total-register" aria-label="users-total-register" disabled value="1130" readOnly />
-                        </Form.Group>
+                        <FormGroupMetrics title="Total de usuarios registrados en FIUFIT" value="1130" />
                     </Col>
                 </Row>
                 <Row>
                     <Col>
-                        <Form.Group className="mb-2" controlId="formTotalUsersClassic">
-                            <Form.Label className="mb-0">Total de usuarios logueados con e-mail y contraseña</Form.Label>
-                            <Form.Control type="text" id="users-login-clasica" aria-label="users-login-clasica" disabled value="457" readOnly />
-                        </Form.Group>
+                        <FormGroupMetrics title="Total de usuarios logueados con e-mail y contraseña" value="457" />
                     </Col>
                 </Row>
                 <Row>
                     <Col>
-                        <Form.Group className="mb-2">
-                            <Form.Label className="mb-0">Total de usuarios logueados de forma federada</Form.Label>
-                            <Form.Control type="text" id="users-login-federada" aria-label="users-login-federada" disabled value="214" readOnly />
-                        </Form.Group>
+                        <FormGroupMetrics title="Total de usuarios logueados de forma federada" value="214" />
                     </Col>
                 </Row>
                 <Row>
                     <Col>
-                        <Form.Group className="mb-2">
-                            <Form.Label className="mb-0">Total de usuarios logueados en FIUFIT</Form.Label>
-                            <Form.Control type="text" id="users-login-register" aria-label="users-login-register" disabled value="671" readOnly />
-                        </Form.Group>
+                        <FormGroupMetrics title="Total de usuarios logueados en FIUFIT" value="671" />
                     </Col>
                 </Row>
                 <Row>
                     <Col>
-                        <Form.Group className="mb-2">
-                            <Form.Label className="mb-0">Total de usuarios bloqueados</Form.Label>
-                            <Form.Control type="text" id="users-login-register" aria-label="users-login-register" disabled value="234" readOnly />
-                        </Form.Group>
+                        <FormGroupMetrics title="Total de usuarios bloqueados" value="234" />
                     </Col>
                 </Row>
                 <Row>
                     <Col>
-                        <Form.Group className="mb-2">
-                            <Form.Label className="mb-0">Total de usuarios que recuperaron su contraseña</Form.Label>
-                            <Form.Control type="text" id="users-recover-pass" aria-label="users-recover-pass" disabled value="132" readOnly />
-                        </Form.Group>
+                        <FormGroupMetrics title="Total de usuarios que recuperaron su contraseña" value="132" />
                     </Col>
                 </Row>
             </Form>
