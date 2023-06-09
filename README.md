@@ -45,7 +45,7 @@
 
 ### Metricas
 
-- [ ] Métricas de usuarios
+- [x] Métricas de usuarios
 
 1. Métricas de nuevos usuarios utilizando mail y contraseña
 2. Métricas de nuevos usuarios utilizando identidad federada
