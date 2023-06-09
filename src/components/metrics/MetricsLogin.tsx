@@ -2,46 +2,44 @@ import { Col, Container, Form, Row } from "react-bootstrap";
 import BarChartMetrics from '@components/recharts/BarChartMetrics';
 import PieChartsMetrics from '@components/recharts/PieChartsMetrics';
 import FormGroupMetrics from '@components/recharts/FormGroupMetrics';
-
-const dataLoginsGraphic = [
-    {
-        name: 'Enero',
-        valueA: 4000,
-        valueB: 2400,
-    },
-    {
-        name: 'Febrero',
-        valueA: 3000,
-        valueB: 1398,
-    },
-    {
-        name: 'Marzo',
-        valueA: 2000,
-        valueB: 5800,
-    },
-    {
-        name: 'Abril',
-        valueA: 2780,
-        valueB: 3908,
-    },
-    {
-        name: 'Mayo',
-        valueA: 1890,
-        valueB: 4800,
-    },
-    {
-        name: 'Junio',
-        valueA: 2390,
-        valueB: 3800,
-    }
-];
-
-const dataComparisonPreviousMonth = [
-    { name: 'Mayo', value: 6690 },
-    { name: 'Junio', value: 6190 },
-];
+import { getTotalUsers } from "@services/metrics";
+import { getLastDayOfMonth, getMonthAndYearLessMonth, getMonthName } from "@utils/dates";
 
 export default function MetricsLogin() {
+
+    let dataLoginsGraphic = [];
+    let dataComparisonPreviousMonth = [];
+    let cantMesesAMostrar = 6;
+    
+    for (var i = cantMesesAMostrar; i > 0; i--) {
+
+        const { year, month } = getMonthAndYearLessMonth(i - 1);
+        const monthFormatted = (month < 9) ? "0"+(month + 1).toString() : (month + 1).toString();
+        const lastDay = getLastDayOfMonth(year, month + 1);
+        const fromDate = year + '-' + monthFormatted + '-01T00:00:00.000Z';
+        const to = year + '-' + monthFormatted + '-' + lastDay  + 'T23:59:59.999Z';
+
+        // obtengo datos de todos los meses
+        dataLoginsGraphic.push(
+            {
+                name: getMonthName(month+1),
+                valueA: getTotalUsers("login", "mail", fromDate, to),
+                valueB: getTotalUsers("login", "federated_entity", fromDate, to),
+            }
+        )
+
+        // solo comparo los ultimos 2 meses
+        if ((i === 1) || (i === 2)) {
+            dataComparisonPreviousMonth.push(
+                {
+                    name: getMonthName(month+1),
+                    value: getTotalUsers("login", "", fromDate, to)
+                }
+            )
+        }
+
+    }
+
     return (
         <Container>
             <Row>
@@ -58,7 +56,17 @@ export default function MetricsLogin() {
                     <Form className="mx-auto">
                         <Row>
                             <Col>
-                                <FormGroupMetrics title='Record histórico de usuarios logueados en 1 mes (e-mail y contraseña + identidad federada)' value='4800' />
+                                <FormGroupMetrics title='Total de usuarios logueados con e-mail y contraseña' value={getTotalUsers("login", "mail")} />
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <FormGroupMetrics title='Total de usuarios logueados de forma federada' value={getTotalUsers("login", "federated_entity")} />
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <FormGroupMetrics title='Total de usuarios logueados en FIUFIT' value={getTotalUsers("login")} />
                             </Col>
                         </Row>
                     </Form>
