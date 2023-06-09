@@ -34,7 +34,7 @@ export default function MetricsPassRecover() {
                   <h4 className='mb-3 mt-0 text-center'>Cantidad de usuarios que recuperaron su contraseña en los últimos 6 meses.</h4>
                   <SimpleAreaChartMetrics data={dataPassRecover} labelX="Mes" labelY="Total de usuarios" />
               </Col>
-              <Col lg={12} xs={12} className="mt-3">
+              <Col className="mt-3">
                   <h3 className='mb-2'>Estadísticas</h3>
                   <Form className="mx-auto">
                       <Row>

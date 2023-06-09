@@ -8,7 +8,6 @@ import { getLastDayOfMonth, getMonthAndYearLessMonth, getMonthName } from "@util
 export default function MetricsNewUsers() {
 
     let dataNewUsersGraphic = [];
-    let dataComparisonPreviousMonth = [];
     let cantMesesAMostrar = 6;
     
     for (var i = cantMesesAMostrar; i > 0; i--) {
@@ -28,16 +27,6 @@ export default function MetricsNewUsers() {
             }
         )
 
-        // solo comparo los ultimos 2 meses
-        if ((i === 1) || (i === 2)) {
-            dataComparisonPreviousMonth.push(
-                {
-                    name: getMonthName(month+1),
-                    value: getTotalUsers("register", "", fromDate, to)
-                }
-            )
-        }
-
     }
 
     return (
@@ -47,11 +36,7 @@ export default function MetricsNewUsers() {
                     <h4 className='mb-3 mt-0 text-center'>Cantidad de usuarios registrados en los últimos 6 meses.</h4>
                     <BarChartMetrics data={dataNewUsersGraphic} titleA="E-mail y contraseña" titleB="Identidad federada" />
                 </Col>
-                <Col className='mt-3' >
-                    <h4 className='mb-3 mt-0 text-center'>Comparación cantidad de usuarios registrados con respecto al mes anterior.</h4>
-                    <PieChartsMetrics data={dataComparisonPreviousMonth} />
-                </Col>
-                <Col lg={12} xs={12} className="mt-3">
+                <Col className="mt-3">
                     <h3 className='mb-2'>Estadísticas</h3>
                     <Form className="mx-auto">
                         <Row>
