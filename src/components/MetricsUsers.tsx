@@ -5,8 +5,17 @@ import MetricsBlockedUsers from "@components/metrics/MetricsBlockedUsers";
 import MetricsPassRecover from "@components/metrics/MetricsPassRecover";
 import MetricsUsersLocation from "@components/metrics/MetricsUsersLocation";
 import MetricsByInterval from "@components/metrics/MetricsByInterval";
+import { useState } from "react";
 
 export default function MetricsUsers() {
+
+    const [showMetricsNewUsers, setShowMetricsNewUsers] = useState(false);
+    const [showMetricsLogin, setShowMetricsLogin] = useState(false);
+    const [showMetricsBlocked, setShowMetricsBlocked] = useState(false);
+    const [showMetricsPassRecover, setShowMetricsPassRecover] = useState(false);
+    const [showMetricsUsersLocation, setShowMetricsUsersLocation] = useState(false);
+
+
     return (
         <div className="metrics-accordion">
             <Accordion className='pt-4' defaultActiveKey="metrics-users">
@@ -19,24 +28,24 @@ export default function MetricsUsers() {
                                 <Accordion.Body><MetricsByInterval /></Accordion.Body>
                             </Accordion.Item>
                             <Accordion.Item eventKey="metrics-new-users">
-                                <Accordion.Header>Nuevos usuarios</Accordion.Header>
-                                <Accordion.Body><MetricsNewUsers /></Accordion.Body>
+                                <Accordion.Header onClick={() => {setShowMetricsNewUsers(!showMetricsNewUsers)}}>Nuevos usuarios</Accordion.Header>
+                                <Accordion.Body>{ showMetricsNewUsers ? <MetricsNewUsers /> : <></>}</Accordion.Body>
                             </Accordion.Item>
                             <Accordion.Item eventKey="metrics-login">
-                                <Accordion.Header>Login</Accordion.Header>
-                                <Accordion.Body><MetricsLogin /></Accordion.Body>
+                                <Accordion.Header onClick={() => {setShowMetricsLogin(!showMetricsLogin)}}>Login</Accordion.Header>
+                                <Accordion.Body>{ showMetricsLogin ? <MetricsLogin /> : <></>}</Accordion.Body>
                             </Accordion.Item>
                             <Accordion.Item eventKey="metrics-blocked-users">
-                                <Accordion.Header>Bloqueo de usuarios</Accordion.Header>
-                                <Accordion.Body><MetricsBlockedUsers /></Accordion.Body>
+                                <Accordion.Header onClick={() => {setShowMetricsBlocked(!showMetricsBlocked)}}>Bloqueo de usuarios</Accordion.Header>
+                                <Accordion.Body>{ showMetricsBlocked ? <MetricsBlockedUsers /> : <></> }</Accordion.Body>
                             </Accordion.Item>
                             <Accordion.Item eventKey="metrics-pass-recover">
-                                <Accordion.Header>Recupero de contraseña</Accordion.Header>
-                                <Accordion.Body><MetricsPassRecover /></Accordion.Body>
+                                <Accordion.Header onClick={() => {setShowMetricsPassRecover(!showMetricsPassRecover)}}>Recupero de contraseña</Accordion.Header>
+                                <Accordion.Body>{ showMetricsPassRecover ? <MetricsPassRecover /> : <></> }</Accordion.Body>
                             </Accordion.Item>
                             <Accordion.Item eventKey="metrics-users-location">
-                                <Accordion.Header>Ubicación de usuarios</Accordion.Header>
-                                <Accordion.Body><MetricsUsersLocation /></Accordion.Body>
+                                <Accordion.Header onClick={() => {setShowMetricsUsersLocation(!showMetricsUsersLocation)}}>Ubicación de usuarios</Accordion.Header>
+                                <Accordion.Body>{ showMetricsUsersLocation ? <MetricsUsersLocation /> : <></> }</Accordion.Body>
                             </Accordion.Item>
                         </Accordion>
                     </Accordion.Body>

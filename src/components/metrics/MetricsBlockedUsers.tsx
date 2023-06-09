@@ -2,7 +2,6 @@ import FormGroupMetrics from "@components/recharts/FormGroupMetrics";
 import PieChartsMetrics from "@components/recharts/PieChartsMetrics";
 import { getTotalUsers } from "@services/metrics";
 import { Col, Container, Form, Row } from "react-bootstrap";
-import { getLastDayOfMonth, getMonthAndYearLessMonth } from "@utils/dates";
 
 export default function MetricsBlockedUsers() {
 
