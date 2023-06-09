@@ -2,7 +2,7 @@ import { Form } from "react-bootstrap";
 
 interface PropsFormGroupMetrics {
     title: string,
-    value: string,
+    value: number | string,
 }
 
 export default function FormGroupMetrics(props: PropsFormGroupMetrics) {
