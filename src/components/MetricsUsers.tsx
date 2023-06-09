@@ -18,7 +18,7 @@ export default function MetricsUsers() {
 
     return (
         <div className="metrics-accordion">
-            <Accordion className='pt-4'>
+            <Accordion className='pt-4' defaultActiveKey={"metrics-users"}>
                 <Accordion.Item eventKey="metrics-users">
                     <Accordion.Header className="metrics-item">Usuarios</Accordion.Header>
                     <Accordion.Body className="pb-4">
