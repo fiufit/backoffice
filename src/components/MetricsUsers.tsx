@@ -17,11 +17,11 @@ export default function MetricsUsers() {
 
     return (
         <div className="metrics-accordion">
-            <Accordion className='pt-4' defaultActiveKey="metrics-users">
+            <Accordion className='pt-4' defaultActiveKey={["metrics-users"]}>
                 <Accordion.Item eventKey="metrics-users">
                     <Accordion.Header className="metrics-item">Usuarios</Accordion.Header>
                     <Accordion.Body className="pb-4">
-                        <Accordion alwaysOpen defaultActiveKey="metrics-by-interval">
+                        <Accordion defaultActiveKey={["metrics-by-interval"]} alwaysOpen>
                             <Accordion.Item eventKey="metrics-by-interval">
                                 <Accordion.Header>Búsqueda por día/intervalo</Accordion.Header>
                                 <Accordion.Body><MetricsByInterval /></Accordion.Body>
