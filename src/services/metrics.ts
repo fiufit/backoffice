@@ -40,12 +40,12 @@ export interface GetMetricsResponse {
 }
 
 export interface GetMetricsRequest {
-    params: {
-        type?: string,
-        subtype?: string,
-        fromDate?: string,
-        to?: string,
-    }
+
+    type?: string,
+    subtype?: string,
+    fromDate?: string,
+    to?: string,
+
 }
 
 const METRICS_ENDPOINT = "/metrics";
@@ -53,10 +53,10 @@ const METRICS_ENDPOINT = "/metrics";
 export const metricsApi = fiufit.injectEndpoints({
     endpoints: (builder) => ({
         getMetrics: builder.query<GetMetricsResponse, GetMetricsRequest>({
-            query: (request) => ({
+            query: (queryParamsMetrics) => ({
                 url: METRICS_ENDPOINT,
                 method: "GET",
-                params: request,
+                params: {...queryParamsMetrics},
             }),
         })
     })
@@ -66,25 +66,25 @@ export const { useGetMetricsQuery} = metricsApi;
 
 export function getTotalUsers(type: string, subtype: string = "", fromDate: string = "", to: string = ""): number {
 
-    const request: GetMetricsRequest = {
-        params: {
-            type: type,
-        },
-    };
+    const queryParamMetrics: GetMetricsRequest = {
 
+        type: type,
+
+    };
+    
     if (subtype !== "") {
-        request.params.subtype = subtype;
+        queryParamMetrics.subtype = subtype;
     }
 
     if (fromDate !== "") {
-        request.params.fromDate = fromDate;
+        queryParamMetrics.fromDate = fromDate;
     }
 
     if (to !== "") {
-        request.params.to = to;
+        queryParamMetrics.to = to;
     }
 
-    const { data, isLoading, isFetching } = useGetMetricsQuery(request);
+    const { data, isLoading, isFetching } = useGetMetricsQuery(queryParamMetrics);
     let metrics: MetricsData[] = [];
 
     if (data && data.data) {
@@ -92,5 +92,33 @@ export function getTotalUsers(type: string, subtype: string = "", fromDate: stri
     }
 
     return metrics.length;
+
+}
+
+export function getLocations(): { continent: string, sets: number }[] {
+    
+    const queryParamMetrics: GetMetricsRequest = {
+
+        type: "location"
+
+    };
+
+    const { data, isLoading, isFetching } = useGetMetricsQuery(queryParamMetrics);
+
+    let metrics: MetricsData[] = [];
+    let locations: { continent: string, sets: number }[] = [];
+
+    if (data && data.data) {
+        metrics = data.data!;
+    }
+
+    locations.push({continent: "Latinoamérica", sets: metrics.filter(item => item.subtype.includes('South America')).length}); // faltaria agregar centro america en caso de que exista ese filter
+    locations.push({continent: "Asia", sets: metrics.filter(item => item.subtype.includes('Asia')).length});
+    locations.push({continent: "África", sets: metrics.filter(item => item.subtype.includes('Africa')).length});
+    locations.push({continent: "América del Norte", sets: metrics.filter(item => item.subtype.includes('North America')).length});
+    locations.push({continent: "Europa", sets: metrics.filter(item => item.subtype.includes('Europe')).length});
+    locations.push({continent: "Oceanía", sets: metrics.filter(item => item.subtype.includes('Oceania')).length});
+
+    return locations;
 
 }

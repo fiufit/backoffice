@@ -19,3 +19,12 @@ export function debounce(func: (event: React.ChangeEvent<HTMLInputElement>) => v
         }, delay);
     };
 }
+
+export function getPercentage(partial: number, total: number): string {
+
+  const percentage = (partial / total) * 100;
+  const porcentajeRedondeado = percentage.toFixed(2); // Redondea a dos decimales
+
+  return porcentajeRedondeado + "%";
+
+}

@@ -1,6 +1,5 @@
 import { Col, Container, Form, Row } from "react-bootstrap";
 import FormGroupMetrics from '@components/recharts/FormGroupMetrics';
-import PieChartsMetrics from '@components/recharts/PieChartsMetrics';
 import BarChartMetrics from '@components/recharts/BarChartMetrics';
 import { getTotalUsers } from "@services/metrics";
 import { getLastDayOfMonth, getMonthAndYearLessMonth, getMonthName } from "@utils/dates";

@@ -5,10 +5,12 @@ import { Col, Container, Form, Row } from "react-bootstrap";
 
 export default function MetricsBlockedUsers() {
 
+    const totalActiveUsers = getTotalUsers("register");
+
     let dataComparisonPreviousMonth = [
         {
             name: "Activos",
-            value: getTotalUsers("register")
+            value: totalActiveUsers
         },
         {
             name: "Bloqueados",
@@ -26,6 +28,11 @@ export default function MetricsBlockedUsers() {
                 <Col className="mt-3">
                     <h3 className='mb-2'>Estadísticas</h3>
                     <Form className="mx-auto">
+                        <Row>
+                            <Col>
+                                <FormGroupMetrics title="Total de usuarios activos" value={totalActiveUsers} />
+                            </Col>
+                        </Row>
                         <Row>
                             <Col>
                                 <FormGroupMetrics title="Total de usuarios bloqueados" value={getTotalUsers("blocked")} />

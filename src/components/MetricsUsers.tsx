@@ -15,7 +15,6 @@ export default function MetricsUsers() {
     const [showMetricsPassRecover, setShowMetricsPassRecover] = useState(false);
     const [showMetricsUsersLocation, setShowMetricsUsersLocation] = useState(false);
 
-
     return (
         <div className="metrics-accordion">
             <Accordion className='pt-4' defaultActiveKey="metrics-users">
