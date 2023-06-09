@@ -22,7 +22,7 @@ export default function MetricsBlockedUsers() {
         <Container>
             <Row>
                 <Col>
-                    <h4 className='mb-0 mt-0 text-center '>Comparación total de usuarios activos vs. bloqueados.</h4>
+                    <h4 className='mb-0 mt-0 text-center '>Comparación de usuarios activos vs. bloqueados.</h4>
                     <PieChartsMetrics data={dataComparisonPreviousMonth} />
                 </Col>
                 <Col className="mt-3">
