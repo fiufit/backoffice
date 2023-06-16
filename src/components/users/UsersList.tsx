@@ -32,7 +32,7 @@ export default function UsersList(props: UserListProps) {
                 }
                 </Accordion> :
                 /* NO DATA AVAILABLE */
-                <ServiceResponseInfoMsg message="Lo sentimos, no se han encontrado datos"/>
+                <ServiceResponseInfoMsg message="No se han encontrado resultados."/>
             }
         </>
     );

@@ -332,8 +332,7 @@ export default function Trainings() {
                                 </div>
 
 
-                                {(trainingsFound) ? 
-                                trainings.map((data: TrainingType, i: number) => (             
+                                {(trainingsFound) ? trainings.map((data: TrainingType, i: number) => (             
                                     <div key={i}>
                                         {renderTraining(data)}
                                     </div> 
@@ -341,7 +340,7 @@ export default function Trainings() {
                                 <div className="results-not-found">No se han encontrado resultados.</div>
                             }
 
-                                <div id="admin-edition-pagination">
+                                <div id="admin-edition-pagination" className="pagination-edition">
                                     <Pagination>{items}</Pagination>
                                 </div>
                             </div>

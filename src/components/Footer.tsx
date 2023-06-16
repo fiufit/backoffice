@@ -8,7 +8,7 @@ export default function Footer() {
             <Container fluid>
                 <Row className="bg-dark_blue--secondary px-5 py-1">
                     <div>
-                        <div className='text-white--primary footer-align-center'>
+                        <div className='text-white--primary footer-align-center pt-2 pb-1'>
                             <Brand />
                         </div>
                     </div>

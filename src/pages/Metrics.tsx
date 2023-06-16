@@ -1,6 +1,5 @@
 import Footer from '@components/Footer';
 import Header from '@components/Header';
-import MetricsTransactions from '@components/MetricsTransactions';
 import MetricsUsers from '@components/MetricsUsers';
 import MetricsTrainings from '@components/MetricsTrainings';
 import Navbar from '@components/Navbar';
@@ -27,7 +26,6 @@ export default function Metrics() {
                                 <div id='management-section-metrics'>
                                     <MetricsUsers />
                                     <MetricsTrainings />
-                                    <MetricsTransactions />
                                 </div>
                             </div>
                         </div> 

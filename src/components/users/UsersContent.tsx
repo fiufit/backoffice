@@ -27,12 +27,16 @@ export default function UsersContent() {
                 <h1 className='management-section-title'>Usuarios</h1>
                 <hr />
             </div>
+
             {/* CONTENT */}
             <div className='management-section-content flex-grow-1 d-flex flex-column'>
+                <h2>Filtrar búsqueda</h2>
                 {/* SEARCH BAR */}
-                <SearchBar spinner={isFetching} setSearchBar={setSearchBarWrapper}/>
+                <SearchBar spinner={isFetching} setSearchBar={setSearchBarWrapper} />
+                <hr className="w-75 text-align-center mx-auto mt-4 mb-1" />
                 {/* USERS LIST */}
                 <div className='flex-grow-1'>
+                    <h2>Resultados</h2>
                     { data ? <UsersList users={data.data!.users} /> : <></> }
                 </div>
                 {/* PAGINATION */}

@@ -110,11 +110,11 @@ export default function CreateAdminForm() {
 
     return (
         <>
-            <Alert show={formFeedback.length > 0} onClose={() => setFormFeedback("")} variant={formFeedbackStyle} dismissible className='mt-3'>
+            <Alert show={formFeedback.length > 0} onClose={() => setFormFeedback("")} variant={formFeedbackStyle} dismissible className='mt-3 admin-div-section'>
                 <p className='mb-0'>{formFeedback}</p>
             </Alert>
 
-            <Form id='create-admin-form' noValidate onSubmit={handleRegistrationSubmit}>
+            <Form className='admin-div-section' noValidate onSubmit={handleRegistrationSubmit}>
                 {/* EMAIL */}
                 <InputGroup className="input-group-lg mb-3" hasValidation>
                     <InputGroup.Text id="register-email"><FaEnvelope /></InputGroup.Text>
@@ -152,10 +152,7 @@ export default function CreateAdminForm() {
                     </Form.Control.Feedback>
                 </InputGroup>
 
-                <div className='d-flex justify-content-end'>
-                    <Button variant="secondary" className='button--secondary me-4' onClick={handleClose}>
-                        Close
-                    </Button>
+                <div className='d-flex justify-content-center'>
                     <Button variant="primary" type="submit" className='button--primary'>
                         Confirmar
                     </Button>

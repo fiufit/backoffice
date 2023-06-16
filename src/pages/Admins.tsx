@@ -1,17 +1,10 @@
 import Footer from "@components/Footer";
 import Header from "@components/Header";
-import CreateAdminModal from "@components/CreateAdminModal";
-import EditAdminForm from "@components/home/EditAdminForm";
-import SearchBarAdmins from "@components/home/SearchBarAdmins";
 import Navbar from "@components/Navbar";
-import { Button, Col, Container, Row } from "react-bootstrap";
-import { useAppDispatch } from "@app/hooks";
-import { open } from '@state/createAdminModal';
+import { Col, Container, Row } from "react-bootstrap";
+import CreateAdminForm from "@components/admins/CreateAdminForm";
 
 export default function Admins() {
-    
-    const dispatch: any = useAppDispatch();
-    const handleShow = () => dispatch(open());
 
     return (
         <>
@@ -28,16 +21,12 @@ export default function Admins() {
                         <div className="management-section">
                             <div className="d-flex">
                                 <h1 className="management-section-title me-auto">Administradores</h1>
-                                <Button className="button--primary btn btn-primary align-self-center" style={{'width': "10%"}} onClick={handleShow}>Crear</Button>
                             </div>
                             <hr />
                             <div className="management-section-content">
+                                <h2>Crear administrador</h2>
                                 <div id="management-section-admin-creation">
-                                    <CreateAdminModal />
-                                </div>
-                                <div id="management-section-admin-edition">
-                                    <SearchBarAdmins />
-                                    <EditAdminForm />
+                                    <CreateAdminForm />
                                 </div>
                             </div>
                         </div> 
