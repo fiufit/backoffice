@@ -6,7 +6,6 @@ import Login from '@pages/Login';
 import Admins from '@pages/Admins';
 import Users from '@pages/Users';
 import Trainings from '@pages/Trainings';
-import Services from '@pages/Services';
 import Metrics from '@pages/Metrics';
 import PrivateRoutes from '@components/PrivateRoutes';
 
@@ -21,7 +20,6 @@ export default function App() {
                     <Route path='/admins' element={<Admins />} />
                     <Route path='/users' element={<Users />} />
                     <Route path='/trainings' element={<Trainings />} />
-                    <Route path='/services' element={<Services />} />
                     <Route path='/metrics' element={<Metrics />} />
                 </Route>
             </Routes>

@@ -53,8 +53,7 @@ export default function Pagination(props: PaginationProps) {
             {
                 lastPage >= 0 ?
                 <>
-                    <hr className='me-3'/>
-                    <div id="admin-edition-pagination" style={{'margin': '0px'}}>
+                    <div id="admin-edition-pagination" className="pagination-edition mx-auto">
                         <ReactPagination>
                             <ReactPagination.First onClick={handleFirstPageClick} />
                             <ReactPagination.Prev onClick={handlePreviousPageClick}/>
@@ -74,7 +73,6 @@ export default function Pagination(props: PaginationProps) {
                             <ReactPagination.Last onClick={handleLastPageClick}/>
                         </ReactPagination>
                     </div>
-                    <hr className='ms-3'/>
                 </> : 
                 <></>
             }    
