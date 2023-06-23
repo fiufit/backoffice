@@ -1,4 +1,5 @@
 import { fiufit } from "@services/fiufit";
+import { addDays, sameUTCDay } from "@utils/dates";
 
 /* 
 
@@ -64,6 +65,95 @@ export const metricsApi = fiufit.injectEndpoints({
 
 export const { useGetMetricsQuery} = metricsApi;
 
+export function getUsers(type: string, subtype: string = "", fromDate: string = "", to: string = ""): MetricsData[] {
+
+    const queryParamMetrics: GetMetricsRequest = {
+
+        type: type,
+
+    };
+    
+    if (subtype !== "") {
+        queryParamMetrics.subtype = subtype;
+    }
+
+    if (fromDate !== "") {
+        queryParamMetrics.fromDate = fromDate;
+    }
+
+    if (to !== "") {
+        queryParamMetrics.to = to;
+    }
+
+    const { data, isLoading, isFetching } = useGetMetricsQuery(queryParamMetrics);
+    let metrics: MetricsData[] = [];
+
+    if (data && data.data) {
+        metrics = data.data!;
+    }
+
+    return metrics;
+
+}
+
+export function getUsersDividedByDays(type: string, subtype: string = "", fromDate: string = "", to: string = ""): { date: Date, metrics: MetricsData[] }[] {
+
+    const users = getUsers(type, subtype, fromDate, to);
+
+    let metricsDividedByDays: {date: Date, metrics: MetricsData[]}[] = [];
+    let cursorDate = new Date(fromDate);
+    const endDate = new Date(to);
+
+    while (cursorDate <= endDate) {
+        metricsDividedByDays.push({date: cursorDate, metrics: []});
+        cursorDate = addDays(cursorDate, 1);
+    }
+
+    users.forEach((element: MetricsData) => {
+        
+        const elementDate = new Date(element.date_time);
+        
+        const indexMetricsCursorDay = metricsDividedByDays.findIndex(item => sameUTCDay(item.date, elementDate));
+
+        if (indexMetricsCursorDay !== -1) {
+            metricsDividedByDays[indexMetricsCursorDay].metrics.push(element);
+        }
+
+    });
+
+    return metricsDividedByDays;
+
+}
+
+export function getTotalUsersDividedByDays(type: string, subtype: string = "", fromDate: string = "", to: string = ""): { date: Date, total_users: number }[] {
+
+    const users = getUsers(type, subtype, fromDate, to);
+
+    let metricsDividedByDays: {date: Date, total_users: number}[] = [];
+    let cursorDate = new Date(fromDate);
+    const endDate = new Date(to);
+
+    while (cursorDate <= endDate) {
+        metricsDividedByDays.push({date: cursorDate, total_users: 0});
+        cursorDate = addDays(cursorDate, 1);
+    }
+
+    users.forEach((element: MetricsData) => {
+        
+        const elementDate = new Date(element.date_time);
+        
+        const indexMetricsCursorDay = metricsDividedByDays.findIndex(item => sameUTCDay(item.date, elementDate));
+
+        if (indexMetricsCursorDay !== -1) {
+            metricsDividedByDays[indexMetricsCursorDay].total_users += 1;
+        }
+
+    });
+
+    return metricsDividedByDays;
+
+}
+
 export function getTotalUsers(type: string, subtype: string = "", fromDate: string = "", to: string = ""): number {
 
     const queryParamMetrics: GetMetricsRequest = {
@@ -95,13 +185,14 @@ export function getTotalUsers(type: string, subtype: string = "", fromDate: stri
 
 }
 
-export function getLocations(): { continent: string, sets: number }[] {
+export function getLocations(fromDate = "", toDate = ""): { continent: string, sets: number }[] {
     
     const queryParamMetrics: GetMetricsRequest = {
-
         type: "location"
-
     };
+
+    if (fromDate !== "") { queryParamMetrics.fromDate = fromDate; }
+    if (toDate !== "") { queryParamMetrics.to = toDate; }
 
     const { data, isLoading, isFetching } = useGetMetricsQuery(queryParamMetrics);
 
