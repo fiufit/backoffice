@@ -1,10 +1,10 @@
 import Footer from "@components/Footer";
 import Header from "@components/Header";
 import Pagination from 'react-bootstrap/Pagination';
-import { Accordion, Form, InputGroup } from "react-bootstrap";
+import { Accordion, Form, InputGroup, Spinner } from "react-bootstrap";
 import Navbar from "@components/Navbar";
 import { Col, Container, Row } from "react-bootstrap";
-import { useGetTrainingsQuery } from '@services/trainings';
+import { useDeleteDisableTrainingMutation, useGetTrainingsQuery, usePostEnableTrainingMutation } from '@services/trainings';
 import { useState } from "react";
 import { debounce, toLocalTimeString } from '@utils/utils';
 
@@ -17,6 +17,7 @@ type TrainingType = {
     TrainerID: string;
     CreatedAt: string;
     Exercises: ExerciseType[];
+    Disabled: boolean;
 };
 
 type ExerciseType = {
@@ -67,7 +68,52 @@ const renderExercise = (exercise: ExerciseType) => {
     );
 };
 
-const renderTraining = (training: TrainingType) => {
+const renderTraining = (training_data: TrainingType) => {
+
+    const [training, setTraining] = useState<TrainingType>({ ...training_data });
+    const [isLoading, setIsLoading] = useState(false);
+    const [enable, enableResult ] = usePostEnableTrainingMutation();
+    const [disable, disableResult ] = useDeleteDisableTrainingMutation();
+
+    const handleEnable = async () => {
+
+        try {
+            
+            setIsLoading(true);
+            // await enable(training.ID).unwrap();
+            var newTraining: TrainingType = { ...training };
+            newTraining.Disabled = false;
+            setTraining(newTraining);
+
+        } catch (err: any) {
+
+            console.log(err);
+
+        }
+
+        setIsLoading(false);
+
+    };
+
+    const handleDisable = async () => {
+
+        try {
+            
+            setIsLoading(true);
+            // await disable(training.ID).unwrap();
+            var newTraining: TrainingType = { ...training };
+            newTraining.Disabled = true;
+            setTraining(newTraining);
+
+        } catch (err: any) {
+
+            console.log(err);
+        }
+
+        setIsLoading(false);
+
+    };
+
     return (
         <Accordion className=''>
             <Accordion.Item eventKey={training.ID.toString()} className="training-accordion-item">
@@ -109,12 +155,29 @@ const renderTraining = (training: TrainingType) => {
                                     <Form.Control type="Text" value={toLocalTimeString(training.CreatedAt, 'es-AR', { day: '2-digit', month: '2-digit', year: 'numeric' })} readOnly/>
                                 </Form.Group>
                             </Col>
+                            <Col>
+                                <Form.Group className="d-flex flex-column mb-2" controlId="formTraininingID">
+                                    <Form.Label className="mb-0">ID de entrenamiento</Form.Label>
+                                    <Form.Control type="Text" value={training.ID} readOnly/>
+                                </Form.Group>
+                            </Col>
                         </Row>
                     </Form>
                     <div>Ejercicios </div>
                     <Accordion className='py-1'>
                         {training.Exercises.map((exercise: ExerciseType, i) => renderExercise(exercise) )}
                     </Accordion>
+                    <Row>
+                        <Col className="mx-auto text-center mt-3 mb-3">
+                            {  
+                                (training.Disabled) ?  
+
+                                    <button type="button" className="btn button--secondary font-large" onClick={() => handleEnable()}><b>Desbloquear </b>{ isLoading ? <Spinner animation='border' role='status' size='sm'></Spinner> : ""}</button> : 
+
+                                    <button type="button" className="btn button--secondary font-large" onClick={() => handleDisable()}><b>Bloquear </b>{ isLoading ? <Spinner animation='border' role='status' size='sm'></Spinner> : ""}</button>
+                            }
+                        </Col>
+                    </Row>
                 </Accordion.Body>
             </Accordion.Item>
         </Accordion>
@@ -179,6 +242,7 @@ export default function Trainings() {
     const [searchTrainerID, setSearchTrainerID] = useState("");
     const [searchTrainingMinDuration, setSearchTrainingMinDuration] = useState(0);
     const [searchTrainingMaxDuration, setSearchTrainingMaxDuration] = useState(0);
+    const [searchTrainingShowBlocked, setSearchTrainingShowBlocked] = useState(false);
 
     const timeBeforeRequest = 750;
     const handleFilter = debounce((event: React.ChangeEvent<HTMLInputElement>) => {
@@ -213,6 +277,11 @@ export default function Trainings() {
                 setSearchTrainingMaxDuration(Number(newValue)); 
                 break;
 
+            case "disabled-filter": 
+                setPageActive(1); 
+                setSearchTrainingShowBlocked(!JSON.parse(newValue)); 
+                break;
+
             default: break;
         }
 
@@ -232,6 +301,7 @@ export default function Trainings() {
     if (searchTrainerID != "") { request.params.trainer_id = searchTrainerID };
     if (searchTrainingMinDuration > 0) { request.params.min_duration = searchTrainingMinDuration };
     if (searchTrainingMaxDuration > 0) { request.params.max_duration = searchTrainingMaxDuration };
+    // FALTARIA FILTRO BLOCKED TRAININGS
 
     var response: any = useGetTrainingsQuery(request);
 
@@ -315,6 +385,11 @@ export default function Trainings() {
                                         <Form.Control type="number" min="0" placeholder="Duración mínima" id="min_duration-filter" aria-label="min_duration-filter" className="fiufit-form-input" onChange={handleFilter} />
                                         <Form.Control type="number" min="0" placeholder="Duración máxima" id="max_duration-filter" aria-label="max_duration-filter" className="fiufit-form-input" onChange={handleFilter} />
                                     </InputGroup>
+
+                                    <Form.Group className='mb-3'>
+                                        <Form.Check id='disabled-filter' type='checkbox' label='Mostrar entrenamientos bloqueados.' defaultChecked={searchTrainingShowBlocked} className="fiufit-form-input shadow-none mb-0 pb-0" onChange={handleFilter}  />
+                                    </Form.Group>
+
                                 </Form>
 
                                 <hr className="w-75 text-align-center mx-auto mt-5 mb-4"/>
