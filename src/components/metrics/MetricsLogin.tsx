@@ -1,56 +1,105 @@
 import { Col, Container, Form, Row } from "react-bootstrap";
-import BarChartMetrics from '@components/recharts/BarChartMetrics';
 import FormGroupMetrics from '@components/recharts/FormGroupMetrics';
-import { getTotalUsers } from "@services/metrics";
-import { getLastDayOfMonth, getMonthAndYearLessMonth, getMonthName } from "@utils/dates";
+import { getTotalUsers, getTotalUsersDividedByDays } from "@services/metrics";
+import { DobleLineChartMetrics } from "@components/recharts/DobleLineChartMetrics";
+import { addDays, formatDateUTCSimple, getMonthName, sameUTCDay } from "@utils/dates";
+import PieChartsMetrics from "@components/recharts/PieChartsMetrics";
+import { ReactElement } from "react";
 
-export default function MetricsLogin() {
+interface MetricsProps {
+    fromDate: string,
+    toDate: string
+}
 
-    let dataLoginsGraphic = [];
-    let cantMesesAMostrar = 6;
+export default function MetricsNewUsers(props: MetricsProps) {
+
+    const { fromDate, toDate } = props;
+    let dataLoginUsersGraphic: {
+        name: string;
+        valueA: number;
+        valueB: number;
+    }[] = [];
     
-    for (var i = cantMesesAMostrar; i > 0; i--) {
+    const metricsUsersLoginEmail = getTotalUsersDividedByDays("login", "mail", fromDate, toDate);
+    const metricsUsersFederatedEntity = getTotalUsersDividedByDays("login", "federated_entity", fromDate, toDate);
+    let startDate = new Date(fromDate);
+    let endDate = new Date(toDate);
+    let cursorDate = startDate;
+    const totalUsersEmail = getTotalUsers("login", "mail", fromDate, toDate);
+    const totalUsersFederated = getTotalUsers("login", "federated_entity", fromDate, toDate);
+    const totalUsers = totalUsersEmail + totalUsersFederated;
+    const allValuesAreZero = !(totalUsers > 0);
+    let dataComparisonOneDay: {
+        name: string;
+        value: number;
+    }[] = [];
+    const oneDaySelected = sameUTCDay(startDate, endDate);
+    let titleSimpleLineCharts = "";
+    
+    if (oneDaySelected) {
+        
+        titleSimpleLineCharts = "Cantidad de usuarios logueados el "+cursorDate.getUTCDate()+" de "+getMonthName(cursorDate.getUTCMonth() + 1)+" de "+cursorDate.getUTCFullYear()+".";
+        dataComparisonOneDay.push({ name: "E-mail y contraseña", value: totalUsersEmail });
+        dataComparisonOneDay.push({ name: "Identidad Federada", value: totalUsersFederated });
 
-        const { year, month } = getMonthAndYearLessMonth(i - 1);
-        const monthFormatted = (month < 9) ? "0"+(month + 1).toString() : (month + 1).toString();
-        const lastDay = getLastDayOfMonth(year, month + 1);
-        const fromDate = year + '-' + monthFormatted + '-01T00:00:00.000Z';
-        const to = year + '-' + monthFormatted + '-' + lastDay  + 'T23:59:59.999Z';
+    } else {
 
-        // obtengo datos de todos los meses
-        dataLoginsGraphic.push(
-            {
-                name: getMonthName(month+1),
-                valueA: getTotalUsers("login", "mail", fromDate, to),
-                valueB: getTotalUsers("login", "federated_entity", fromDate, to),
+        titleSimpleLineCharts = "Cantidad de usuarios logueados entre el "+cursorDate.getUTCDate()+" de "+getMonthName(cursorDate.getUTCMonth() + 1)+" de "+cursorDate.getUTCFullYear()+" y el "+endDate.getUTCDate()+" de "+getMonthName(endDate.getUTCMonth() + 1)+" de "+endDate.getUTCFullYear()+".";
+        while (cursorDate < endDate) {
+
+            let contDayNumber = 0;
+            const totalMetricsUsersLoginEmail = metricsUsersLoginEmail.find(item => sameUTCDay(item.date, cursorDate));
+            const totalMetricsUsersFederatedEntity = metricsUsersFederatedEntity.find(item => sameUTCDay(item.date, cursorDate));
+            
+            if (totalMetricsUsersFederatedEntity && totalMetricsUsersLoginEmail) {
+                dataLoginUsersGraphic.push({name: formatDateUTCSimple(cursorDate), valueA: totalMetricsUsersLoginEmail.total_users, valueB: totalMetricsUsersFederatedEntity.total_users}); 
+            } else {
+                dataLoginUsersGraphic.push({name: formatDateUTCSimple(cursorDate), valueA: 0, valueB: 0});
             }
-        )
+            
+            cursorDate = addDays(cursorDate, 1);
+            contDayNumber++;
 
+        }
     }
+
+    const renderGraphic = (): ReactElement<any, any> => {
+
+        if (oneDaySelected) {
+            if (!allValuesAreZero ){
+                return (<PieChartsMetrics data={dataComparisonOneDay} allValuesAreZero={allValuesAreZero} />);
+            } else {
+                return (<h3 className="text-center align-middle">No se detectaron inicios de sesión en esta fecha.</h3>);
+            }
+        } else {
+            return (<DobleLineChartMetrics data={dataLoginUsersGraphic} titleA="E-mail y contraseña" titleB="Identidad federada" />);
+        }
+
+    };
 
     return (
         <Container>
             <Row>
-                <Col>
-                    <h4 className='mb-3 mt-0 text-center '>Cantidad de usuarios logueados en los últimos 6 meses.</h4>
-                    <BarChartMetrics data={dataLoginsGraphic} titleA="E-mail y contraseña" titleB="Identidad federada" />
+                <h4 className='mb-3 mt-0 text-center'>{titleSimpleLineCharts}</h4>
+                <Col className='mt-3'>
+                    {renderGraphic()}
                 </Col>
                 <Col className="mt-3">
-                    <h3 className='mb-2'>Estadísticas</h3>
                     <Form className="mx-auto">
+                        <h4>Estadísticas</h4>
                         <Row>
                             <Col>
-                                <FormGroupMetrics title='Total de usuarios logueados con e-mail y contraseña' value={getTotalUsers("login", "mail")} />
+                                <FormGroupMetrics title='Total de usuarios logueados con e-mail y contraseña' value={totalUsersEmail} />
                             </Col>
                         </Row>
                         <Row>
                             <Col>
-                                <FormGroupMetrics title='Total de usuarios logueados de forma federada' value={getTotalUsers("login", "federated_entity")} />
+                                <FormGroupMetrics title='Total de usuarios logueados de forma federada' value={totalUsersFederated} />
                             </Col>
                         </Row>
                         <Row>
                             <Col>
-                                <FormGroupMetrics title='Total de usuarios logueados en FIUFIT' value={getTotalUsers("login")} />
+                                <FormGroupMetrics title='Total de usuarios logueados en FIUFIT' value={totalUsers} />
                             </Col>
                         </Row>
                     </Form>

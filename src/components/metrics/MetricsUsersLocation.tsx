@@ -1,13 +1,19 @@
-import FormGroupMetrics from "@components/recharts/FormGroupMetrics";
+import PieChartsMetrics from "@components/recharts/PieChartsMetrics";
 import RadarChartMetrics from "@components/recharts/RadarChartMetrics";
 import { getLocations } from "@services/metrics";
-import { getPercentage } from "@utils/utils";
 import { Col, Container, Form, Row } from "react-bootstrap";
 
-export default function MetricsUsersLocation() {
+interface MetricsProps {
+    fromDate: string,
+    toDate: string
+}
 
+export default function MetricsUsersLocation(props: MetricsProps) {
+
+  const { fromDate, toDate } = props; 
   let dataMetricsUsersLocations: { subject: string, users: number }[] = [];
   let totalSets = 0;
+  let allValuesAreZero = true;
   let totalUsers: { [subject: string]: number } = {
     "Latinoamérica": 0,
     "América del Norte": 0,
@@ -15,58 +21,36 @@ export default function MetricsUsersLocation() {
     "Oceanía": 0,
     "África": 0,
     "Europa": 0
-};
-  const locations = getLocations();
+  };
+  let dataComparisonLocations: {name: string, value: number }[] = [];
+  const locations = getLocations(fromDate, toDate);
 
   locations.forEach(function(value, key) {  
     dataMetricsUsersLocations.push({ subject: value.continent, users: value.sets });
     totalSets = totalSets + value.sets;
     if (totalUsers[value.continent] === 0) totalUsers[value.continent] = value.sets;
+    dataComparisonLocations.push({name: value.continent, value: value.sets});
   })
+
+  if (totalSets > 0) { allValuesAreZero = false; }
 
     return (
         <Container>
             <Row>
                 <Col>
-                  <h3 className='mb-3 mt-0 text-center '>Cantidad de usuarios por zona geográfica</h3>
+                  <h3 className='mb-0 mt-0 text-center '>Cantidad de usuarios por zona geográfica</h3>
                   <RadarChartMetrics data={dataMetricsUsersLocations} />
                 </Col>
-                <Col className="mt-3">
-                  <h4 className='mb-2'>Porcentajes de usuarios según ubicación geográfica con respecto al total registrados</h4>
-                  <Form className="mx-auto">
-                      <Row>
-                          <Col>
-                            <FormGroupMetrics title="Latinoamérica" value={getPercentage(totalUsers["Latinoamérica"], totalSets)} />
-                          </Col>
-                      </Row>
-                      <Row>
-                          <Col>
-                            <FormGroupMetrics title="América del Norte" value={getPercentage(totalUsers["América del Norte"], totalSets)} />
-                          </Col>
-                      </Row>
-                        <Row>
-                          <Col>
-                            <FormGroupMetrics title="Europa" value={getPercentage(totalUsers["Europa"], totalSets)} />
-                          </Col>
-                      </Row>
-                      <Row>
-                          <Col>
-                            <FormGroupMetrics title="Oceanía" value={getPercentage(totalUsers["Oceanía"], totalSets)} />
-                          </Col>
-                      </Row>
-                        <Row>
-                          <Col>
-                            <FormGroupMetrics title="Asia" value={getPercentage(totalUsers["Asia"], totalSets)} />
-                          </Col>
-                      </Row>
-                      <Row>
-                          <Col>
-                            <FormGroupMetrics title="África" value={getPercentage(totalUsers["África"], totalSets)} />
-                          </Col>
-                      </Row>
-                  </Form>
+                <Col>
+                  <h3 className='mb-0 mt-0 text-center'>Porcentajes según ubicación geográfica con respecto al total de usuarios</h3>
+                  
+                  {
+                    allValuesAreZero ? 
+                    <h4 className="text-center align-middle mt-4">No se detectaron cambios o seteos de región para este día o intervalo de días.</h4>
+                    : <PieChartsMetrics data={dataComparisonLocations} allValuesAreZero={allValuesAreZero} />
+                  }
                 </Col>
-            </Row>
+              </Row>
         </Container>
     );
 }

@@ -4,7 +4,8 @@ interface PieChartMetricsProps {
     data: {
         name: string;
         value: number;
-    }[]
+    }[],
+    allValuesAreZero: boolean
 }
 
 interface CustomizedLabelProps {
@@ -19,8 +20,9 @@ interface CustomizedLabelProps {
 
 export default function PieChartsMetrics(props: PieChartMetricsProps) {
 
-    const COLORS = ['#46bbf2', '#f246bb'];
+    const { data, allValuesAreZero } = props;
 
+    const COLORS = ['#46bbf2', '#f246bb', '#8bc34a', '#f2b46b', '#4a8bc3', '#6bf2b4'];
     const RADIAN = Math.PI / 180;
     const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }: CustomizedLabelProps) => {
         const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
@@ -33,11 +35,13 @@ export default function PieChartsMetrics(props: PieChartMetricsProps) {
             </text>
         );
     };
+
+    if (allValuesAreZero) return (<></>);
     
     return (
         <PieChart width={400} height={380}>
             <Pie
-                data={props.data}
+                data={data}
                 cx={230}
                 cy={170}
                 labelLine={false}
