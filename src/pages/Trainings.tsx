@@ -1,31 +1,13 @@
 import Footer from "@components/Footer";
 import Header from "@components/Header";
 import Pagination from 'react-bootstrap/Pagination';
-import { Accordion, Form, InputGroup, Spinner } from "react-bootstrap";
+import { Form, InputGroup } from "react-bootstrap";
 import Navbar from "@components/Navbar";
 import { Col, Container, Row } from "react-bootstrap";
-import { useDeleteDisableTrainingMutation, useGetTrainingsQuery, usePostEnableTrainingMutation } from '@services/trainings';
+import { useGetTrainingsQuery } from '@services/trainings';
 import { useState } from "react";
-import { debounce, toLocalTimeString } from '@utils/utils';
-
-type TrainingType = {
-    ID: number;
-    Name: string;
-    Description: string;
-    Difficulty: string;
-    Duration: number;
-    TrainerID: string;
-    CreatedAt: string;
-    Exercises: ExerciseType[];
-    Disabled: boolean;
-};
-
-type ExerciseType = {
-    ID: number;
-    TrainingPlanID: number;
-    Title: string;
-    Description: string;
-};
+import { debounce } from '@utils/utils';
+import { TrainingType, Training } from "@components/trainings/Training";
 
 type PaginationType = {
     page: number;
@@ -39,150 +21,6 @@ type TrainingsResponseType = {
 };
 
 type TrainingsRequestParamsType = Record<string, Record<string, string | number>>;
-
-const renderExercise = (exercise: ExerciseType) => {
-    return (
-        <Accordion.Item eventKey={exercise.ID.toString()} className="exercise-accordion-item">
-            <Accordion.Header>{exercise.Title}</Accordion.Header>
-            <Accordion.Body>
-                    <Form>
-                        <Row>
-                            <Col>
-                                <Form.Group className="mb-2 me-4" controlId="formDescription">
-                                    <Form.Label className="mb-0">Descripción</Form.Label>
-                                    <Form.Control type="Text" value={exercise.Description} readOnly/>
-                                </Form.Group>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                <Form.Group className="mb-2 me-4" controlId="formTrainingPlanID">
-                                    <Form.Label className="mb-0">Plan de entrenamiento [ID]</Form.Label>
-                                    <Form.Control type="Text" value={exercise.TrainingPlanID} readOnly/>
-                                </Form.Group>
-                            </Col>
-                        </Row>
-                    </Form>
-            </Accordion.Body>
-        </Accordion.Item>
-    );
-};
-
-const renderTraining = (training_data: TrainingType) => {
-
-    const [training, setTraining] = useState<TrainingType>({ ...training_data });
-    const [isLoading, setIsLoading] = useState(false);
-    const [enable, enableResult ] = usePostEnableTrainingMutation();
-    const [disable, disableResult ] = useDeleteDisableTrainingMutation();
-
-    const handleEnable = async () => {
-
-        try {
-            
-            setIsLoading(true);
-            // await enable(training.ID).unwrap();
-            var newTraining: TrainingType = { ...training };
-            newTraining.Disabled = false;
-            setTraining(newTraining);
-
-        } catch (err: any) {
-
-            console.log(err);
-
-        }
-
-        setIsLoading(false);
-
-    };
-
-    const handleDisable = async () => {
-
-        try {
-            
-            setIsLoading(true);
-            // await disable(training.ID).unwrap();
-            var newTraining: TrainingType = { ...training };
-            newTraining.Disabled = true;
-            setTraining(newTraining);
-
-        } catch (err: any) {
-
-            console.log(err);
-        }
-
-        setIsLoading(false);
-
-    };
-
-    return (
-        <Accordion className=''>
-            <Accordion.Item eventKey={training.ID.toString()} className="training-accordion-item">
-                <Accordion.Header>{training.Name}</Accordion.Header>
-                <Accordion.Body>
-                    <Form>
-                        <Row>
-                            <Col>
-                                <Form.Group className="mb-2 me-4" controlId="formDescription">
-                                    <Form.Label className="mb-0">Descripción</Form.Label>
-                                    <Form.Control type="Text" value={training.Description} readOnly/>
-                                </Form.Group>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                <Form.Group className="mb-2" controlId="formDifficulty">
-                                    <Form.Label className="mb-0">Dificultad</Form.Label>
-                                    <Form.Control type="Text" value={training.Difficulty} readOnly/>
-                                </Form.Group>
-                            </Col>
-                            <Col>
-                                <Form.Group className="mb-2" controlId="formDuration">
-                                    <Form.Label className="mb-0">Duración</Form.Label>
-                                    <Form.Control type="Text" value={training.Duration} readOnly/>
-                                </Form.Group>
-                            </Col>
-                            <Col>
-                                <Form.Group className="d-flex flex-column mb-2" controlId="formTrainerID">
-                                    <Form.Label className="mb-0">Entrenador [ID]</Form.Label>
-                                    <Form.Control type="Text" value={training.TrainerID} readOnly/>
-                                </Form.Group>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                <Form.Group className="mb-2 me-4" controlId="formCreatedAt">
-                                    <Form.Label className="mb-0">Fecha de creación</Form.Label>
-                                    <Form.Control type="Text" value={toLocalTimeString(training.CreatedAt, 'es-AR', { day: '2-digit', month: '2-digit', year: 'numeric' })} readOnly/>
-                                </Form.Group>
-                            </Col>
-                            <Col>
-                                <Form.Group className="d-flex flex-column mb-2" controlId="formTraininingID">
-                                    <Form.Label className="mb-0">ID de entrenamiento</Form.Label>
-                                    <Form.Control type="Text" value={training.ID} readOnly/>
-                                </Form.Group>
-                            </Col>
-                        </Row>
-                    </Form>
-                    <div>Ejercicios </div>
-                    <Accordion className='py-1'>
-                        {training.Exercises.map((exercise: ExerciseType, i) => renderExercise(exercise) )}
-                    </Accordion>
-                    <Row>
-                        <Col className="mx-auto text-center mt-3 mb-3">
-                            {  
-                                (training.Disabled) ?  
-
-                                    <button type="button" className="btn button--secondary font-large" onClick={() => handleEnable()}><b>Desbloquear </b>{ isLoading ? <Spinner animation='border' role='status' size='sm'></Spinner> : ""}</button> : 
-
-                                    <button type="button" className="btn button--secondary font-large" onClick={() => handleDisable()}><b>Bloquear </b>{ isLoading ? <Spinner animation='border' role='status' size='sm'></Spinner> : ""}</button>
-                            }
-                        </Col>
-                    </Row>
-                </Accordion.Body>
-            </Accordion.Item>
-        </Accordion>
-    );
-}
 
 const getPaginationLimits = (pageActive: number, maxPages: number): [number, number] => {
 
@@ -409,7 +247,7 @@ export default function Trainings() {
 
                                 {(trainingsFound) ? trainings.map((data: TrainingType, i: number) => (             
                                     <div key={i}>
-                                        {renderTraining(data)}
+                                        <Training data={data} />
                                     </div> 
                                 )) : 
                                 <div className="results-not-found">No se han encontrado resultados.</div>
