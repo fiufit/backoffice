@@ -38,6 +38,7 @@ interface GetUserRequest {
     nickname?: string,
     location?: string,
     is_verified?: boolean,
+    disabled?: boolean,
 }
 
 const BASE_URL = "users";
@@ -45,15 +46,11 @@ const BASE_URL = "users";
 export const users = fiufit.injectEndpoints({
     endpoints: builder => ({
         getUsers: builder.query<GetUsersResponse, GetUserRequest>({
-            query: (request) => {
-                let url = BASE_URL;
-                let queryParamList = [];
-                for (const queryParam in request) {
-                    queryParamList.push(`${queryParam}=${request[queryParam as keyof GetUserRequest]}`);
-                }
-                if (queryParamList.length > 0) url += `?${queryParamList.join('&')}`;                
-                return url;
-            }
+            query: (queryParamsUsers) => ({
+                url: BASE_URL,
+                method: "GET",
+                params: {...queryParamsUsers},
+            }),
         }),
         postEnableUser: builder.mutation<{ data: any }, string>({
             query: (user_id) => ({
