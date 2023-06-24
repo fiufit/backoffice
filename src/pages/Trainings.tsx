@@ -123,6 +123,8 @@ export default function Trainings() {
             default: break;
         }
 
+        // refetch?
+
     }, timeBeforeRequest);
 
     // Request
