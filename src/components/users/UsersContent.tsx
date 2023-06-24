@@ -12,8 +12,7 @@ export default function UsersContent() {
     const [ searchText, setSearchBar ] = useState('');
     const [ searchFilterBlockedUsers, setSearchFilterBlockedUsers ] = useState(false);
     const [ page, setPage ] = useState(initialPage);
-    const paramsUsersQuery = { name: searchText, page: page + 1, page_size: pageOffset, disabled: searchFilterBlockedUsers };
-    let { data, isSuccess, isFetching, refetch } = useGetUsersQuery(paramsUsersQuery);
+    let { data, isSuccess, isFetching, refetch } = useGetUsersQuery({ name: searchText, page: page + 1, page_size: pageOffset, disabled: searchFilterBlockedUsers });
 
     // En caso de querer controlar errores que vengan del servicio o excepciones
     // https://redux-toolkit.js.org/rtk-query/usage-with-typescript#error-result-example
@@ -24,10 +23,10 @@ export default function UsersContent() {
         refetch();
     }
 
-    const setSearchBlockedUsersWrapper = async (filterBlockedUsersActive: boolean) => {
+    const setSearchBlockedUsersWrapper = (filterBlockedUsersActive:  React.SetStateAction<boolean>) => {
+        setSearchFilterBlockedUsers(filterBlockedUsersActive);
         setPage(initialPage);
         setSearchBar("");
-        setSearchFilterBlockedUsers(filterBlockedUsersActive);
         refetch();
     }
 
@@ -51,7 +50,7 @@ export default function UsersContent() {
                 {/* USERS LIST */}
                 <div className='flex-grow-1'>
                     <h2>Resultados</h2>
-                    { data ? <UsersList users={data.data!.users} /> : <></> }
+                        { data && <UsersList users={data.data!.users} />}
                 </div>
                 {/* PAGINATION */}
                 <div className='d-flex align-items-center'>
