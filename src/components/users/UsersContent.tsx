@@ -18,16 +18,15 @@ export default function UsersContent() {
     // https://redux-toolkit.js.org/rtk-query/usage-with-typescript#error-result-example
 
     const setSearchBarWrapper = (searchText: React.SetStateAction<string>) => {
+        refetch();
         setPage(initialPage);
         setSearchBar(searchText);
-        refetch();
     }
 
     const setSearchBlockedUsersWrapper = (filterBlockedUsersActive:  React.SetStateAction<boolean>) => {
-        setSearchFilterBlockedUsers(filterBlockedUsersActive);
-        setPage(initialPage);
-        setSearchBar("");
         refetch();
+        setPage(initialPage);
+        setSearchFilterBlockedUsers(filterBlockedUsersActive);
     }
 
     return (
