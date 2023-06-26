@@ -22,18 +22,6 @@ type TrainingsResponseType = {
 
 type TrainingsRequestParamsType = Record<string, Record<string, string | number | boolean>>;
 
-function renderTrainings(trainings: TrainingType[], trainingsFound: boolean): JSX.Element {
-
-    if (!trainingsFound) return (<div className="results-not-found">No se han encontrado resultados.</div>);
-
-    let trainingsRendered: JSX.Element[] = [];
-    trainings.forEach((training: TrainingType) => {
-        trainingsRendered.push(<Training data={training} key={training.ID} />);
-    });
-
-    return <>{trainingsRendered}</>;
-}
-
 export default function Trainings() {
 
     // Default
