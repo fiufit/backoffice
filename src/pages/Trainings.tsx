@@ -20,7 +20,7 @@ type TrainingsResponseType = {
     trainings: TrainingType[];
 };
 
-type TrainingsRequestParamsType = Record<string, Record<string, string | number>>;
+type TrainingsRequestParamsType = Record<string, Record<string, string | number | boolean>>;
 
 const getPaginationLimits = (pageActive: number, maxPages: number): [number, number] => {
 
@@ -123,7 +123,7 @@ export default function Trainings() {
             default: break;
         }
 
-        // refetch?
+        refetch();
 
     }, timeBeforeRequest);
 
@@ -141,13 +141,13 @@ export default function Trainings() {
     if (searchTrainerID != "") { request.params.trainer_id = searchTrainerID };
     if (searchTrainingMinDuration > 0) { request.params.min_duration = searchTrainingMinDuration };
     if (searchTrainingMaxDuration > 0) { request.params.max_duration = searchTrainingMaxDuration };
-    // FALTARIA FILTRO BLOCKED TRAININGS
+    // if (searchTrainingShowBlocked) { request.params.disabled = searchTrainingShowBlocked };
 
-    var response: any = useGetTrainingsQuery(request);
+    const { data, isSuccess, isFetching, refetch } = useGetTrainingsQuery(request);
 
-    if (response.data) {
+    if (data) {
 
-        const responseData: TrainingsResponseType = response.data.data;
+        const responseData: TrainingsResponseType = data.data;
         totalRowsDB = responseData.pagination.total_rows;
         totalPages = Math.ceil(totalRowsDB / pageSize);
         trainings = responseData.trainings;

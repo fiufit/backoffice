@@ -32,7 +32,7 @@ export function Training(props: TrainingPropsType) {
         try {
             
             setIsLoading(true);
-            // await enable(training.ID).unwrap();
+            await enable(training.ID).unwrap();
             var newTraining: TrainingType = { ...training };
             newTraining.Disabled = false;
             setTraining(newTraining);
@@ -52,7 +52,7 @@ export function Training(props: TrainingPropsType) {
         try {
             
             setIsLoading(true);
-            // await disable(training.ID).unwrap();
+            await disable(training.ID).unwrap();
             var newTraining: TrainingType = { ...training };
             newTraining.Disabled = true;
             setTraining(newTraining);

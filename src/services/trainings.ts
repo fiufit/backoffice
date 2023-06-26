@@ -3,9 +3,7 @@ import { fiufit } from "@services/fiufit";
 const TRAININGS_ENDPOINT = "/trainings";
 
 export const trainingsApi = fiufit.injectEndpoints({
-    endpoints: (builder: {
-        mutation<T, U>(arg0: { query: (training_id: any) => { url: string; method: string; }; }): any; query: (arg0: { query: (request: any) => { url: string; method: string; params: any; }; }) => any; 
-}) => ({
+    endpoints: builder => ({
         getTrainings: builder.query({
             query: (request) => ({
                 url: TRAININGS_ENDPOINT,
