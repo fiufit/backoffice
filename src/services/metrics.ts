@@ -19,8 +19,11 @@ type: subtype
 "blocked": {clearSubtype}
 "password_recover": {clearSubtype}
 "location": {anySubtype}
-"new_training": {clearSubtype}
+"new_training": "user_ID"
 "training_tagged": {"strength", "speed", "endurance", "lose weight", "gain weight", "sports", ""}
+"user_followed": "userID",
+"favorite_training": "trainingID",
+"training_session_finished": "userID",
 
 
 
@@ -65,7 +68,7 @@ export const metricsApi = fiufit.injectEndpoints({
 
 export const { useGetMetricsQuery} = metricsApi;
 
-export function getUsers(type: string, subtype: string = "", fromDate: string = "", to: string = ""): MetricsData[] {
+export function getMetrics(type: string, subtype: string = "", fromDate: string = "", to: string = ""): MetricsData[] {
 
     const queryParamMetrics: GetMetricsRequest = {
 
@@ -96,9 +99,13 @@ export function getUsers(type: string, subtype: string = "", fromDate: string = 
 
 }
 
-export function getUsersDividedByDays(type: string, subtype: string = "", fromDate: string = "", to: string = ""): { date: Date, metrics: MetricsData[] }[] {
+export function getTotalMetrics(type: string, subtype: string = "", fromDate: string = "", to: string = ""): number {
+    return getMetrics(type, subtype, fromDate, to).length
+}
 
-    const users = getUsers(type, subtype, fromDate, to);
+export function getMetricsDividedByDays(type: string, subtype: string = "", fromDate: string = "", to: string = ""): { date: Date, metrics: MetricsData[] }[] {
+
+    const metrics = getMetrics(type, subtype, fromDate, to);
 
     let metricsDividedByDays: {date: Date, metrics: MetricsData[]}[] = [];
     let cursorDate = new Date(fromDate);
@@ -109,7 +116,7 @@ export function getUsersDividedByDays(type: string, subtype: string = "", fromDa
         cursorDate = addDays(cursorDate, 1);
     }
 
-    users.forEach((element: MetricsData) => {
+    metrics.forEach((element: MetricsData) => {
         
         const elementDate = new Date(element.date_time);
         
@@ -125,27 +132,27 @@ export function getUsersDividedByDays(type: string, subtype: string = "", fromDa
 
 }
 
-export function getTotalUsersDividedByDays(type: string, subtype: string = "", fromDate: string = "", to: string = ""): { date: Date, total_users: number }[] {
+export function getTotalMetricsDividedByDays(type: string, subtype: string = "", fromDate: string = "", to: string = ""): { date: Date, total_metrics: number }[] {
 
-    const users = getUsers(type, subtype, fromDate, to);
+    const metrics = getMetrics(type, subtype, fromDate, to);
 
-    let metricsDividedByDays: {date: Date, total_users: number}[] = [];
+    let metricsDividedByDays: {date: Date, total_metrics: number}[] = [];
     let cursorDate = new Date(fromDate);
     const endDate = new Date(to);
 
     while (cursorDate <= endDate) {
-        metricsDividedByDays.push({date: cursorDate, total_users: 0});
+        metricsDividedByDays.push({date: cursorDate, total_metrics: 0});
         cursorDate = addDays(cursorDate, 1);
     }
 
-    users.forEach((element: MetricsData) => {
+    metrics.forEach((element: MetricsData) => {
         
         const elementDate = new Date(element.date_time);
         
         const indexMetricsCursorDay = metricsDividedByDays.findIndex(item => sameUTCDay(item.date, elementDate));
 
         if (indexMetricsCursorDay !== -1) {
-            metricsDividedByDays[indexMetricsCursorDay].total_users += 1;
+            metricsDividedByDays[indexMetricsCursorDay].total_metrics += 1;
         }
 
     });
@@ -154,38 +161,7 @@ export function getTotalUsersDividedByDays(type: string, subtype: string = "", f
 
 }
 
-export function getTotalUsers(type: string, subtype: string = "", fromDate: string = "", to: string = ""): number {
-
-    const queryParamMetrics: GetMetricsRequest = {
-
-        type: type,
-
-    };
-    
-    if (subtype !== "") {
-        queryParamMetrics.subtype = subtype;
-    }
-
-    if (fromDate !== "") {
-        queryParamMetrics.fromDate = fromDate;
-    }
-
-    if (to !== "") {
-        queryParamMetrics.to = to;
-    }
-
-    const { data, isLoading, isFetching } = useGetMetricsQuery(queryParamMetrics);
-    let metrics: MetricsData[] = [];
-
-    if (data && data.data) {
-        metrics = data.data!;
-    }
-
-    return metrics.length;
-
-}
-
-export function getLocations(fromDate = "", toDate = ""): { continent: string, sets: number }[] {
+export function getUsersLocations(fromDate = "", toDate = ""): { continent: string, sets: number }[] {
     
     const queryParamMetrics: GetMetricsRequest = {
         type: "location"
@@ -211,5 +187,65 @@ export function getLocations(fromDate = "", toDate = ""): { continent: string, s
     locations.push({continent: "Oceanía", sets: metrics.filter(item => item.subtype.includes('Oceania')).length});
 
     return locations;
+
+}
+
+export function getTrainingsPerType(fromDate = "", toDate = ""): { type: string, sets: number }[] {
+    
+    const queryParamMetrics: GetMetricsRequest = {
+        type: "training_tagged"
+    };
+
+    if (fromDate !== "") { queryParamMetrics.fromDate = fromDate; }
+    if (toDate !== "") { queryParamMetrics.to = toDate; }
+
+    const { data, isLoading, isFetching } = useGetMetricsQuery(queryParamMetrics);
+
+    let metrics: MetricsData[] = [];
+    let metrics_types: { type: string, sets: number }[] = [];
+
+    if (data && data.data) {
+        metrics = data.data!;
+    }
+
+    metrics_types.push({type: "Velocidad", sets: metrics.filter(item => item.subtype.includes('speed')).length});
+    metrics_types.push({type: "Ganar peso", sets: metrics.filter(item => item.subtype.includes('gain weight')).length});
+    metrics_types.push({type: "Perder peso", sets: metrics.filter(item => item.subtype.includes('lose weight')).length});
+    metrics_types.push({type: "Resistencia", sets: metrics.filter(item => item.subtype.includes('endurance')).length});
+    metrics_types.push({type: "Deportes", sets: metrics.filter(item => item.subtype.includes('sports')).length});
+    metrics_types.push({type: "Fuerza", sets: metrics.filter(item => item.subtype.includes('strength')).length});
+
+    return metrics_types;
+
+}
+
+export function getTop(type: string, subtype: string = "", fromDate: string = "", to: string = "", sizeOfTop: number = 10): Array<[string, MetricsData[]]> {
+
+    const metrics: MetricsData[] = getMetrics(type, subtype, fromDate, to);
+    let top: Array<[string, MetricsData[]]> = []; // cada subtype está asociado a la metrica
+    console.log(metrics);
+    metrics.forEach((metric) => {
+        const index = top.findIndex((entry) => entry[0] === metric.subtype);
+        if (index === -1) {
+            top.push([metric.subtype, [metric]]);
+        } else {
+            top[index][1].push(metric);
+        }
+    });
+
+    // Ordenar el array top basado en el tamaño de MetricsData
+    top.sort((a, b) => {
+        const sizeA = a[1].length;
+        const sizeB = b[1].length;
+        return sizeB - sizeA; // Orden descendente (de mayor a menor)
+    });
+
+    // Rellenar con elementos vacíos si sizeOfTop es mayor que el tamaño del array
+    while (top.length < sizeOfTop) {
+        top.push(["", []]);
+    }
+
+    //corta el top en el número del size en caso de que sean más la cantidad de elementos
+    return top.slice(0, sizeOfTop);
 
 }

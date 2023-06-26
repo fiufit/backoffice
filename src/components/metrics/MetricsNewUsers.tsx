@@ -1,6 +1,6 @@
 import { Col, Container, Form, Row } from "react-bootstrap";
 import FormGroupMetrics from '@components/recharts/FormGroupMetrics';
-import { getTotalUsers, getTotalUsersDividedByDays } from "@services/metrics";
+import { getTotalMetrics, getTotalMetricsDividedByDays } from "@services/metrics";
 import { DobleLineChartMetrics } from "@components/recharts/DobleLineChartMetrics";
 import { addDays, formatDateUTCSimple, getMonthName, sameUTCDay } from "@utils/dates";
 import PieChartsMetrics from "@components/recharts/PieChartsMetrics";
@@ -20,13 +20,13 @@ export default function MetricsNewUsers(props: MetricsProps) {
         valueB: number;
     }[] = [];
     
-    const metricsUsersRegisterEmail = getTotalUsersDividedByDays("register", "mail", fromDate, toDate);
-    const metricsUsersFederatedEntity = getTotalUsersDividedByDays("register", "federated_entity", fromDate, toDate);
+    const metricsUsersRegisterEmail = getTotalMetricsDividedByDays("register", "mail", fromDate, toDate);
+    const metricsUsersFederatedEntity = getTotalMetricsDividedByDays("register", "federated_entity", fromDate, toDate);
     let startDate = new Date(fromDate);
     let endDate = new Date(toDate);
     let cursorDate = startDate;
-    const totalUsersEmail = getTotalUsers("register", "mail", fromDate, toDate);
-    const totalUsersFederated = getTotalUsers("register", "federated_entity", fromDate, toDate);
+    const totalUsersEmail = getTotalMetrics("register", "mail", fromDate, toDate);
+    const totalUsersFederated = getTotalMetrics("register", "federated_entity", fromDate, toDate);
     const totalUsers = totalUsersEmail + totalUsersFederated;
     const allValuesAreZero = !(totalUsers > 0);
     let dataComparisonOneDay: {
@@ -52,7 +52,7 @@ export default function MetricsNewUsers(props: MetricsProps) {
             const totalMetricsUsersFederatedEntity = metricsUsersFederatedEntity.find(item => sameUTCDay(item.date, cursorDate));
             
             if (totalMetricsUsersFederatedEntity && totalMetricsUsersRegisterEmail) {
-                dataNewUsersGraphic.push({name: formatDateUTCSimple(cursorDate), valueA: totalMetricsUsersRegisterEmail.total_users, valueB: totalMetricsUsersFederatedEntity.total_users}); 
+                dataNewUsersGraphic.push({name: formatDateUTCSimple(cursorDate), valueA: totalMetricsUsersRegisterEmail.total_metrics, valueB: totalMetricsUsersFederatedEntity.total_metrics}); 
             } else {
                 dataNewUsersGraphic.push({name: formatDateUTCSimple(cursorDate), valueA: 0, valueB: 0});
             }
@@ -68,7 +68,7 @@ export default function MetricsNewUsers(props: MetricsProps) {
             if (!allValuesAreZero) {
                 return (<PieChartsMetrics data={dataComparisonOneDay} allValuesAreZero={allValuesAreZero} />);
             } else {
-                return (<h3 className="text-center align-middle">No se detectaron registros en esta fecha.</h3>);
+                return (<h4 className="text-center align-middle">No se detectaron registros en esta fecha.</h4>);
             }
         } else {
             return (<DobleLineChartMetrics data={dataNewUsersGraphic} titleA="E-mail y contraseña" titleB="Identidad federada" />);
