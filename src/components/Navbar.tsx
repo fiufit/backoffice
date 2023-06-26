@@ -1,5 +1,5 @@
 import { Nav } from 'react-bootstrap';
-import { FaEye, FaUser, FaRegChartBar, FaBolt } from "react-icons/fa";
+import { FaEye, FaUser, FaRegChartBar, FaBolt, FaRunning } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 
 export default function Navbar() {
@@ -14,6 +14,10 @@ export default function Navbar() {
                 <Nav.Link as={Link} to="/users" href="/users">
                     <FaUser className='management-navbar-icon' />
                     <span>Usuarios</span>
+                </Nav.Link>
+                <Nav.Link as={Link} to="/trainers" href="/trainers">
+                    <FaRunning className='management-navbar-icon' />
+                    <span>Entrenadores</span>
                 </Nav.Link>
                 <Nav.Link as={Link} to="/trainings" href="/trainings">
                     <FaBolt className='management-navbar-icon' />
