@@ -13,36 +13,34 @@ interface MetricsProps {
 export default function MetricsBlockedUsers(props: MetricsProps) {
 
     const { fromDate, toDate } = props;
-    let dataBlockedGraphic: {
+    let dataTrainingsGraphic: {
         name: string;
         value: number;
     }[] = [];
     
-    const metricsUsersBlocked = getTotalMetricsDividedByDays("blocked", "", fromDate, toDate);
+    const metricsTrainings = getTotalMetricsDividedByDays("new_training", "", fromDate, toDate);
     let startDate = new Date(fromDate);
     let endDate = new Date(toDate);
     let cursorDate = startDate;
-    const totalUsersBlocked = getTotalMetrics("blocked", "", fromDate, toDate);
-    const allValuesAreZero = !(totalUsersBlocked > 0);
+    const totalNewTrainings = getTotalMetrics("new_training", "", fromDate, toDate);
+    const allValuesAreZero = !(totalNewTrainings > 0);
     const oneDaySelected = sameUTCDay(startDate, endDate);
     let titleSimpleLineCharts = "";
     
     if (oneDaySelected) {
-        
-        titleSimpleLineCharts = "Cantidad de usuarios bloqueados el "+cursorDate.getUTCDate()+" de "+getMonthName(cursorDate.getUTCMonth() + 1)+" de "+cursorDate.getUTCFullYear()+".";
-
+        titleSimpleLineCharts = "Cantidad de nuevos entrenamientos creados el "+cursorDate.getUTCDate()+" de "+getMonthName(cursorDate.getUTCMonth() + 1)+" de "+cursorDate.getUTCFullYear()+".";
     } else {
 
-        titleSimpleLineCharts = "Cantidad de usuarios bloqueados entre el "+cursorDate.getUTCDate()+" de "+getMonthName(cursorDate.getUTCMonth() + 1)+" de "+cursorDate.getUTCFullYear()+" y el "+endDate.getUTCDate()+" de "+getMonthName(endDate.getUTCMonth() + 1)+" de "+endDate.getUTCFullYear()+".";
+        titleSimpleLineCharts = "Cantidad de nuevos entrenamientos creados el "+cursorDate.getUTCDate()+" de "+getMonthName(cursorDate.getUTCMonth() + 1)+" de "+cursorDate.getUTCFullYear()+" y el "+endDate.getUTCDate()+" de "+getMonthName(endDate.getUTCMonth() + 1)+" de "+endDate.getUTCFullYear()+".";
         while (cursorDate < endDate) {
 
             let contDayNumber = 0;
-            const totalMetricsUsersBlocked = metricsUsersBlocked.find(item => sameUTCDay(item.date, cursorDate));
+            const totalMetricsTrainings = metricsTrainings.find((item: { date: Date; }) => sameUTCDay(item.date, cursorDate));
             
-            if (totalMetricsUsersBlocked) {
-                dataBlockedGraphic.push({name: formatDateUTCSimple(cursorDate), value: totalMetricsUsersBlocked.total_metrics}); 
+            if (totalMetricsTrainings) {
+                dataTrainingsGraphic.push({name: formatDateUTCSimple(cursorDate), value: totalMetricsTrainings.total_metrics}); 
             } else {
-                dataBlockedGraphic.push({name: formatDateUTCSimple(cursorDate), value: 0});
+                dataTrainingsGraphic.push({name: formatDateUTCSimple(cursorDate), value: 0});
             }
             
             cursorDate = addDays(cursorDate, 1);
@@ -55,10 +53,10 @@ export default function MetricsBlockedUsers(props: MetricsProps) {
 
         if (oneDaySelected) {
             if (allValuesAreZero) {
-                return (<h4 className="text-center align-middle">No se detectaron bloqueos en esta fecha.</h4>);
+                return (<h4 className="text-center align-middle">No se detectaron nuevos entrenamientos creados en esta fecha.</h4>);
             }
         } else {
-            return (<SimpleLineChartMetrics data={dataBlockedGraphic} title="Usuarios bloqueados" />);
+            return (<SimpleLineChartMetrics data={dataTrainingsGraphic} title="Nuevos entrenamientos creados" />);
         }
 
         return (<></>);
@@ -81,7 +79,7 @@ export default function MetricsBlockedUsers(props: MetricsProps) {
                         <h4>Estadísticas</h4>
                         <Row>
                             <Col>
-                                <FormGroupMetrics title='Total de usuarios bloqueados' value={totalUsersBlocked} />
+                                <FormGroupMetrics title='Total de nuevos entrenamientos creados' value={totalNewTrainings} />
                             </Col>
                         </Row>
                     </Form>

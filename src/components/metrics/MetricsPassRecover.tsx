@@ -1,6 +1,6 @@
 import { Col, Container, Form, Row } from "react-bootstrap";
 import FormGroupMetrics from '@components/recharts/FormGroupMetrics';
-import { getTotalUsers, getTotalUsersDividedByDays } from "@services/metrics";
+import { getTotalMetrics, getTotalMetricsDividedByDays } from "@services/metrics";
 import { SimpleLineChartMetrics } from "@components/recharts/SimpleLineChartMetrics";
 import { addDays, formatDateUTCSimple, getMonthName, sameUTCDay } from "@utils/dates";
 import { ReactElement } from "react";
@@ -18,11 +18,11 @@ export default function MetricsPassRecover(props: MetricsProps) {
         value: number;
     }[] = [];
     
-    const metricsUsersPassRecover = getTotalUsersDividedByDays("password_recover", "", fromDate, toDate);
+    const metricsUsersPassRecover = getTotalMetricsDividedByDays("password_recover", "", fromDate, toDate);
     let startDate = new Date(fromDate);
     let endDate = new Date(toDate);
     let cursorDate = startDate;
-    const totalUsersPassRecover = getTotalUsers("password_recover", "", fromDate, toDate);
+    const totalUsersPassRecover = getTotalMetrics("password_recover", "", fromDate, toDate);
     const allValuesAreZero = !(totalUsersPassRecover > 0);
     const oneDaySelected = sameUTCDay(startDate, endDate);
     let titleSimpleLineCharts = "";
@@ -40,7 +40,7 @@ export default function MetricsPassRecover(props: MetricsProps) {
             const totalMetricsUsersBlocked = metricsUsersPassRecover.find(item => sameUTCDay(item.date, cursorDate));
             
             if (totalMetricsUsersBlocked) {
-                dataPassRecoverGraphic.push({name: formatDateUTCSimple(cursorDate), value: totalMetricsUsersBlocked.total_users}); 
+                dataPassRecoverGraphic.push({name: formatDateUTCSimple(cursorDate), value: totalMetricsUsersBlocked.total_metrics}); 
             } else {
                 dataPassRecoverGraphic.push({name: formatDateUTCSimple(cursorDate), value: 0});
             }
@@ -55,7 +55,7 @@ export default function MetricsPassRecover(props: MetricsProps) {
 
         if (oneDaySelected) {
             if (allValuesAreZero) {
-                return (<h3 className="text-center align-middle">No se detectaron recuperos de contraseña en esta fecha.</h3>);
+                return (<h4 className="text-center align-middle">No se detectaron recuperos de contraseña en esta fecha.</h4>);
             }
         } else {
             return (<SimpleLineChartMetrics data={dataPassRecoverGraphic} title="Usuarios que recuperaron su contraseña" />);

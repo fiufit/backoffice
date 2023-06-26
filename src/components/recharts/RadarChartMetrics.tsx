@@ -3,7 +3,7 @@ import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from "r
 interface RadarChartProps {
     data: {
         subject: string;
-        users: number;
+        metrics: number;
     }[]
 }
 
@@ -15,7 +15,7 @@ export default function RadarChartMetrics(props: RadarChartProps) {
             cx={200}
             cy={200}
             outerRadius={150}
-            width={400}
+            width={500}
             height={400}
             data={props.data}
         >
@@ -23,8 +23,7 @@ export default function RadarChartMetrics(props: RadarChartProps) {
             <PolarAngleAxis dataKey="subject" />
             <PolarRadiusAxis />
             <Radar
-            name="location"
-            dataKey="users"
+            dataKey="metrics"
             stroke="#46bbf2"
             fill="#46bbf2"
             fillOpacity={0.6}

@@ -79,23 +79,23 @@ export default function MetricsUsers() {
                         <Accordion alwaysOpen>
                             <Accordion.Item eventKey="metrics-new-users">
                                 <Accordion.Header onClick={() => {setShowMetricsNewUsers(!showMetricsNewUsers)}}>Nuevos usuarios</Accordion.Header>
-                                <Accordion.Body>{ showMetricsNewUsers ? <MetricsNewUsers fromDate={fromDate} toDate={toDate} /> : <></>}</Accordion.Body>
+                                { showMetricsNewUsers && <Accordion.Body> <MetricsNewUsers fromDate={fromDate} toDate={toDate} /></Accordion.Body> }
                             </Accordion.Item>
                             <Accordion.Item eventKey="metrics-login">
                                 <Accordion.Header onClick={() => {setShowMetricsLogin(!showMetricsLogin)}}>Login</Accordion.Header>
-                                <Accordion.Body>{ showMetricsLogin ? <MetricsLogin fromDate={fromDate} toDate={toDate} /> : <></>}</Accordion.Body>
+                                { showMetricsLogin && <Accordion.Body><MetricsLogin fromDate={fromDate} toDate={toDate} /></Accordion.Body> }
                             </Accordion.Item>
                             <Accordion.Item eventKey="metrics-blocked-users">
                                 <Accordion.Header onClick={() => {setShowMetricsBlocked(!showMetricsBlocked)}}>Bloqueo de usuarios</Accordion.Header>
-                                <Accordion.Body>{ showMetricsBlocked ? <MetricsBlockedUsers fromDate={fromDate} toDate={toDate} /> : <></> }</Accordion.Body>
+                                { showMetricsBlocked && <Accordion.Body><MetricsBlockedUsers fromDate={fromDate} toDate={toDate} /></Accordion.Body> }
                             </Accordion.Item>
                             <Accordion.Item eventKey="metrics-pass-recover">
                                 <Accordion.Header onClick={() => {setShowMetricsPassRecover(!showMetricsPassRecover)}}>Recupero de contraseña</Accordion.Header>
-                                <Accordion.Body>{ showMetricsPassRecover ? <MetricsPassRecover fromDate={fromDate} toDate={toDate} /> : <></> }</Accordion.Body>
+                                { showMetricsPassRecover && <Accordion.Body><MetricsPassRecover fromDate={fromDate} toDate={toDate} /></Accordion.Body> }
                             </Accordion.Item>
                             <Accordion.Item eventKey="metrics-users-location">
                                 <Accordion.Header onClick={() => {setShowMetricsUsersLocation(!showMetricsUsersLocation)}}>Ubicación de usuarios</Accordion.Header>
-                                <Accordion.Body>{ showMetricsUsersLocation ? <MetricsUsersLocation fromDate={fromDate} toDate={toDate} /> : <></> }</Accordion.Body>
+                                { showMetricsUsersLocation && <Accordion.Body><MetricsUsersLocation fromDate={fromDate} toDate={toDate} /></Accordion.Body> }
                             </Accordion.Item>
                         </Accordion>
                     </Accordion.Body>
