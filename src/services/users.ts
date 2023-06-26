@@ -52,6 +52,12 @@ export const users = fiufit.injectEndpoints({
                 params: {...queryParamsUsers},
             }),
         }),
+        getUserByID: builder.query<User, string>({
+            query: (user_id) => ({
+                url: `${BASE_URL}/users/${user_id}`,
+                method: "GET",
+            }),
+        }),
         postEnableUser: builder.mutation<{ data: any }, string>({
             query: (user_id) => ({
                 url: `${BASE_URL}/${user_id}/enable`,
@@ -67,4 +73,4 @@ export const users = fiufit.injectEndpoints({
       })
 });
 
-export const { useGetUsersQuery, usePostEnableUserMutation, useDeleteDisableUserMutation } = users;
+export const { useGetUsersQuery, useGetUserByIDQuery, usePostEnableUserMutation, useDeleteDisableUserMutation } = users;
