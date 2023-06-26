@@ -28,3 +28,12 @@ export function getPercentage(partial: number, total: number): string {
   return porcentajeRedondeado + "%";
 
 }
+
+export function boolToStr(val: boolean): string {
+    return val ? "true" : "false";
+}
+
+export function strToBool(val: string): boolean {
+    const newVal = val.trim().toLocaleLowerCase();
+    return (newVal === "true");
+}

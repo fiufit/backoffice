@@ -17,7 +17,7 @@ export function Excercise(props: TrainingPropsType) {
     const exercise: ExerciseType = props.data;
 
     return (
-        <Accordion.Item eventKey={exercise.ID.toString()} className="exercise-accordion-item">
+        <Accordion.Item eventKey={exercise.TrainingPlanID.toString()+exercise.ID.toString()} className="exercise-accordion-item">
             <Accordion.Header>{exercise.Title}</Accordion.Header>
             <Accordion.Body>
                     <Form>

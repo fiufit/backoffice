@@ -22,7 +22,7 @@ interface TrainingPropsType {
 
 export function Training(props: TrainingPropsType) {
 
-    const [training, setTraining] = useState<TrainingType>({ ...props.data });
+    const [training, setTraining ] = useState(props.data);
     const [isLoading, setIsLoading] = useState(false);
     const [enable, enableResult ] = usePostEnableTrainingMutation();
     const [disable, disableResult ] = useDeleteDisableTrainingMutation();
@@ -32,7 +32,7 @@ export function Training(props: TrainingPropsType) {
         try {
             
             setIsLoading(true);
-            await enable(training.ID).unwrap();
+            await enable(training.ID.toString()).unwrap();
             var newTraining: TrainingType = { ...training };
             newTraining.Disabled = false;
             setTraining(newTraining);
@@ -52,7 +52,7 @@ export function Training(props: TrainingPropsType) {
         try {
             
             setIsLoading(true);
-            await disable(training.ID).unwrap();
+            await disable(training.ID.toString()).unwrap();
             var newTraining: TrainingType = { ...training };
             newTraining.Disabled = true;
             setTraining(newTraining);
@@ -117,16 +117,16 @@ export function Training(props: TrainingPropsType) {
                     </Form>
                     <div>Ejercicios </div>
                     <Accordion className='py-1'>
-                        {training.Exercises.map((exercise: ExerciseType, i) => <Excercise data={exercise} /> )}
+                        {training.Exercises.map((exercise: ExerciseType, index: number) => <Excercise data={exercise} key={training.ID+"-"+exercise.ID+"-"+index} /> )}
                     </Accordion>
                     <Row>
                         <Col className="mx-auto text-center mt-3 mb-3">
                             {  
                                 (training.Disabled) ?  
 
-                                    <button type="button" className="btn button--secondary font-large" onClick={() => handleEnable()}><b>Desbloquear </b>{ isLoading ? <Spinner animation='border' role='status' size='sm'></Spinner> : ""}</button> : 
+                                    <button type="button" className="btn button--secondary font-large" onClick={handleEnable}><b>Desbloquear </b>{ isLoading ? <Spinner animation='border' role='status' size='sm'></Spinner> : ""}</button> : 
 
-                                    <button type="button" className="btn button--secondary font-large" onClick={() => handleDisable()}><b>Bloquear </b>{ isLoading ? <Spinner animation='border' role='status' size='sm'></Spinner> : ""}</button>
+                                    <button type="button" className="btn button--secondary font-large" onClick={handleDisable}><b>Bloquear </b>{ isLoading ? <Spinner animation='border' role='status' size='sm'></Spinner> : ""}</button>
                             }
                         </Col>
                     </Row>
