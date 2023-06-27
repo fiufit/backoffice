@@ -19,7 +19,7 @@ export default function UsersContent() {
     if (searchText !== "") { queryParams.name = searchText; };
     if (searchFilterBlockedUsers) { queryParams.disabled = searchFilterBlockedUsers; };
     if (searchUser !== "") {queryParams.user_ids = searchUser; };
-    
+
     let { data, isSuccess, isFetching, refetch } = useGetUsersQuery(queryParams);
 
     // En caso de querer controlar errores que vengan del servicio o excepciones
@@ -58,7 +58,7 @@ export default function UsersContent() {
                     <SearchBar spinner={isFetching} setSearchBar={setSearchBarWrapper} />
                     <SearchUserByID spinner={isFetching} setSearchUserByID={setSearchUserWrapper} />
                     <Form.Group className='mb-3'>
-                        <Form.Check id='disabled-filter' type='checkbox' label='Mostrar usuarios bloqueados' defaultChecked={ searchFilterBlockedUsers } onChange={() => { setSearchBlockedUsersWrapper(!searchFilterBlockedUsers) }} />
+                        <Form.Check id='disabled-filter' type='checkbox' label='Mostrar solo usuarios bloqueados' defaultChecked={ searchFilterBlockedUsers } onChange={() => { setSearchBlockedUsersWrapper(!searchFilterBlockedUsers) }} />
                     </Form.Group>
                 </Form>
                 <hr className="w-75 text-align-center mx-auto mt-4 mb-1" />
