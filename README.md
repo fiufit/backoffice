@@ -32,7 +32,7 @@
 
 - [x] Listado de entrenamientos
 - [x] Visualizacion de plan de entrenamiento
-- [ ] Bloqueo de plan de entrenamiento
+- [x] Bloqueo de plan de entrenamiento
 - [ ] Aprobar solicitud de entrenador reconocido
 
 ### Servicios
@@ -55,7 +55,7 @@
 6. Métricas de recupero de contraseña
 7. Métricas de usuarios por zona geográfica
 
-- [ ] Métricas de contenido
+- [x] Métricas de contenido
 
 1. Métricas de nuevos entrenamientos
 2. Métricas de entrenamientos por tipo
