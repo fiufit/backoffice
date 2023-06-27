@@ -24,16 +24,16 @@ export function Excercise(props: TrainingPropsType) {
                         <Row>
                             <Col>
                                 <Form.Group className="mb-2 me-4" controlId="formDescription">
-                                    <Form.Label className="mb-0">Descripción</Form.Label>
-                                    <Form.Control type="Text" value={exercise.Description} readOnly/>
+                                    <Form.Label className="mb-0 fw-bold">Descripción</Form.Label>
+                                    <Form.Control type="Text" value={exercise.Description} disabled readOnly/>
                                 </Form.Group>
                             </Col>
                         </Row>
                         <Row>
                             <Col>
                                 <Form.Group className="mb-2 me-4" controlId="formTrainingPlanID">
-                                    <Form.Label className="mb-0">Plan de entrenamiento [ID]</Form.Label>
-                                    <Form.Control type="Text" value={exercise.TrainingPlanID} readOnly/>
+                                    <Form.Label className="mb-0 fw-bold">ID del plan de entrenamiento</Form.Label>
+                                    <Form.Control type="Text" value={exercise.TrainingPlanID} disabled readOnly/>
                                 </Form.Group>
                             </Col>
                         </Row>

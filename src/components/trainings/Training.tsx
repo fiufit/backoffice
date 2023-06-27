@@ -1,8 +1,21 @@
 import { Accordion, Col, Form, Row, Spinner } from "react-bootstrap";
+import Image from 'react-bootstrap/Image';
 import { Excercise, ExerciseType } from "./Excercise";
 import { useDeleteDisableTrainingMutation, usePostEnableTrainingMutation } from '@services/trainings';
 import { useState } from "react";
 import { toLocalTimeString } from "@utils/utils";
+import { User } from "@services/users";
+
+export type Review = {
+    ID: number;
+    CreatedAt: string;
+    TrainingPlanID: number;
+    TrainingPlanVersion: number;
+    UserID: string;
+    User: User;
+    Score: number;
+    Comment: string;
+}
 
 export type TrainingType = {
     ID: number;
@@ -12,8 +25,15 @@ export type TrainingType = {
     Duration: number;
     TrainerID: string;
     CreatedAt: string;
+    DeletedAt: string;
     Exercises: ExerciseType[];
+    Tags: Array<{Name: string}>;
+    Reviews: Array<Review>;
+    MeanScore: number;
+    FavoritesCount: number;
+    SessionCount: number;
     Disabled: boolean;
+    PictureUrl: string;
 };
 
 interface TrainingPropsType {
@@ -66,56 +86,84 @@ export function Training(props: TrainingPropsType) {
 
     };
 
+    const getTags = () => {
+
+        let tag_print = "";
+        training.Tags.forEach(tag => {
+            tag_print += tag.Name + ", ";
+        });
+
+        return (training.Tags.length > 0) ? tag_print.slice(0, -2) : "";
+
+    }
+
     return (
         <Accordion className=''>
             <Accordion.Item eventKey={training.ID.toString()} className="training-accordion-item">
                 <Accordion.Header>{training.Name}</Accordion.Header>
                 <Accordion.Body>
-                    <Form>
-                        <Row>
-                            <Col>
-                                <Form.Group className="mb-2 me-4" controlId="formDescription">
-                                    <Form.Label className="mb-0">Descripción</Form.Label>
-                                    <Form.Control type="Text" value={training.Description} readOnly/>
-                                </Form.Group>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                <Form.Group className="mb-2" controlId="formDifficulty">
-                                    <Form.Label className="mb-0">Dificultad</Form.Label>
-                                    <Form.Control type="Text" value={training.Difficulty} readOnly/>
-                                </Form.Group>
-                            </Col>
-                            <Col>
-                                <Form.Group className="mb-2" controlId="formDuration">
-                                    <Form.Label className="mb-0">Duración</Form.Label>
-                                    <Form.Control type="Text" value={training.Duration} readOnly/>
-                                </Form.Group>
-                            </Col>
-                            <Col>
-                                <Form.Group className="d-flex flex-column mb-2" controlId="formTrainerID">
-                                    <Form.Label className="mb-0">Entrenador [ID]</Form.Label>
-                                    <Form.Control type="Text" value={training.TrainerID} readOnly/>
-                                </Form.Group>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                <Form.Group className="mb-2 me-4" controlId="formCreatedAt">
-                                    <Form.Label className="mb-0">Fecha de creación</Form.Label>
-                                    <Form.Control type="Text" value={toLocalTimeString(training.CreatedAt, 'es-AR', { day: '2-digit', month: '2-digit', year: 'numeric' })} readOnly/>
-                                </Form.Group>
-                            </Col>
-                            <Col>
-                                <Form.Group className="d-flex flex-column mb-2" controlId="formTraininingID">
-                                    <Form.Label className="mb-0">ID de entrenamiento</Form.Label>
-                                    <Form.Control type="Text" value={training.ID} readOnly/>
-                                </Form.Group>
-                            </Col>
-                        </Row>
-                    </Form>
-                    <div>Ejercicios </div>
+                    <Row>
+                        <Col xs={4}>
+                            <Image src={training.PictureUrl} rounded className="w-100 m-2"/>
+                        </Col>
+                        <Col xs={8}>
+                            <Form>
+                                <Row>
+                                    <Col>
+                                        <Form.Group className="mb-2 me-4" controlId="formDescription">
+                                            <Form.Label className="mb-0 fw-bold">Descripción</Form.Label>
+                                            <Form.Control type="Text" disabled value={training.Description} readOnly/>
+                                        </Form.Group>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <Form.Group className="mb-2" controlId="formDifficulty">
+                                            <Form.Label className="mb-0 fw-bold">Dificultad</Form.Label>
+                                            <Form.Control type="Text" disabled value={training.Difficulty} readOnly/>
+                                        </Form.Group>
+                                    </Col>
+                                    <Col>
+                                        <Form.Group className="mb-2" controlId="formDuration">
+                                            <Form.Label className="mb-0 fw-bold">Duración</Form.Label>
+                                            <Form.Control type="Text" disabled value={training.Duration} readOnly/>
+                                        </Form.Group>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <Form.Group className="d-flex flex-column mb-2" controlId="formTrainerID">
+                                            <Form.Label className="mb-0 fw-bold">ID de entrenador</Form.Label>
+                                            <Form.Control type="Text" disabled value={training.TrainerID} readOnly/>
+                                        </Form.Group>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <Form.Group className="mb-2 me-4" controlId="formCreatedAt">
+                                            <Form.Label className="mb-0 fw-bold">Fecha de creación</Form.Label>
+                                            <Form.Control type="Text" disabled value={toLocalTimeString(training.CreatedAt, 'es-AR', { day: '2-digit', month: '2-digit', year: 'numeric' })} readOnly/>
+                                        </Form.Group>
+                                    </Col>
+                                    <Col>
+                                        <Form.Group className="d-flex flex-column mb-2" controlId="formTraininingID">
+                                            <Form.Label className="mb-0 fw-bold">ID de entrenamiento</Form.Label>
+                                            <Form.Control type="Text" disabled value={training.ID} readOnly/>
+                                        </Form.Group>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <Form.Group className="d-flex flex-column mb-2" controlId="formTraininingID">
+                                            <Form.Label className="mb-0 fw-bold">Etiquetas</Form.Label>
+                                            <Form.Control type="Text" disabled value={getTags()} readOnly/>
+                                        </Form.Group>
+                                    </Col>
+                                </Row>
+                            </Form>
+                        </Col>
+                    </Row>
+                    <div className="m-2 fw-bold">Ejercicios </div>
                     <Accordion className='py-1'>
                         {training.Exercises.map((exercise: ExerciseType, index: number) => <Excercise data={exercise} key={training.ID+"-"+exercise.ID+"-"+index} /> )}
                     </Accordion>
