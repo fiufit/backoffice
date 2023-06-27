@@ -23,14 +23,14 @@ export interface User {
     Disabled: boolean,
 }
 
-interface GetUsersResponse {
+export interface GetUsersResponse {
     data?: {
         pagination: Pagination,
         users: User[],
     }
 }
 
-interface GetUserRequest {
+export interface GetUserRequest {
     page?: number,
     page_size?: number,
     total_rows?: number,
@@ -38,6 +38,7 @@ interface GetUserRequest {
     nickname?: string,
     location?: string,
     is_verified?: boolean,
+    user_ids?: string,
     disabled?: boolean,
 }
 

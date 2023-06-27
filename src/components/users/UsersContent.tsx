@@ -1,18 +1,26 @@
 import { useState } from 'react';
 import SearchBar from '@components/common/SearchBar';
 import UsersList from '@components/users/UsersList';
-import { useGetUsersQuery } from '@services/users';
+import { GetUserRequest, useGetUsersQuery } from '@services/users';
 import Pagination from '@components/common/Pagination';
 import { Form } from 'react-bootstrap';
+import SearchUserByID from '@components/common/SearchUserByID';
+
 
 export default function UsersContent() {
 
     const initialPage = 0;
     const pageOffset = 8;
     const [ searchText, setSearchBar ] = useState('');
+    const [ searchUser, setSearchUser ] = useState('');
     const [ searchFilterBlockedUsers, setSearchFilterBlockedUsers ] = useState(false);
     const [ page, setPage ] = useState(initialPage);
-    let { data, isSuccess, isFetching, refetch } = useGetUsersQuery({ name: searchText, page: page + 1, page_size: pageOffset, disabled: searchFilterBlockedUsers });
+    let queryParams: GetUserRequest = {page: page + 1, page_size: pageOffset};
+    if (searchText !== "") { queryParams.name = searchText; };
+    if (searchFilterBlockedUsers) { queryParams.disabled = searchFilterBlockedUsers; };
+    if (searchUser !== "") {queryParams.user_ids = searchUser; };
+    
+    let { data, isSuccess, isFetching, refetch } = useGetUsersQuery(queryParams);
 
     // En caso de querer controlar errores que vengan del servicio o excepciones
     // https://redux-toolkit.js.org/rtk-query/usage-with-typescript#error-result-example
@@ -29,6 +37,12 @@ export default function UsersContent() {
         setSearchFilterBlockedUsers(filterBlockedUsersActive);
     }
 
+    const setSearchUserWrapper = (user_id: string) => {
+        refetch();
+        setPage(initialPage);
+        setSearchUser(user_id);
+    }
+
     return (
         <div className='management-section h-100 d-flex flex-column'>
             {/* TITLE */}
@@ -40,11 +54,13 @@ export default function UsersContent() {
             {/* CONTENT */}
             <div className='management-section-content flex-grow-1 d-flex flex-column'>
                 <h2>Filtrar búsqueda</h2>
-                {/* SEARCH BAR */}
-                <SearchBar spinner={isFetching} setSearchBar={setSearchBarWrapper} />
-                <Form.Group className='mb-3'>
-                    <Form.Check id='disabled-filter' type='checkbox' label='Mostrar usuarios bloqueados' defaultChecked={ searchFilterBlockedUsers } onChange={() => { setSearchBlockedUsersWrapper(!searchFilterBlockedUsers) }} />
-                </Form.Group>
+                <Form id='edit-admin-form-search'>
+                    <SearchBar spinner={isFetching} setSearchBar={setSearchBarWrapper} />
+                    <SearchUserByID spinner={isFetching} setSearchUserByID={setSearchUserWrapper} />
+                    <Form.Group className='mb-3'>
+                        <Form.Check id='disabled-filter' type='checkbox' label='Mostrar usuarios bloqueados' defaultChecked={ searchFilterBlockedUsers } onChange={() => { setSearchBlockedUsersWrapper(!searchFilterBlockedUsers) }} />
+                    </Form.Group>
+                </Form>
                 <hr className="w-75 text-align-center mx-auto mt-4 mb-1" />
                 {/* USERS LIST */}
                 <div className='flex-grow-1'>
