@@ -94,7 +94,7 @@ export default function Trainings() {
     if (searchTrainerID != "") { request.params.trainer_id = searchTrainerID };
     if (searchTrainingMinDuration > 0) { request.params.min_duration = searchTrainingMinDuration };
     if (searchTrainingMaxDuration > 0) { request.params.max_duration = searchTrainingMaxDuration };
-    if (searchTrainingShowBlocked) { request.params.disabled = searchTrainingShowBlocked; } // si no le indico nada, trae por defecto los activos.
+    request.params.disabled = searchTrainingShowBlocked; // si no le indico nada, trae por defecto los activos.
 
     const { data, isSuccess, isFetching, refetch } = useGetTrainingsQuery(request);
 
