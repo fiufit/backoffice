@@ -187,10 +187,10 @@ export default function Trainings() {
                                 </div>
 
                                 {(trainingsFound) ? trainings.map((training: TrainingType, index: number) => (             
-                                        <Training data={training} key={training.ID+"-"+index} />
+                                    <Training data={training} key={training.ID+"-"+index} />
                                 )) : 
-                                <div className="results-not-found">No se han encontrado resultados.</div>
-                            }
+                                    <div className="results-not-found">No se han encontrado resultados.</div>
+                                }
 
                                 <div id="admin-edition-pagination" className="pagination-edition">
                                     <Paginator pageActive={pageActive} totalPages={totalPages} setPageActiveWrapper={setPageActiveWrapper} />
