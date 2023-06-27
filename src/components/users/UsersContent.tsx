@@ -15,12 +15,13 @@ export default function UsersContent() {
     const [ searchUser, setSearchUser ] = useState('');
     const [ searchFilterBlockedUsers, setSearchFilterBlockedUsers ] = useState(false);
     const [ page, setPage ] = useState(initialPage);
+
     let queryParams: GetUserRequest = {page: page + 1, page_size: pageOffset};
     if (searchText !== "") { queryParams.name = searchText; };
     queryParams.disabled = searchFilterBlockedUsers; // por defecto trae los usuarios activos, igual que trainings
     if (searchUser !== "") {queryParams.user_ids = searchUser; };
 
-    let { data, isSuccess, isFetching, refetch } = useGetUsersQuery(queryParams);
+    let { data, isFetching, refetch } = useGetUsersQuery(queryParams);
 
     // En caso de querer controlar errores que vengan del servicio o excepciones
     // https://redux-toolkit.js.org/rtk-query/usage-with-typescript#error-result-example
@@ -45,13 +46,13 @@ export default function UsersContent() {
 
     return (
         <div className='management-section h-100 d-flex flex-column'>
-            {/* TITLE */}
+
             <div>
                 <h1 className='management-section-title'>Usuarios</h1>
                 <hr />
             </div>
 
-            {/* CONTENT */}
+
             <div className='management-section-content flex-grow-1 d-flex flex-column'>
                 <h2>Filtrar búsqueda</h2>
                 <Form id='edit-admin-form-search'>
@@ -62,21 +63,20 @@ export default function UsersContent() {
                     </Form.Group>
                 </Form>
                 <hr className="w-75 text-align-center mx-auto mt-4 mb-1" />
-                {/* USERS LIST */}
+
                 <div className='flex-grow-1'>
                     <h2>Resultados</h2>
                         { data && <UsersList users={data.data!.users} />}
                 </div>
-                {/* PAGINATION */}
+
                 <div className='d-flex align-items-center'>
                     { 
-                        data ? 
-                        <Pagination 
-                            page={page}
-                            setPage={setPage}
-                            offset={data.data!.pagination.page_size}
-                            nrows={data.data!.pagination.total_rows}/> : 
-                        <></> 
+                        data && <Pagination 
+                                    page={page}
+                                    setPage={setPage}
+                                    offset={data.data!.pagination.page_size}
+                                    nrows={data.data!.pagination.total_rows}
+                                />
                     }
                 </div>
             </div>
