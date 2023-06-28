@@ -2,23 +2,23 @@ import { FaSearch } from 'react-icons/fa';
 import { Form, InputGroup, Spinner } from 'react-bootstrap';
 import { debounce } from '@utils/utils';
 
-interface SearchBarProps {
+interface SearchUserByIDProps {
     spinner: boolean,
-    setSearchBar: React.Dispatch<React.SetStateAction<string>>,
+    setSearchUserByID: Function,
 }
 
-export default function SearchBar(props: SearchBarProps) {
+export default function SearchUserByID(props: SearchUserByIDProps) {
     const debounceDelay = 750;
 
     const handleChange = debounce((event: React.ChangeEvent<HTMLInputElement>) => {
-        props.setSearchBar(event.target.value);
+        props.setSearchUserByID(event.target.value);
     }, debounceDelay);
 
     return (
         <InputGroup className='mb-3'>
             <Form.Control 
                 type='text'
-                placeholder='Nombre o Usuario'
+                placeholder='ID'
                 aria-label='admin-edit-search'
                 className='fiufit-form-input'
                 onChange={handleChange}/>

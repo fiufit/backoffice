@@ -23,14 +23,14 @@ export interface User {
     Disabled: boolean,
 }
 
-interface GetUsersResponse {
+export interface GetUsersResponse {
     data?: {
         pagination: Pagination,
         users: User[],
     }
 }
 
-interface GetUserRequest {
+export interface GetUserRequest {
     page?: number,
     page_size?: number,
     total_rows?: number,
@@ -38,6 +38,8 @@ interface GetUserRequest {
     nickname?: string,
     location?: string,
     is_verified?: boolean,
+    user_ids?: string,
+    disabled?: boolean,
 }
 
 const BASE_URL = "users";
@@ -45,15 +47,17 @@ const BASE_URL = "users";
 export const users = fiufit.injectEndpoints({
     endpoints: builder => ({
         getUsers: builder.query<GetUsersResponse, GetUserRequest>({
-            query: (request) => {
-                let url = BASE_URL;
-                let queryParamList = [];
-                for (const queryParam in request) {
-                    queryParamList.push(`${queryParam}=${request[queryParam as keyof GetUserRequest]}`);
-                }
-                if (queryParamList.length > 0) url += `?${queryParamList.join('&')}`;                
-                return url;
-            }
+            query: (queryParamsUsers) => ({
+                url: BASE_URL,
+                method: "GET",
+                params: {...queryParamsUsers},
+            }),
+        }),
+        getUserByID: builder.query<User, string>({
+            query: (user_id) => ({
+                url: `${BASE_URL}/users/${user_id}`,
+                method: "GET",
+            }),
         }),
         postEnableUser: builder.mutation<{ data: any }, string>({
             query: (user_id) => ({
@@ -70,4 +74,4 @@ export const users = fiufit.injectEndpoints({
       })
 });
 
-export const { useGetUsersQuery, usePostEnableUserMutation, useDeleteDisableUserMutation } = users;
+export const { useGetUsersQuery, useGetUserByIDQuery, usePostEnableUserMutation, useDeleteDisableUserMutation } = users;
