@@ -6,7 +6,7 @@ import { usePostEnableUserMutation, useDeleteDisableUserMutation } from '@servic
 import { useState } from "react";
 
 interface UserProfileProps {
-    user: User
+    user: User,
 }
 
 enum Gender {
@@ -52,7 +52,6 @@ export default function UserProfile(props: UserProfileProps) {
             setUser(newUser);
 
         } catch (err: any) {
-
             console.log(err);
         }
 

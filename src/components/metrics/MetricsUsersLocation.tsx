@@ -1,7 +1,7 @@
 import PieChartsMetrics from "@components/recharts/PieChartsMetrics";
 import RadarChartMetrics from "@components/recharts/RadarChartMetrics";
-import { getLocations } from "@services/metrics";
-import { Col, Container, Form, Row } from "react-bootstrap";
+import { getUsersLocations } from "@services/metrics";
+import { Col, Container, Row } from "react-bootstrap";
 
 interface MetricsProps {
     fromDate: string,
@@ -11,7 +11,7 @@ interface MetricsProps {
 export default function MetricsUsersLocation(props: MetricsProps) {
 
   const { fromDate, toDate } = props; 
-  let dataMetricsUsersLocations: { subject: string, users: number }[] = [];
+  let dataMetricsUsersLocations: { subject: string, metrics: number }[] = [];
   let totalSets = 0;
   let allValuesAreZero = true;
   let totalUsers: { [subject: string]: number } = {
@@ -23,10 +23,10 @@ export default function MetricsUsersLocation(props: MetricsProps) {
     "Europa": 0
   };
   let dataComparisonLocations: {name: string, value: number }[] = [];
-  const locations = getLocations(fromDate, toDate);
+  const locations = getUsersLocations(fromDate, toDate);
 
   locations.forEach(function(value, key) {  
-    dataMetricsUsersLocations.push({ subject: value.continent, users: value.sets });
+    dataMetricsUsersLocations.push({ subject: value.continent, metrics: value.sets });
     totalSets = totalSets + value.sets;
     if (totalUsers[value.continent] === 0) totalUsers[value.continent] = value.sets;
     dataComparisonLocations.push({name: value.continent, value: value.sets});
