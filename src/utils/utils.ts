@@ -2,12 +2,20 @@ export function delay(ms: number): Promise<void> {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-export function toLocalTimeString(date: string, locales: Intl.LocalesArgument, options: Intl.DateTimeFormatOptions): string {
-    return new Date(date).toLocaleTimeString(locales, options);
+export function toLocalTimeString(date: string | Date, locales: Intl.LocalesArgument, options: Intl.DateTimeFormatOptions): string {
+    if (typeof date === 'string') {
+        return new Date(date).toLocaleTimeString(locales, options);
+    } else {
+        return date.toLocaleTimeString(locales, options);
+    }
 }
 
-export function toLocalDateString(date: string, locales: Intl.LocalesArgument, options: Intl.DateTimeFormatOptions) {
-    return new Date(date).toLocaleDateString(locales, options);
+export function toLocalDateString(date: string | Date, locales: Intl.LocalesArgument, options: Intl.DateTimeFormatOptions) {
+    if (typeof date === 'string') {
+        return new Date(date).toLocaleDateString(locales, options);
+    } else {
+        return date.toLocaleDateString(locales, options);
+    }
 }
 
 export function debounce(func: (event: React.ChangeEvent<HTMLInputElement>) => void, delay: number = 750) {

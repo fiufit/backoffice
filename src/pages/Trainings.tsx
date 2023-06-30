@@ -154,7 +154,7 @@ export default function Trainings() {
                                         <Form.Control type="text" placeholder="ID del entrenador" id="trainer_id-filter" aria-label="trainer_id-filter" className="fiufit-form-input" onChange={handleFilter} />
                                     </InputGroup>
 
-                                    <Form.Control as="select" aria-label="trainings-options" className={"form-select form-select-training-difficulty d-inline-block "+((searchTrainingDifficulty == "") ? "trainings-filter-difficulty-not-selected" : "")} onChange={(event) => {setPageActive(1); setSearchTrainingDifficulty(event.currentTarget.value); forceRefetch(); }}>
+                                    <Form.Control as="select" aria-label="trainings-options" className={"form-select form-select-disabled-effect d-inline-block "+((searchTrainingDifficulty == "") ? "form-select-disabled-effect-not-selected" : "")} onChange={(event) => {setPageActive(1); setSearchTrainingDifficulty(event.currentTarget.value); forceRefetch(); }}>
                                         <option value="">Dificultad</option>
                                         <option value="Beginner">Principiante</option>
                                         <option value="Intermediate">Intermedio</option>
@@ -177,7 +177,7 @@ export default function Trainings() {
                                 <h2>Resultados</h2>
 
                                 <div className="d-inline-block mb-3">Mostrar   
-                                    <Form.Control as="select" aria-label="trainings-options" className="form-select trainings-results-per-page d-inline-block" defaultValue="10" onChange={(event) => {setPageActive(1); setPageSize(Number(event.currentTarget.value)); forceRefetch(); }}>
+                                    <Form.Control as="select" aria-label="trainings-options" className="form-select show-results-per-page d-inline-block" defaultValue="10" onChange={(event) => {setPageActive(1); setPageSize(Number(event.currentTarget.value)); forceRefetch(); }}>
                                         <option value="5">5</option>
                                         <option value="10">10</option>
                                         <option value="15">15</option>

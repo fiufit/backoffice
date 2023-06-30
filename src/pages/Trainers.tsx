@@ -2,6 +2,7 @@ import { Col, Container, Row } from 'react-bootstrap';
 import Header from '@components/Header';
 import Navbar from '@components/Navbar';
 import Footer from '@components/Footer';
+import TrainersContent from '@components/trainers/TrainersContent';
 
 
 export default function Trainers() {
@@ -16,7 +17,7 @@ export default function Trainers() {
                         </div>
                     </Col>
                     <Col lg={9}>
-                        {/* Acá tendría que mostrar un listado de solicitudes de entrenadores verificados con filtro por usuario/nombre e ID */}
+                        <TrainersContent />
                     </Col>
                 </Row>
             </Container>
