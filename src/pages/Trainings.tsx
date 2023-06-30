@@ -177,7 +177,7 @@ export default function Trainings() {
                                 <h2>Resultados</h2>
 
                                 <div className="d-inline-block mb-3">Mostrar   
-                                    <Form.Control as="select" aria-label="trainings-options" className="form-select show-results-per-page d-inline-block" defaultValue="10" onChange={(event) => {setPageActive(1); setPageSize(Number(event.currentTarget.value)); forceRefetch(); }}>
+                                    <Form.Control as="select" aria-label="trainings-options" className="form-select show-results-per-page d-inline-block" defaultValue={pageSize} onChange={(event) => {setPageActive(1); setPageSize(Number(event.currentTarget.value)); forceRefetch(); }}>
                                         <option value="5">5</option>
                                         <option value="10">10</option>
                                         <option value="15">15</option>
