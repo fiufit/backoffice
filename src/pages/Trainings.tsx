@@ -25,8 +25,10 @@ type TrainingsRequestParamsType = Record<string, Record<string, string | number 
 export default function Trainings() {
 
     // Default
-    const [pageActive, setPageActive] = useState(1);
-    const [pageSize, setPageSize] = useState(10);
+    const initialPage = 1;
+    const initialPageSize = 10;
+    const [pageActive, setPageActive] = useState(initialPage);
+    const [pageSize, setPageSize] = useState(initialPageSize);
     var totalRowsDB = 0;
     var totalPages = 1;
     var trainings: TrainingType[] = [];
@@ -177,7 +179,7 @@ export default function Trainings() {
                                 <h2>Resultados</h2>
 
                                 <div className="d-inline-block mb-3">Mostrar   
-                                    <Form.Control as="select" aria-label="trainings-options" className="form-select show-results-per-page d-inline-block" defaultValue={pageSize} onChange={(event) => {setPageActive(1); setPageSize(Number(event.currentTarget.value)); forceRefetch(); }}>
+                                    <Form.Control as="select" aria-label="trainings-options" className="form-select show-results-per-page d-inline-block" defaultValue={initialPageSize} onChange={(event) => {setPageActive(1); setPageSize(Number(event.currentTarget.value)); forceRefetch(); }}>
                                         <option value="5">5</option>
                                         <option value="10">10</option>
                                         <option value="15">15</option>

@@ -45,7 +45,7 @@ export default function TrainerProfile(props: UserProfileProps) {
             <Row>
                 <Col lg={3} className="mt-2">
                     <div className="mx-auto mb-2" style={{'height': '150px', 'width': '150px'}}>
-                        <Image src={user.PictureUrl} className={'border w-100 h-100' + (user.Disabled ? ' img-to-grayscale' : '')} rounded />
+                        <Image src={user.PictureUrl} className={'border w-100 h-100' + (user.Disabled ? ' img-to-grayscale' : '')} rounded loading="lazy" />
                     </div>
                     <div className="text-center">
                         {'Estado Usuario: ' + (user.Disabled ? 'Bloqueado ' : 'Activo ')} {user.Disabled ? <BiUserX /> : <BiUserCheck />} 
@@ -97,7 +97,7 @@ export default function TrainerProfile(props: UserProfileProps) {
                         </Col>
                         <Col>
                             <div className="ratio ratio-16x9">
-                                <video controls width="100%" className="fiufit-video-trainers pt-4 pb-4">
+                                <video controls width="100%" className="fiufit-video-trainers pt-4 pb-4" preload="none">
                                     <source src={certificate.VideoUrl} type="video/mp4" />
                                 </video>
                             </div>

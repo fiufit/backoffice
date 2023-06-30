@@ -69,7 +69,7 @@ export default function UserProfile(props: UserProfileProps) {
             <Row>
                 <Col lg={3}>
                     <div className="mx-auto mb-2" style={{'height': '150px', 'width': '150px'}}>
-                        <Image src={user.PictureUrl} className={'border w-100 h-100' + (user.Disabled ? ' img-to-grayscale' : '')} rounded />
+                        <Image src={user.PictureUrl} className={'border w-100 h-100' + (user.Disabled ? ' img-to-grayscale' : '')} rounded loading="lazy" />
                     </div>
                     <div className="text-center">
                         {'Estado: ' + (user.Disabled ? 'Bloqueado ' : 'Activo ')} {user.Disabled ? <BiUserX /> : <BiUserCheck />} 
