@@ -20,7 +20,8 @@ const baseQuery = fetchBaseQuery({
         }
         return headers;
     },
-    // credentials: "include", // TODO: check fetch api to see this is necessary is related to COOKIES
+    // credentials: "include",
+    // mode: "cors",
 });
 
 const baseRequestWrapper = async (args: string | FetchArgs, api: BaseQueryApi, extraOptions: {}) => {

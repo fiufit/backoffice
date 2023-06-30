@@ -1,30 +1,30 @@
 import { Accordion } from "react-bootstrap";
-import UserProfile from "./UserProfile";
+import TrainerProfile from "./TrainerProfile";
 import ServiceResponseInfoMsg from "@components/common/ServiceResponseInfoMsg";
-import { User } from "@services/users";
+import { Certificate } from "@services/users";
 
 interface UserListProps {
-    users: User[],
+    certificates: Certificate[],
 }
 
-export default function UsersList(props: UserListProps) {
+export default function TrainersList(props: UserListProps) {
 
-    const { users } = props;
+    const { certificates } = props;
 
     return (
         <>
             {
-                users.length > 0 ?
-                /* USERS LIST */
+                certificates.length > 0 ?
+
                 <Accordion>
                 {
-                    users.map((user: User, index: number) => {
+                    certificates.map((certificate: Certificate, index: number) => {
 
                         return (
-                            <Accordion.Item key={user.ID+"-"+index} eventKey={user.ID+"-"+index}>
-                                <Accordion.Header>{`${user.Nickname}`}</Accordion.Header>
+                            <Accordion.Item key={certificate.ID+"-"+index} eventKey={certificate.ID+"-"+index}>
+                                <Accordion.Header>Solicitud de {`${certificate.User.Nickname}`}</Accordion.Header>
                                 <Accordion.Body>
-                                    <UserProfile user={user} />
+                                    <TrainerProfile certificate={certificate} />
                                 </Accordion.Body>
                             </Accordion.Item>
                         );

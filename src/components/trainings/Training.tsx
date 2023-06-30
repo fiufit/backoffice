@@ -104,7 +104,7 @@ export function Training(props: TrainingPropsType) {
                 <Accordion.Body>
                     <Row>
                         <Col xs={4}>
-                            <Image src={training.PictureUrl} rounded className="w-100 m-2"/>
+                            <Image src={training.PictureUrl} rounded className="w-100 m-2" loading="lazy" />
                         </Col>
                         <Col xs={8}>
                             <Form>

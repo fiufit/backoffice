@@ -10,11 +10,12 @@ import SearchUserByID from '@components/common/SearchUserByID';
 export default function UsersContent() {
 
     const initialPage = 0;
-    const pageOffset = 8;
+    const defaultPageOffset = 10;
     const [ searchText, setSearchBar ] = useState('');
     const [ searchUser, setSearchUser ] = useState('');
     const [ searchFilterBlockedUsers, setSearchFilterBlockedUsers ] = useState(false);
     const [ page, setPage ] = useState(initialPage);
+    const [ pageOffset, setPageOffset ] = useState(defaultPageOffset);
 
     let queryParams: GetUserRequest = {page: page + 1, page_size: pageOffset};
     if (searchText !== "") { queryParams.name = searchText; };
@@ -27,21 +28,25 @@ export default function UsersContent() {
     // https://redux-toolkit.js.org/rtk-query/usage-with-typescript#error-result-example
 
     const setSearchBarWrapper = (searchText: React.SetStateAction<string>) => {
-        refetch();
+        forceRefetch();
         setPage(initialPage);
         setSearchBar(searchText);
     }
 
     const setSearchBlockedUsersWrapper = (filterBlockedUsersActive:  React.SetStateAction<boolean>) => {
-        refetch();
+        forceRefetch();
         setPage(initialPage);
         setSearchFilterBlockedUsers(filterBlockedUsersActive);
     }
 
     const setSearchUserWrapper = (user_id: string) => {
-        refetch();
+        forceRefetch();
         setPage(initialPage);
         setSearchUser(user_id);
+    }
+
+    const forceRefetch = () => {
+        refetch();
     }
 
     return (
@@ -66,6 +71,17 @@ export default function UsersContent() {
 
                 <div className='flex-grow-1'>
                     <h2>Resultados</h2>
+
+                    <div className="d-inline-block mb-3">Mostrar   
+                        <Form.Control as="select" aria-label="trainings-options" className="form-select show-results-per-page d-inline-block" defaultValue={pageOffset} onChange={(event) => {setPage(initialPage); setPageOffset(Number(event.currentTarget.value)); forceRefetch(); }}>
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="15">15</option>
+                            <option value="20">20</option>
+                        </Form.Control> 
+                        usuarios por página.
+                    </div>
+
                         { data && <UsersList users={data.data!.users} />}
                 </div>
 
