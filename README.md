@@ -4,7 +4,7 @@
 
 # FiuFit: BackOffice
 
-**Enlaces de utilidad
+**Enlaces de utilidad**
 
 [Entorno de desarrollo](https://web-danielovera.cloud.okteto.net/)
 
