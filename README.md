@@ -11,17 +11,23 @@
 **Para levantar el repositorio de forma local, ejecutar los siguientes comandos:**
 
 1. Clonar el proyecto
-    `git clone https://github.com/fiufit/backoffice.git`
-2. Instalación de dependencias:
-   `npm install`
-3. Correr el proyecto
-   `npm run dev`
+    ```
+   git clone https://github.com/fiufit/backoffice.git
+    ```
+3. Instalación de dependencias:
+   ```
+   npm install
+   ```
+5. Correr el proyecto
+   ```
+   npm run dev
+   ```
 
 **Para visualizar el repositorio localmente:**
 
 1. Levantar el repositorio
 2. Abrir un navegador web
-3. Colocar la url `localhost:3000` en el buscador
+3. Colocar la url ```localhost:3000``` en el buscador
 
 ## Funcionalidades del sistema
 
